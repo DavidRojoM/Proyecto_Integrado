@@ -1,0 +1,28 @@
+{
+  "root": "apps/proyecto-integrado-e2e",
+  "sourceRoot": "apps/proyecto-integrado-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/proyecto-integrado-e2e/cypress.json",
+        "devServerTarget": "proyecto-integrado:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "proyecto-integrado:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/proyecto-integrado-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["proyecto-integrado"]
+}

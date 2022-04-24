@@ -1,0 +1,97 @@
+{
+  "projectType": "application",
+  "root": "apps/proyecto-integrado",
+  "sourceRoot": "apps/proyecto-integrado/src",
+  "prefix": "proyecto-integrado",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/proyecto-integrado",
+        "index": "apps/proyecto-integrado/src/index.html",
+        "main": "apps/proyecto-integrado/src/main.ts",
+        "polyfills": "apps/proyecto-integrado/src/polyfills.ts",
+        "tsConfig": "apps/proyecto-integrado/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/proyecto-integrado/src/favicon.ico",
+          "apps/proyecto-integrado/src/assets"
+        ],
+        "styles": ["apps/proyecto-integrado/src/styles.scss"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/proyecto-integrado/src/environments/environment.ts",
+              "with": "apps/proyecto-integrado/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "proyecto-integrado:build:production"
+        },
+        "development": {
+          "browserTarget": "proyecto-integrado:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
+      "options": {
+        "proxyConfig": "apps/proyecto-integrado/proxy.conf.json"
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "proyecto-integrado:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/proyecto-integrado/**/*.ts",
+          "apps/proyecto-integrado/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/proyecto-integrado"],
+      "options": {
+        "jestConfig": "apps/proyecto-integrado/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
