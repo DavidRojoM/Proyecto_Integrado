@@ -15,7 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@proyecto-integrado/api-interfaces": ["libs/api-interfaces/src/index.ts"]
+      "@proyecto-integrado/api-interfaces": [
+        "libs/api-interfaces/src/index.ts"
+      ],
+      "@proyecto-integrado/shared": ["libs/shared/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
