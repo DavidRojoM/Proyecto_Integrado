@@ -4,6 +4,7 @@
     "api": "apps/api",
     "api-interfaces": "libs/api-interfaces",
     "ms-auth": "apps/ms-auth",
+    "ms-images": "apps/ms-images",
     "ms-users": "apps/ms-users",
     "proyecto-integrado": "apps/proyecto-integrado",
     "proyecto-integrado-e2e": "apps/proyecto-integrado-e2e",
