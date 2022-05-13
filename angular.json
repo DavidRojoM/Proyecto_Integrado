@@ -3,6 +3,7 @@
   "projects": {
     "api": "apps/api",
     "api-interfaces": "libs/api-interfaces",
+    "config": "libs/config",
     "ms-auth": "apps/ms-auth",
     "ms-images": "apps/ms-images",
     "ms-users": "apps/ms-users",

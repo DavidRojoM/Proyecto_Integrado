@@ -1,5 +1,5 @@
 import { ClientsModuleOptions, Transport } from '@nestjs/microservices';
-import { ENVIRONMENT, QUEUES } from '../../../../shared/src/lib/environment';
+import { ENVIRONMENT, QUEUES } from '@proyecto-integrado/shared';
 
 export const RMQCONFIG: ClientsModuleOptions = [
   {
