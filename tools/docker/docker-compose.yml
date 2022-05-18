@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.8"
 services:
   rabbitmq:
     restart: unless-stopped
@@ -12,6 +12,22 @@ services:
       - ./data/rmq/log:/var/log/rabbitmq/
     networks:
       - rabbitmq_net
+
+  mysql:
+    restart: unless-stopped
+    container_name: mysql-pi
+    image: mysql:8
+    environment:
+      MYSQL_TCP_PORT: 3306
+      MYSQL_USER: david
+      MYSQL_PASSWORD: david
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: proyectointegrado
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql/data:/var/lib/mysql
+      - ./data/mysql/log:/var/log/mysql
 
 networks:
   rabbitmq_net:
