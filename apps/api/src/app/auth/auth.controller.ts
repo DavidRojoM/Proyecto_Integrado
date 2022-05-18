@@ -1,6 +1,14 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginRequest, Token, UserDto } from '@proyecto-integrado/shared';
+import { LoginRequest, LoginResponse } from '@proyecto-integrado/shared';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @Controller('auth')
 export class AuthController {
@@ -14,9 +22,9 @@ export class AuthController {
     return this.authService.login(credentials);
   }
 
-  //TODO: CHANGE TO USERS DIRECTORY INSTEAD
-  @Post('signup')
-  signup(@Body() user: UserDto): Promise<Partial<UserDto>> {
-    return this.authService.signup(user);
+  @UseInterceptors(AuthInterceptor)
+  @Get(':token')
+  checkAuth(@Param('token') access_token: string): Promise<LoginResponse> {
+    return this.authService.checkAuth({ access_token });
   }
 }
