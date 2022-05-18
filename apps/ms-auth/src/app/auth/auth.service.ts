@@ -63,25 +63,13 @@ export class AuthService {
     return compare(password, hashedPassword);
   }
 
-  async login(
-    credentials: LoginRequest
-  ): Promise<{ access_token: string; user: Partial<UserDto> }> {
-    const user = await this.validateUser(
-      credentials.username,
-      credentials.password
-    );
-    const { password, ...result } = user;
+  private generateSign({ id, username, email, roles }: UserDto): LoginResponse {
+    const user = { id, username, email, roles };
+    const access_token = this.jwtService.sign(user);
+    console.log('AAAAA', access_token);
     return {
-      user: result,
-      access_token: this.jwtService.sign(result),
+      user,
+      access_token,
     };
-  }
-
-  async check({ access_token }: Token): Promise<Partial<UserDto>> {
-    const user = await this.jwtService.verifyAsync<UserDto>(access_token);
-
-    const { password, ...result } = user;
-
-    return result;
   }
 }
