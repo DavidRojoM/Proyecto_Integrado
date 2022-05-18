@@ -20,7 +20,7 @@ async function bootstrap() {
   );
   app.listen().then(() => {
     Logger.log(
-      `🚀 Microservice running on: ${ENVIRONMENT.RMQ_URL} AT ${QUEUES.AUTH}`
+      `**IMAGES** Microservice running on: ${ENVIRONMENT.RMQ_URL} AT ${QUEUES.IMAGES}`
     );
   });
 }
