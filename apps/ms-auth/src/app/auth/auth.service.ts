@@ -3,6 +3,7 @@ import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import {
   LoginRequest,
+  LoginResponse,
   PayloadActions,
   Token,
   UserDto,
@@ -41,11 +42,24 @@ export class AuthService {
     return null;
   }
 
+  async login(credentials: LoginRequest): Promise<LoginResponse> {
+    const user = await this.validateUser(
+      credentials.username,
+      credentials.password
+    );
+    return this.generateSign(user);
+  }
+
+  async check({ access_token }: Token): Promise<LoginResponse> {
+    const user = await this.jwtService.verifyAsync<UserDto>(access_token);
+
+    return this.generateSign(user);
+  }
+
   private async isSamePassword(
     password: string,
     hashedPassword: string
   ): Promise<boolean> {
-    console.log(password, hashedPassword);
     return compare(password, hashedPassword);
   }
 
