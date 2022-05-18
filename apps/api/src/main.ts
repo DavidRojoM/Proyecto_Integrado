@@ -24,7 +24,7 @@ async function bootstrap() {
   await app.startAllMicroservices();
   await app.listen(port);
   Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
+    `**GATEWAY** Application is running on: http://localhost:${port}/${globalPrefix}`
   );
 }
 
