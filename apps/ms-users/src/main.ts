@@ -21,7 +21,7 @@ async function bootstrap() {
   );
   app.listen().then(() => {
     Logger.log(
-      `🚀 Microservice running on: ${ENVIRONMENT.RMQ_URL} AT ${QUEUES.USERS}`
+      `🚀 **USERS** Application is running on: ${ENVIRONMENT.RMQ_URL} AT ${QUEUES.USERS}`
     );
   });
 }
