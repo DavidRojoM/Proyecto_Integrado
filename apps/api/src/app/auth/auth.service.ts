@@ -5,15 +5,13 @@ import {
   LoginResponse,
   PayloadActions,
   Token,
-  UserDto,
 } from '@proyecto-integrado/shared';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject('AUTH_SERVICE') private readonly authProxy: ClientProxy,
-    @Inject('USERS_SERVICE') private readonly usersProxy: ClientProxy
+    @Inject('AUTH_SERVICE') private readonly authProxy: ClientProxy
   ) {}
 
   login(credentials: LoginRequest): Promise<LoginResponse> {
@@ -25,15 +23,12 @@ export class AuthService {
     );
   }
 
-  checkAuth(token: Token): Promise<UserDto> {
+  checkAuth(token: Token): Promise<LoginResponse> {
     return firstValueFrom(
-      this.authProxy.send<UserDto, Token>(PayloadActions.AUTH.CHECK, token)
-    );
-  }
-  //TODO: move signup to usersService
-  signup(user: UserDto): Promise<Partial<UserDto>> {
-    return firstValueFrom(
-      this.usersProxy.send<UserDto, UserDto>(PayloadActions.USERS.CREATE, user)
+      this.authProxy.send<LoginResponse, Token>(
+        PayloadActions.AUTH.CHECK,
+        token
+      )
     );
   }
 }
