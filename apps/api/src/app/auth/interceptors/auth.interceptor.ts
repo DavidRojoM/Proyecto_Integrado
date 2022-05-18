@@ -5,7 +5,7 @@ import {
   NestInterceptor,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { AuthService } from '../auth.service';
 
 @Injectable()
@@ -26,11 +26,18 @@ export class AuthInterceptor implements NestInterceptor {
       throw new UnauthorizedException();
     }
 
-    const user = await this.authService.checkAuth({ access_token });
+    const loginResponse = await this.authService.checkAuth({ access_token });
 
-    if (!user) {
+    if (!loginResponse) {
       throw new UnauthorizedException();
     }
-    return next.handle();
+    return next.handle().pipe(
+      tap(() => {
+        context
+          .switchToHttp()
+          .getResponse()
+          .setHeader('authorization', `Bearer ${loginResponse.access_token}`);
+      })
+    );
   }
 }
