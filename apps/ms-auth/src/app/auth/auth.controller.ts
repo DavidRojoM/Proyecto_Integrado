@@ -6,7 +6,6 @@ import {
   LoginResponse,
   PayloadActions,
   Token,
-  UserDto,
 } from '@proyecto-integrado/shared';
 
 @Controller('auth')
@@ -19,7 +18,7 @@ export class AuthController {
   }
 
   @MessagePattern(PayloadActions.AUTH.CHECK)
-  check(token: Token): Promise<Partial<UserDto>> {
+  check(token: Token): Promise<LoginResponse> {
     return this.authService.check(token);
   }
 }
