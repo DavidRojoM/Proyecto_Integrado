@@ -24,4 +24,15 @@ export const RMQCONFIG: ClientsModuleOptions = [
       },
     },
   },
+  {
+    name: 'USERS_SERVICE',
+    transport: Transport.RMQ,
+    options: {
+      queue: QUEUES.USERS,
+      urls: [ENVIRONMENT.RMQ_URL],
+      queueOptions: {
+        durable: true,
+      },
+    },
+  },
 ];
