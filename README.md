@@ -1,4 +1,5 @@
-
+# ROADMAP
+- [ ] Control falsy returned values using null object pattern
 
 # ProyectoIntegrado
 
