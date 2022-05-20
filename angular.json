@@ -4,6 +4,7 @@
     "api": "apps/api",
     "api-interfaces": "libs/api-interfaces",
     "config": "libs/config",
+    "entities": "libs/entities",
     "ms-auth": "apps/ms-auth",
     "ms-comms": "apps/ms-comms",
     "ms-images": "apps/ms-images",

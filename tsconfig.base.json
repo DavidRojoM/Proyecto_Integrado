@@ -19,6 +19,7 @@
         "libs/api-interfaces/src/index.ts"
       ],
       "@proyecto-integrado/config": ["libs/config/src/index.ts"],
+      "@proyecto-integrado/entities": ["libs/entities/src/index.ts"],
       "@proyecto-integrado/shared": ["libs/shared/src/index.ts"]
     }
   },
