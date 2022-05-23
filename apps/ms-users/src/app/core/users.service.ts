@@ -1,19 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@proyecto-integrado/shared';
+import { User, UserDto } from '@proyecto-integrado/shared';
 import { UsersRepository } from './users.repository';
 
-//TODO MAP BUSINESS MODELS TO DTOs
 @Injectable()
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
-  //
-  async addOne(user: User): Promise<User> {
-    //TODO: Map User to UserEntity
-    return this.usersRepository.addOne(user);
+  async addOne(user: UserDto): Promise<UserDto> {
+    const userModel = await this.usersRepository.addOne(User.dtoToModel(user));
+    return User.modelToDto(userModel);
   }
 
-  async findOneByUsername(username: string): Promise<User> {
-    return await this.usersRepository.findOneByUsername(username);
+  async findOneByUsername(username: string): Promise<UserDto> {
+    const userModel = await this.usersRepository.findOneByUsername(username);
+    return User.modelToDto(userModel);
   }
 }
