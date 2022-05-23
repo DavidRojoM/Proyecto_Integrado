@@ -3,9 +3,18 @@ config();
 
 export const ENVIRONMENT = {
   RMQ_URL: 'amqp://localhost:5672',
-  GATEWAY_PORT: process.env.GATEWAY_PORT || 3000,
+  GATEWAY_PORT: Number(process.env.GATEWAY_PORT || 3000),
   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY || 'secret',
   JWT_TOKEN_EXPIRATION: process.env.JWT_TOKEN_EXPIRATION || '5m',
+
+  MYSQL_INNER_PORT: Number(process.env.MYSQL_INNER_PORT || 3306),
+  MYSQL_OUTER_PORT: Number(process.env.MYSQL_OUTER_PORT || 3306),
+  MYSQL_USER: process.env.MYSQL_USER || 'david',
+  MYSQL_PASSWORD: process.env.MYSQL_PASSWORD || 'david',
+  MYSQL_ROOT_PASSWORD: process.env.MYSQL_ROOT_PASSWORD || 'root',
+  MYSQL_DATABASE: process.env.MYSQL_DATABASE || 'proyectointegrado',
+  //TODO: CHANGE TO DOCKER CONTAINER NAME WHEN DOCKERIZED
+  MYSQL_HOST: 'localhost',
 };
 
 export const QUEUES = {
