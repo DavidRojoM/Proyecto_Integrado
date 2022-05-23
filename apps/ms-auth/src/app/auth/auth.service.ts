@@ -63,8 +63,8 @@ export class AuthService {
     return compare(password, hashedPassword);
   }
 
-  private generateSign({ id, username, email, roles }: UserDto): LoginResponse {
-    const user = { id, username, email, roles };
+  private generateSign({ id, username, email, role }: UserDto): LoginResponse {
+    const user = { id, username, email, role };
     const access_token = this.jwtService.sign(user);
     console.log('AAAAA', access_token);
     return {
