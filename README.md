@@ -1,6 +1,6 @@
 # ROADMAP
 - [ ] Control falsy returned values using null object pattern
-
+- [ ] Fix circular typeorm deps
 # ProyectoIntegrado
 
 This project was generated using [Nx](https://nx.dev).
