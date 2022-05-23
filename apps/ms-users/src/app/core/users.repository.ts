@@ -1,33 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@proyecto-integrado/shared';
-import * as bcrypt from 'bcrypt';
+import { User, UserEntity } from '@proyecto-integrado/shared';
+import { Repository } from 'typeorm';
 
 //TODO: MAP ENTITIES TO BUSINESS MODELS
 @Injectable()
-export class UsersRepository {
-  data: User[] = [
-    {
-      id: '1',
-      email: 'email',
-      password: 'password',
-      roles: 'roles',
-      username: 'username',
-    },
-  ];
-
+export class UsersRepository extends Repository<UserEntity> {
   async addOne(user: User): Promise<User> {
-    const salt = await bcrypt.genSalt();
-    const pass = await bcrypt.hash(user.password, salt);
-    const newUser = {
-      ...user,
-      password: pass,
-    };
-    this.data = [...this.data, newUser];
-    console.log(this.data);
+    const entity = User.modelToEntity(user);
+    await this.insert(entity);
     return user;
   }
 
   async findOneByUsername(username: string): Promise<User> {
-    return this.data.find((user) => user.username === username);
+    const result = await this.createQueryBuilder('user')
+      .select()
+      .where('user.username = :username', { username })
+      .getOne();
+
+    if (!result) {
+      throw new Error('User not found');
+    }
+
+    return User.entityToModel(result);
   }
 }
