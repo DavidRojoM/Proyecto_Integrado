@@ -4,7 +4,7 @@ import { RMQCONFIG } from '@proyecto-integrado/config';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { JwtModule } from '@nestjs/jwt';
-import { ENVIRONMENT } from '@proyecto-integrado/shared';
+import { EntitiesModule, ENVIRONMENT } from '@proyecto-integrado/shared';
 
 @Module({
   imports: [
@@ -15,6 +15,7 @@ import { ENVIRONMENT } from '@proyecto-integrado/shared';
         expiresIn: ENVIRONMENT.JWT_TOKEN_EXPIRATION,
       },
     }),
+    EntitiesModule,
   ],
   controllers: [AuthController],
   providers: [AuthService],
