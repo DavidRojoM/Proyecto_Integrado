@@ -16,9 +16,7 @@ export class AuthController {
   //TODO: VALIDATIONS
 
   @Post('login')
-  login(
-    @Body() credentials: LoginRequest
-  ): Promise<{ access_token: string; user: any }> {
+  login(@Body() credentials: LoginRequest): Promise<LoginResponse> {
     return this.authService.login(credentials);
   }
 
