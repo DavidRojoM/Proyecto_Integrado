@@ -17,4 +17,8 @@ export const PayloadActions = {
     SEND: 'SEND',
     SEND_MANY: 'SEND_MANY',
   },
+  IMAGES: {
+    CREATE: 'CREATE',
+    UPDATE: 'UPDATE',
+  },
 };
