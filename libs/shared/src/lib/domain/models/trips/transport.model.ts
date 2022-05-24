@@ -38,4 +38,14 @@ export class Transport {
     dto.brand = transport.brand;
     return dto;
   }
+
+  static dtoToModel(transport: TransportDto): Transport {
+    const model = new Transport();
+    model.id = transport.id;
+    model.name = transport.name;
+    model.type = transport.type;
+    model.price = transport.price;
+    model.brand = transport.brand;
+    return model;
+  }
 }
