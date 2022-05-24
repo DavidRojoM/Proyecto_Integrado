@@ -41,4 +41,15 @@ export class Hotel {
     dto.image = hotel.image;
     return dto;
   }
+
+  static dtoToModel(hotel: HotelDto): Hotel {
+    const model = new Hotel();
+    model.id = hotel.id;
+    model.name = hotel.name;
+    model.address = hotel.address;
+    model.phone = hotel.phone;
+    model.nightPrice = hotel.nightPrice;
+    model.image = hotel.image;
+    return model;
+  }
 }
