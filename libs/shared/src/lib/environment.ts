@@ -4,6 +4,8 @@ config();
 export const ENVIRONMENT = {
   RMQ_URL: 'amqp://localhost:5672',
   GATEWAY_PORT: Number(process.env.GATEWAY_PORT || 3000),
+  IMAGES_PORT: Number(process.env.IMAGES_PORT || 3001),
+
   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY || 'secret',
   JWT_TOKEN_EXPIRATION: process.env.JWT_TOKEN_EXPIRATION || '5m',
 
