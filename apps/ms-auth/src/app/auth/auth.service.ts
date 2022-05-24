@@ -2,6 +2,7 @@ import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import {
+  ErrorPayload,
   LoginRequest,
   LoginResponse,
   PayloadActions,
@@ -23,30 +24,39 @@ export class AuthService {
     username: string,
     password: string
   ): Promise<UserDto> {
-    const user = await firstValueFrom(
-      this.usersProxy.send<UserDto, Partial<LoginRequest>>(
+    const response = (await firstValueFrom(
+      this.usersProxy.send<UserDto | ErrorPayload, Partial<LoginRequest>>(
         PayloadActions.USERS.FIND_BY_USERNAME,
         {
           username,
         }
       )
-    );
+    )) as UserDto;
 
-    if (!user) {
+    if (!response.password) {
       throw new UnauthorizedException();
     }
 
-    if (await this.isSamePassword(password, user.password)) {
-      return user;
+    if (await this.isSamePassword(password, response.password)) {
+      return response;
     }
-    return null;
+    throw new UnauthorizedException();
   }
 
   async login(credentials: LoginRequest): Promise<LoginResponse> {
-    const user = await this.validateUser(
-      credentials.username,
-      credentials.password
-    );
+    let user;
+    try {
+      user = await this.validateUser(
+        credentials.username,
+        credentials.password
+      );
+    } catch (e) {
+      return {
+        statusCode: 401,
+        statusText: 'Unauthorized',
+      };
+    }
+
     return this.generateSign(user);
   }
 
@@ -66,7 +76,6 @@ export class AuthService {
   private generateSign({ id, username, email, role }: UserDto): LoginResponse {
     const user = { id, username, email, role };
     const access_token = this.jwtService.sign(user);
-    console.log('AAAAA', access_token);
     return {
       user,
       access_token,
