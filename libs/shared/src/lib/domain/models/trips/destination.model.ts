@@ -28,4 +28,12 @@ export class Destination {
     dto.description = destination.description;
     return dto;
   }
+
+  static dtoToModel(destination: DestinationDto): Destination {
+    const model = new Destination();
+    model.id = destination.id;
+    model.name = destination.name;
+    model.description = destination.description;
+    return model;
+  }
 }
