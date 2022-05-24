@@ -43,4 +43,15 @@ export class Party {
     dto.trip = Trip.modelToDto(party.trip);
     return dto;
   }
+
+  static dtoToModel(party: PartyDto): Party {
+    const model = new Party();
+    model.id = party.id;
+    model.name = party.name;
+    model.messages = party.messages.map((message) =>
+      Message.dtoToModel(message)
+    );
+    model.trip = Trip.dtoToModel(party.trip);
+    return model;
+  }
 }
