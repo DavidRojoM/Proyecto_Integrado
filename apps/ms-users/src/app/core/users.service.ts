@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User, UserDto } from '@proyecto-integrado/shared';
+import { ErrorPayload, User, UserDto } from '@proyecto-integrado/shared';
 import { UsersRepository } from './users.repository';
 
 @Injectable()
@@ -11,8 +11,15 @@ export class UsersService {
     return User.modelToDto(userModel);
   }
 
-  async findOneByUsername(username: string): Promise<UserDto> {
-    const userModel = await this.usersRepository.findOneByUsername(username);
-    return User.modelToDto(userModel);
+  async findOneByUsername(username: string): Promise<UserDto | ErrorPayload> {
+    try {
+      const userModel = await this.usersRepository.findOneByUsername(username);
+      return User.modelToDto(userModel);
+    } catch (e) {
+      return {
+        statusCode: e.response.statusCode,
+        statusText: e.response.message,
+      };
+    }
   }
 }
