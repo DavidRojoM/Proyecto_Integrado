@@ -37,4 +37,13 @@ export class Message {
     dto.party = Party.modelToDto(message.party);
     return dto;
   }
+
+  static dtoToModel(message: MessageDto): Message {
+    const model = new Message();
+    model.message = message.message;
+    model.createdAt = message.createdAt;
+    model.user = User.dtoToModel(message.user);
+    model.party = Party.dtoToModel(message.party);
+    return model;
+  }
 }
