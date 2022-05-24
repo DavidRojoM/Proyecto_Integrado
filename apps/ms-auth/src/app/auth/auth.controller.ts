@@ -13,7 +13,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @MessagePattern(PayloadActions.AUTH.LOGIN)
-  async login(credentials: LoginRequest): Promise<LoginResponse> {
+  login(credentials: LoginRequest): Promise<LoginResponse> {
     return this.authService.login(credentials);
   }
 
