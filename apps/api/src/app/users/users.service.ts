@@ -15,9 +15,12 @@ export class UsersService {
     );
   }
 
-  findOne(id: string) {
+  findOne(id: string): Promise<UserDto> {
     return firstValueFrom(
-      this.usersProxy.send(PayloadActions.USERS.FIND_BY_ID, { id })
+      this.usersProxy.send<UserDto, { id: string }>(
+        PayloadActions.USERS.FIND_BY_ID,
+        { id }
+      )
     );
   }
 
