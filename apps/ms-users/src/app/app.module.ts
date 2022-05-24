@@ -5,10 +5,15 @@ import { UsersController } from './core/users.controller';
 import { UsersService } from './core/users.service';
 import { UsersRepository } from './core/users.repository';
 import { EntitiesModule } from '@proyecto-integrado/shared';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [ClientsModule.register(RMQCONFIG), EntitiesModule],
+  imports: [
+    ClientsModule.register(RMQCONFIG),
+    EntitiesModule,
+    TypeOrmModule.forFeature([UsersRepository]),
+  ],
   controllers: [UsersController],
-  providers: [UsersService, UsersRepository],
+  providers: [UsersService],
 })
 export class AppModule {}
