@@ -28,8 +28,8 @@ export class User {
     entity.image = user.image;
     entity.nationality = user.nationality;
     entity.bankAccount = user.bankAccount;
-    entity.parties = user.parties.map((party) => Party.modelToEntity(party));
-    entity.messages = user.messages.map((message) =>
+    entity.parties = user.parties?.map((party) => Party.modelToEntity(party));
+    entity.messages = user.messages?.map((message) =>
       Message.modelToEntity(message)
     );
 
@@ -84,6 +84,10 @@ export class User {
     model.image = user.image;
     model.bankAccount = user.bankAccount;
     model.nationality = user.nationality;
+    model.messages = user.messages.map((message) =>
+      Message.dtoToModel(message)
+    );
+    model.parties = user.parties.map((party) => Party.dtoToModel(party));
     return model;
   }
 }
