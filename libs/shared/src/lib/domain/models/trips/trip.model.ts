@@ -44,4 +44,15 @@ export class Trip {
     dto.hotel = Hotel.modelToDto(trip.hotel);
     return dto;
   }
+
+  static dtoToModel(trip: TripDto): Trip {
+    const model = new Trip();
+    model.id = trip.id;
+    model.from = trip.from;
+    model.to = trip.to;
+    model.destination = Destination.dtoToModel(trip.destination);
+    model.transport = Transport.dtoToModel(trip.transport);
+    model.hotel = Hotel.dtoToModel(trip.hotel);
+    return model;
+  }
 }
