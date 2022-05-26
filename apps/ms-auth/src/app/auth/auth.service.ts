@@ -3,7 +3,7 @@ import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import {
   ErrorPayload,
-  LoginRequest,
+  LoginRequestDto,
   LoginResponse,
   PayloadActions,
   Token,
@@ -25,7 +25,7 @@ export class AuthService {
     password: string
   ): Promise<UserDto> {
     const response = (await firstValueFrom(
-      this.usersProxy.send<UserDto | ErrorPayload, Partial<LoginRequest>>(
+      this.usersProxy.send<UserDto | ErrorPayload, Partial<LoginRequestDto>>(
         PayloadActions.USERS.FIND_BY_USERNAME,
         {
           username,
@@ -51,7 +51,7 @@ export class AuthService {
     });
   }
 
-  async login(credentials: LoginRequest): Promise<LoginResponse> {
+  async login(credentials: LoginRequestDto): Promise<LoginResponse> {
     let user;
     try {
       user = await this.validateUser(
@@ -69,7 +69,15 @@ export class AuthService {
   }
 
   async check({ access_token }: Token): Promise<LoginResponse> {
-    const user = await this.jwtService.verifyAsync<UserDto>(access_token);
+    let user;
+    try {
+      user = await this.jwtService.verifyAsync<UserDto>(access_token);
+    } catch (e) {
+      return {
+        statusCode: 401,
+        statusText: 'Invalid token',
+      };
+    }
 
     return this.generateSign(user);
   }
