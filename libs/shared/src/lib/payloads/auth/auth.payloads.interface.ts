@@ -1,8 +1,14 @@
 import { UserDto } from '../../domain/dto/users/user.dto';
 import { ErrorPayload } from '../errors/error.payload';
+import { IsNotEmpty, IsString } from 'class-validator';
 
-export interface LoginRequest {
+export class LoginRequestDto {
+  @IsString()
+  @IsNotEmpty()
   username: string;
+
+  @IsString()
+  @IsNotEmpty()
   password: string;
 }
 
