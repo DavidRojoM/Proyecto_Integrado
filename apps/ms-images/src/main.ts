@@ -3,9 +3,11 @@ import { AppModule } from './app/app.module';
 import { Transport } from '@nestjs/microservices';
 import { ENVIRONMENT, QUEUES } from '@proyecto-integrado/shared';
 import { Logger } from '@nestjs/common';
+import { join } from 'path';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.enableCors();
   app.connectMicroservice({
     transport: Transport.RMQ,
@@ -19,6 +21,9 @@ async function bootstrap() {
   });
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
+  app.useStaticAssets(join(__filename, '..', 'public'), {
+    prefix: '/public',
+  });
   const port = ENVIRONMENT.IMAGES_PORT || 3001;
   await app.startAllMicroservices();
   await app.listen(port);
