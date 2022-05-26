@@ -18,7 +18,7 @@ export class UsersService {
     } catch (e) {
       return {
         statusCode: e.response.statusCode,
-        statusText: e.response.message,
+        statusText: e.response.statusText,
       };
     }
   }
