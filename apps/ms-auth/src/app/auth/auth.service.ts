@@ -31,16 +31,24 @@ export class AuthService {
           username,
         }
       )
-    )) as UserDto;
+    )) as any;
 
-    if (!response.password) {
-      throw new UnauthorizedException();
+    //TODO: FIX
+    if (!response.id) {
+      throw new UnauthorizedException({
+        statusCode: 401,
+        statusText: 'Unknown user or wrong password',
+      });
     }
 
     if (await this.isSamePassword(password, response.password)) {
       return response;
     }
-    throw new UnauthorizedException();
+
+    throw new UnauthorizedException({
+      statusCode: 401,
+      statusText: 'Unknown user or wrong password',
+    });
   }
 
   async login(credentials: LoginRequest): Promise<LoginResponse> {
@@ -52,8 +60,8 @@ export class AuthService {
       );
     } catch (e) {
       return {
-        statusCode: 401,
-        statusText: 'Unauthorized',
+        statusCode: e.response.statusCode,
+        statusText: e.response.statusText,
       };
     }
 
