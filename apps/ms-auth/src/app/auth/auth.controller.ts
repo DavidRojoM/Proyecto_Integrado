@@ -2,7 +2,7 @@ import { Controller } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { MessagePattern } from '@nestjs/microservices';
 import {
-  LoginRequest,
+  LoginRequestDto,
   LoginResponse,
   PayloadActions,
   Token,
@@ -13,7 +13,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @MessagePattern(PayloadActions.AUTH.LOGIN)
-  login(credentials: LoginRequest): Promise<LoginResponse> {
+  login(credentials: LoginRequestDto): Promise<LoginResponse> {
     return this.authService.login(credentials);
   }
 
