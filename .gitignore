@@ -42,6 +42,8 @@ Thumbs.db
 
 .env
 
-*/docker/data
+**/docker/data
 
 log
+
+**/public/*
