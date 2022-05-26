@@ -1,17 +1,60 @@
 import { PartyDto } from '../parties/party.dto';
 import { MessageDto } from '../comms/message.dto';
 import { Roles } from '../../enums/roles.enum';
+import {
+  IsArray,
+  IsBoolean,
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class UserDto {
+  @IsString()
+  @IsNotEmpty()
   id: string;
+
+  @IsEmail()
+  @IsNotEmpty()
   email: string;
+
+  @IsString()
+  @IsNotEmpty()
   username: string;
-  role: Roles;
+
+  @IsString()
+  role?: Roles;
+
+  @IsString()
+  @IsNotEmpty()
   password: string;
-  banned: boolean;
+
+  @IsBoolean()
+  banned?: boolean;
+
+  @IsString()
   image?: string;
+
+  @IsString()
+  @IsNotEmpty()
   bankAccount: string;
-  nationality: string;
+
+  @IsString()
+  nationality?: string;
+
+  @IsArray()
+  @ValidateNested({
+    each: true,
+  })
+  @Type(() => PartyDto)
   parties: PartyDto[];
+
+  @IsArray()
+  @ValidateNested({
+    each: true,
+  })
+  @Type(() => MessageDto)
   messages: MessageDto[];
 }
