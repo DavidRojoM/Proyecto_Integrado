@@ -4,17 +4,23 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
-import { concatMap, Observable } from 'rxjs';
+import { tap } from 'rxjs';
 import { LoggingService } from '../services/logging.service';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
   constructor(private readonly loggingService: LoggingService) {}
-
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+  async intercept(context: ExecutionContext, next: CallHandler): Promise<any> {
+    const request = context.switchToHttp().getRequest();
+    await this.loggingService.logRequest(request, 'REQUEST');
     return next.handle().pipe(
-      concatMap(async (response) => {
-        await this.loggingService.log(response, 'API_GATEWAY');
+      tap({
+        next: async (response) => {
+          await this.loggingService.logResponse(response, 'RESPONSE');
+        },
+        error: async (error) => {
+          await this.loggingService.logResponse(error, 'ERROR');
+        },
       })
     );
   }
