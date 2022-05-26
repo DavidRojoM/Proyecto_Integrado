@@ -7,7 +7,6 @@ import {
 } from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
 import { AuthService } from '../auth.service';
-import { SuccessfulLoginResponse } from '@proyecto-integrado/shared';
 
 @Injectable()
 export class AuthInterceptor implements NestInterceptor {
@@ -28,10 +27,12 @@ export class AuthInterceptor implements NestInterceptor {
     }
 
     const loginResponse = await this.authService.checkAuth({ access_token });
-
     //TODO: FIX
-    if (!(loginResponse instanceof SuccessfulLoginResponse)) {
-      throw new UnauthorizedException();
+    if (!('access_token' in loginResponse)) {
+      throw new UnauthorizedException({
+        statusCode: loginResponse.statusCode,
+        statusText: loginResponse.statusText,
+      });
     }
     return next.handle().pipe(
       tap(() => {
