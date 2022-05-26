@@ -22,8 +22,12 @@ export class AuthService {
       )
     );
 
+    //TODO: FIX
     if (!('access_token' in response)) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException({
+        statusCode: response.statusCode,
+        statusText: response.statusText,
+      });
     }
     return response;
   }
