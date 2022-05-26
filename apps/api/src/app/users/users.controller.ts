@@ -1,6 +1,16 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseInterceptors,
+  ValidationPipe,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UserDto } from '@proyecto-integrado/shared';
+import { AuthInterceptor } from '../auth/interceptors/auth.interceptor';
 
 @Controller('users')
 export class UsersController {
@@ -18,12 +28,15 @@ export class UsersController {
 
   //TODO: Add @File to upload images on signup
   @Post()
-  signup(@Body() user: UserDto): Promise<Partial<UserDto>> {
+  signup(@Body(new ValidationPipe()) user: UserDto): Promise<Partial<UserDto>> {
     return this.usersService.signup(user);
   }
 
+  @UseInterceptors(AuthInterceptor)
   @Put()
-  update(@Body() updatedUser: UserDto): Promise<Partial<UserDto>> {
+  update(
+    @Body(new ValidationPipe()) updatedUser: UserDto
+  ): Promise<Partial<UserDto>> {
     return this.usersService.update(updatedUser);
   }
 }
