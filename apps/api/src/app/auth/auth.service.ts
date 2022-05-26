@@ -1,7 +1,7 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import {
-  LoginRequest,
+  LoginRequestDto,
   LoginResponse,
   PayloadActions,
   Token,
@@ -14,9 +14,11 @@ export class AuthService {
     @Inject('AUTH_SERVICE') private readonly authProxy: ClientProxy
   ) {}
 
-  async login(credentials: LoginRequest): Promise<LoginResponse | undefined> {
+  async login(
+    credentials: LoginRequestDto
+  ): Promise<LoginResponse | undefined> {
     const response = await firstValueFrom(
-      this.authProxy.send<LoginResponse, LoginRequest>(
+      this.authProxy.send<LoginResponse, LoginRequestDto>(
         PayloadActions.AUTH.LOGIN,
         credentials
       )

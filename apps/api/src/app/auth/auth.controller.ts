@@ -5,24 +5,33 @@ import {
   Param,
   Post,
   UseInterceptors,
+  ValidationPipe,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginRequest, LoginResponse } from '@proyecto-integrado/shared';
+import { LoginRequestDto, LoginResponse } from '@proyecto-integrado/shared';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { LoggingInterceptor } from '../shared/interceptors/logging.interceptor';
 
+@UseInterceptors(LoggingInterceptor)
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
   //TODO: VALIDATIONS
 
   @Post('login')
-  login(@Body() credentials: LoginRequest): Promise<LoginResponse> {
+  login(
+    @Body(
+      new ValidationPipe({
+        transform: true,
+        errorHttpStatusCode: 401,
+      })
+    )
+    credentials: LoginRequestDto
+  ): Promise<LoginResponse> {
     return this.authService.login(credentials);
   }
 
   @UseInterceptors(AuthInterceptor)
-  @Get(':token')
-  checkAuth(@Param('token') access_token: string): Promise<LoginResponse> {
-    return this.authService.checkAuth({ access_token });
-  }
+  @Get()
+  checkAuth(): void {}
 }
