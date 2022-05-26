@@ -20,7 +20,10 @@ export class UsersRepository extends Repository<UserEntity> {
       .getOne();
 
     if (!result) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException({
+        statusCode: 401,
+        statusText: 'Unknown user or wrong password',
+      });
     }
 
     return User.entityToModel(result);
