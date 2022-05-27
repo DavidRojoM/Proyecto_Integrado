@@ -25,6 +25,8 @@ export * from './lib/domain/dto/trips/destination.dto';
 export * from './lib/domain/dto/trips/transport.dto';
 export * from './lib/domain/dto/users/user.dto';
 
+export * from './lib/domain/types/result.type';
+
 export * from './lib/database/entities.module';
 export * from './lib/database/entities/user.entity';
 export * from './lib/database/entities/transport.entity';
