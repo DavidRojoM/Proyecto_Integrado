@@ -17,18 +17,17 @@ export class AuthService {
   async login(
     credentials: LoginRequestDto
   ): Promise<LoginResponse | undefined> {
-    const response = await firstValueFrom(
+    const response = (await firstValueFrom(
       this.authProxy.send<LoginResponse, LoginRequestDto>(
         PayloadActions.AUTH.LOGIN,
         credentials
       )
-    );
+    )) as LoginResponse;
 
-    //TODO: FIX
-    if (!('access_token' in response)) {
+    if (response.ok === false) {
       throw new UnauthorizedException({
-        statusCode: response.statusCode,
-        statusText: response.statusText,
+        statusCode: response.error.statusCode,
+        statusText: response.error.statusText,
       });
     }
     return response;

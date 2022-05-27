@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  Param,
   Post,
   UseInterceptors,
   ValidationPipe,
@@ -16,7 +15,6 @@ import { LoggingInterceptor } from '../shared/interceptors/logging.interceptor';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-  //TODO: VALIDATIONS
 
   @Post('login')
   login(
@@ -33,5 +31,6 @@ export class AuthController {
 
   @UseInterceptors(AuthInterceptor)
   @Get()
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   checkAuth(): void {}
 }
