@@ -17,6 +17,11 @@ export const ENVIRONMENT = {
   MYSQL_DATABASE: process.env.MYSQL_DATABASE || 'proyectointegrado',
   //TODO: CHANGE TO DOCKER CONTAINER NAME WHEN DOCKERIZED
   MYSQL_HOST: 'localhost',
+
+  MAIL_SERVICE: process.env.MAIL_SERVICE || 'gmail',
+  MAIL_USER: process.env.MAIL_USER || 'example@gmail.com',
+  MAIL_PASSWORD: process.env.MAIL_PASSWORD || 'password',
+  MAIL_FROM: process.env.MAIL_FROM || 'example@gmail.com',
 };
 
 export const QUEUES = {
