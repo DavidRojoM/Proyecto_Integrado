@@ -10,7 +10,7 @@
         "outputPath": "dist/apps/ms-mailer",
         "main": "apps/ms-mailer/src/main.ts",
         "tsConfig": "apps/ms-mailer/tsconfig.app.json",
-        "assets": ["apps/ms-mailer/src/assets"]
+        "assets": ["apps/ms-mailer/src/assets","apps/ms-mailer/src/templates"]
       },
       "configurations": {
         "production": {
