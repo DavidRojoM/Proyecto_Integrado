@@ -35,4 +35,15 @@ export const RMQCONFIG: ClientsModuleOptions = [
       },
     },
   },
+  {
+    name: 'MAILER_SERVICE',
+    transport: Transport.RMQ,
+    options: {
+      queue: QUEUES.MAILER,
+      urls: [ENVIRONMENT.RMQ_URL],
+      queueOptions: {
+        durable: true,
+      },
+    },
+  },
 ];
