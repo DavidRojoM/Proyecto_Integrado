@@ -14,7 +14,7 @@ export const PayloadActions = {
     FIND_BY_USERNAME: 'FIND_BY_USERNAME',
   },
   MAIL: {
-    SEND: 'SEND',
+    SEND_SIGNUP_WELCOME: 'SEND_SIGNUP_WELCOME',
     SEND_MANY: 'SEND_MANY',
   },
   IMAGES: {
