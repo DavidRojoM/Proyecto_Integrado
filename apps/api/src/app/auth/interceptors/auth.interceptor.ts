@@ -25,21 +25,24 @@ export class AuthInterceptor implements NestInterceptor {
     if (!access_token) {
       throw new UnauthorizedException();
     }
-
     const loginResponse = await this.authService.checkAuth({ access_token });
-    //TODO: FIX
-    if (!('access_token' in loginResponse)) {
+
+    if (loginResponse.ok === false) {
       throw new UnauthorizedException({
-        statusCode: loginResponse.statusCode,
-        statusText: loginResponse.statusText,
+        statusCode: loginResponse.error.statusCode,
+        statusText: loginResponse.error.statusText,
       });
     }
+
     return next.handle().pipe(
       tap(() => {
         context
           .switchToHttp()
           .getResponse()
-          .setHeader('authorization', `Bearer ${loginResponse.access_token}`);
+          .setHeader(
+            'authorization',
+            `Bearer ${loginResponse.value.access_token}`
+          );
       })
     );
   }
