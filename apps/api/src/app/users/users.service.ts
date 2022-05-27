@@ -6,7 +6,8 @@ import { ClientProxy } from '@nestjs/microservices';
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject('USERS_SERVICE') private readonly usersProxy: ClientProxy
+    @Inject('USERS_SERVICE') private readonly usersProxy: ClientProxy,
+    @Inject('MAILER_SERVICE') private readonly mailerProxy: ClientProxy
   ) {}
 
   findAll() {
@@ -24,10 +25,12 @@ export class UsersService {
     );
   }
 
-  signup(user: UserDto): Promise<Partial<UserDto>> {
-    return firstValueFrom(
+  async signup(user: UserDto): Promise<Partial<UserDto>> {
+    const result = await firstValueFrom(
       this.usersProxy.send<UserDto, UserDto>(PayloadActions.USERS.CREATE, user)
     );
+    this.mailerProxy.emit(PayloadActions.MAIL.SEND_SIGNUP_WELCOME, result);
+    return result;
   }
 
   update(updatedUser: UserDto) {
