@@ -1,4 +1,4 @@
-export class ErrorPayload {
+export interface ErrorPayload {
   statusCode: number;
   statusText: string;
 }

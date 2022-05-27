@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import {
-  ErrorPayload,
   FindOneByUsername,
+  FindOneByUsernameResponse,
   PayloadActions,
   UserDto,
 } from '@proyecto-integrado/shared';
@@ -20,7 +20,7 @@ export class UsersController {
   @MessagePattern(PayloadActions.USERS.FIND_BY_USERNAME)
   async findOneByUsername(
     @Payload() { username }: FindOneByUsername
-  ): Promise<UserDto | ErrorPayload> {
+  ): Promise<FindOneByUsernameResponse> {
     return this.usersService.findOneByUsername(username);
   }
 }
