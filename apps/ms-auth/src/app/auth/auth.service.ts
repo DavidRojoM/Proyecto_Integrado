@@ -2,7 +2,7 @@ import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import {
-  ErrorPayload,
+  FindOneByUsernameResponse,
   LoginRequestDto,
   LoginResponse,
   PayloadActions,
@@ -24,25 +24,23 @@ export class AuthService {
     username: string,
     password: string
   ): Promise<UserDto> {
-    const response = (await firstValueFrom(
-      this.usersProxy.send<UserDto | ErrorPayload, Partial<LoginRequestDto>>(
+    const response = await firstValueFrom(
+      this.usersProxy.send<FindOneByUsernameResponse, Partial<LoginRequestDto>>(
         PayloadActions.USERS.FIND_BY_USERNAME,
         {
           username,
         }
       )
-    )) as any;
+    );
 
-    //TODO: FIX
-    if (!response.id) {
+    if (response.ok === false) {
       throw new UnauthorizedException({
         statusCode: 401,
         statusText: 'Unknown user or wrong password',
       });
     }
-
-    if (await this.isSamePassword(password, response.password)) {
-      return response;
+    if (await this.isSamePassword(password, response.value.password)) {
+      return response.value;
     }
 
     throw new UnauthorizedException({
@@ -60,11 +58,13 @@ export class AuthService {
       );
     } catch (e) {
       return {
-        statusCode: e.response.statusCode,
-        statusText: e.response.statusText,
+        ok: false,
+        error: {
+          statusCode: e.response.statusCode,
+          statusText: e.response.statusText,
+        },
       };
     }
-
     return this.generateSign(user);
   }
 
@@ -74,12 +74,15 @@ export class AuthService {
       user = await this.jwtService.verifyAsync<UserDto>(access_token);
     } catch (e) {
       return {
-        statusCode: 401,
-        statusText: 'Invalid token',
+        ok: false,
+        error: {
+          statusCode: 401,
+          statusText: 'Invalid token',
+        },
       };
     }
 
-    return this.generateSign(user);
+    return this.generateSign(user.value);
   }
 
   private async isSamePassword(
@@ -93,8 +96,11 @@ export class AuthService {
     const user = { id, username, email, role };
     const access_token = this.jwtService.sign(user);
     return {
-      user,
-      access_token,
+      ok: true,
+      value: {
+        user,
+        access_token,
+      },
     };
   }
 }
