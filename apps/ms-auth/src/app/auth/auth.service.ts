@@ -82,7 +82,7 @@ export class AuthService {
       };
     }
 
-    return this.generateSign(user.value);
+    return this.generateSign(user);
   }
 
   private async isSamePassword(
