@@ -26,7 +26,7 @@ import { RMQCONFIG } from '@proyecto-integrado/config';
       },
       template: {
         dir: join(__dirname, 'templates'),
-        adapter: new HandlebarsAdapter(), // or new PugAdapter() or new EjsAdapter()
+        adapter: new HandlebarsAdapter(),
         options: {
           strict: true,
         },
@@ -37,8 +37,4 @@ import { RMQCONFIG } from '@proyecto-integrado/config';
   providers: [MailService],
   exports: [MailService],
 })
-export class AppModule {
-  constructor() {
-    console.log(join(__dirname, 'templates'));
-  }
-}
+export class AppModule {}
