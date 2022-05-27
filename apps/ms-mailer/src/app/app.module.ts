@@ -1,12 +1,44 @@
 import { Module } from '@nestjs/common';
-
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { EntitiesModule } from '@proyecto-integrado/shared';
+import { EntitiesModule, ENVIRONMENT } from '@proyecto-integrado/shared';
+import { MailService } from './mail.service';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { join } from 'path';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { MailController } from './mail.controller';
+import { ClientsModule } from '@nestjs/microservices';
+import { RMQCONFIG } from '@proyecto-integrado/config';
 
 @Module({
-  imports: [EntitiesModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    EntitiesModule,
+    ClientsModule.register(RMQCONFIG),
+    MailerModule.forRoot({
+      transport: {
+        service: ENVIRONMENT.MAIL_SERVICE,
+        secure: true,
+        auth: {
+          user: ENVIRONMENT.MAIL_USER,
+          pass: ENVIRONMENT.MAIL_PASSWORD,
+        },
+      },
+      defaults: {
+        from: `"Meet n' Trip" <${ENVIRONMENT.MAIL_FROM}>`,
+      },
+      template: {
+        dir: join(__dirname, 'templates'),
+        adapter: new HandlebarsAdapter(), // or new PugAdapter() or new EjsAdapter()
+        options: {
+          strict: true,
+        },
+      },
+    }),
+  ],
+  controllers: [MailController],
+  providers: [MailService],
+  exports: [MailService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    console.log(join(__dirname, 'templates'));
+  }
+}
