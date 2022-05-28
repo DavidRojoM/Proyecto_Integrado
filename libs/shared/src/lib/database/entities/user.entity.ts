@@ -3,16 +3,15 @@ import {
   BeforeUpdate,
   Column,
   Entity,
-  JoinTable,
-  ManyToMany,
   OneToMany,
   PrimaryColumn,
 } from 'typeorm';
-import { Roles } from '@proyecto-integrado/shared';
-import { PartyEntity } from './party.entity';
+
+import { Roles } from '../../domain/enums/roles.enum';
 
 import * as bcrypt from 'bcrypt';
 import { MessageEntity } from './message.entity';
+import { UserPartiesEntity } from './user-parties.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -57,12 +56,10 @@ export class UserEntity {
   })
   role: Roles;
 
-  @ManyToMany((type) => PartyEntity, (party) => party.users)
-  @JoinTable()
-  parties: PartyEntity[];
+  @OneToMany((type) => UserPartiesEntity, (userParty) => userParty.user)
+  userParties: UserPartiesEntity[];
 
   @OneToMany((type) => MessageEntity, (message) => message.user)
-  @JoinTable()
   messages: MessageEntity[];
 
   @BeforeInsert()

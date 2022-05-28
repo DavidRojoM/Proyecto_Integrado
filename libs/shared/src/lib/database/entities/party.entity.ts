@@ -1,14 +1,7 @@
-import {
-  Column,
-  Entity,
-  ManyToMany,
-  OneToMany,
-  OneToOne,
-  PrimaryColumn,
-} from 'typeorm';
-import { UserEntity } from './user.entity';
+import { Column, Entity, OneToMany, OneToOne, PrimaryColumn } from 'typeorm';
 import { MessageEntity } from './message.entity';
 import { TripEntity } from './trip.entity';
+import { UserPartiesEntity } from './user-parties.entity';
 
 @Entity('parties')
 export class PartyEntity {
@@ -21,8 +14,8 @@ export class PartyEntity {
   @OneToMany(() => MessageEntity, (message) => message.party)
   messages: MessageEntity[];
 
-  @ManyToMany((type) => UserEntity, (user) => user.parties)
-  users: UserEntity[];
+  @OneToMany((type) => UserPartiesEntity, (userParty) => userParty.party)
+  userParties: UserPartiesEntity[];
 
   @OneToOne((type) => TripEntity, {
     nullable: true,

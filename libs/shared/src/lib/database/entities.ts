@@ -6,6 +6,7 @@ import { PartyEntity } from './entities/party.entity';
 import { TransportEntity } from './entities/transport.entity';
 import { TripEntity } from './entities/trip.entity';
 import { UserEntity } from './entities/user.entity';
+import { UserPartiesEntity } from './entities/user-parties.entity';
 
 export const entities = [
   CommunityEntity,
@@ -16,4 +17,5 @@ export const entities = [
   TransportEntity,
   TripEntity,
   UserEntity,
+  UserPartiesEntity,
 ];

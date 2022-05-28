@@ -16,6 +16,7 @@ export * from './lib/domain/models/trips/trip.model';
 export * from './lib/domain/models/trips/destination.model';
 export * from './lib/domain/models/trips/hotel.model';
 export * from './lib/domain/models/trips/transport.model';
+export * from './lib/domain/models/users/user-party.model';
 
 export * from './lib/domain/dto/trips/trip.dto';
 export * from './lib/domain/dto/parties/party.dto';
@@ -36,5 +37,6 @@ export * from './lib/database/entities/party.entity';
 export * from './lib/database/entities/message.entity';
 export * from './lib/database/entities/destination.entity';
 export * from './lib/database/entities/trip.entity';
+export * from './lib/database/entities/user-parties.entity';
 
 export * from './lib/database/entities';

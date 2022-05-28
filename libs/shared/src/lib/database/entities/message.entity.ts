@@ -16,12 +16,12 @@ export class MessageEntity {
   @CreateDateColumn()
   createdAt: Date;
 
+  @Column()
+  message: string;
+
   @ManyToOne((type) => UserEntity, (user) => user.messages)
   user: UserEntity;
 
   @ManyToOne((type) => PartyEntity, (party) => party.messages)
   party: PartyEntity;
-
-  @Column()
-  message: string;
 }
