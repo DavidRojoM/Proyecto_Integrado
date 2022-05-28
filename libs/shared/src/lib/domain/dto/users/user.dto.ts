@@ -10,6 +10,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { UserPartiesDto } from './user-parties.dto';
 
 export class UserDto {
   @IsString()
@@ -48,8 +49,8 @@ export class UserDto {
   @ValidateNested({
     each: true,
   })
-  @Type(() => PartyDto)
-  parties: PartyDto[];
+  @Type(() => UserPartiesDto)
+  parties: UserPartiesDto[];
 
   @IsArray()
   @ValidateNested({
