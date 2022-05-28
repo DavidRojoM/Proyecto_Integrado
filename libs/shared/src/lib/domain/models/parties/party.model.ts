@@ -3,12 +3,13 @@ import { User } from '../users/user.model';
 import { Trip } from '../trips/trip.model';
 import { PartyDto } from '../../dto/parties/party.dto';
 import { PartyEntity } from '../../../database/entities/party.entity';
+import { UserParty } from '../users/user-party.model';
 
 export class Party {
   id: string;
   name: string;
   messages: Message[];
-  users: User[];
+  users: UserParty[];
   trip: Trip;
 
   static modelToEntity(model: Party): PartyEntity {
@@ -19,7 +20,9 @@ export class Party {
       Message.modelToEntity(message)
     );
     entity.trip = Trip.modelToEntity(model.trip);
-    entity.users = model.users.map((user) => User.modelToEntity(user));
+    entity.userParties = model.users.map((user) =>
+      UserParty.modelToEntity(user)
+    );
     return entity;
   }
 
@@ -31,7 +34,9 @@ export class Party {
       Message.entityToModel(message)
     );
     model.trip = Trip.entityToModel(entity.trip);
-    model.users = entity.users.map((user) => User.entityToModel(user));
+    model.users = entity.userParties.map((user) =>
+      UserParty.entityToModel(user)
+    );
     return model;
   }
 
@@ -40,6 +45,7 @@ export class Party {
     dto.id = party.id;
     dto.name = party.name;
     dto.messages = party.messages.map((message) => Message.modelToDto(message));
+    dto.users = party.users.map((user) => UserParty.modelToDto(user));
     dto.trip = Trip.modelToDto(party.trip);
     return dto;
   }
@@ -51,6 +57,7 @@ export class Party {
     model.messages = party.messages.map((message) =>
       Message.dtoToModel(message)
     );
+    model.users = party.users.map((user) => UserParty.dtoToModel(user));
     model.trip = Trip.dtoToModel(party.trip);
     return model;
   }
