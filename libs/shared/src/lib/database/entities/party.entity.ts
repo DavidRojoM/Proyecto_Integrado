@@ -1,4 +1,11 @@
-import { Column, Entity, OneToMany, OneToOne, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryColumn,
+} from 'typeorm';
 import { MessageEntity } from './message.entity';
 import { TripEntity } from './trip.entity';
 import { UserPartiesEntity } from './user-parties.entity';
@@ -21,5 +28,6 @@ export class PartyEntity {
     nullable: true,
     cascade: ['remove'],
   })
+  @JoinColumn()
   trip?: TripEntity;
 }
