@@ -28,10 +28,10 @@ export class User {
     entity.image = user.image;
     entity.nationality = user.nationality;
     entity.bankAccount = user.bankAccount;
-    entity.userParties = user.userParties?.map((party) =>
+    entity.userParties = user?.userParties?.map((party) =>
       UserParty.modelToEntity(party)
     );
-    entity.messages = user.messages?.map((message) =>
+    entity.messages = user?.messages?.map((message) =>
       Message.modelToEntity(message)
     );
 
@@ -49,18 +49,19 @@ export class User {
     model.image = user.image;
     model.nationality = user.nationality;
     model.bankAccount = user.bankAccount;
-    model.userParties = user.userParties.map((party) =>
-      UserParty.entityToModel(party)
+
+    model.userParties = user?.userParties?.map((userParty) =>
+      UserParty.entityToModel(userParty)
     );
-    model.messages = user.messages.map((message) =>
+    model.messages = user?.messages?.map((message) =>
       Message.entityToModel(message)
     );
-
     return model;
   }
 
   static modelToDto(userModel: User): UserDto {
     const dto = new UserDto();
+    console.log('modelToDto', userModel.userParties);
     dto.id = userModel.id;
     dto.email = userModel.email;
     dto.username = userModel.username;
@@ -70,10 +71,10 @@ export class User {
     dto.image = userModel.image;
     dto.bankAccount = userModel.bankAccount;
     dto.nationality = userModel.nationality;
-    dto.parties = userModel.userParties.map((party) =>
-      UserParty.modelToDto(party)
+    dto.parties = userModel?.userParties?.map((userParty) =>
+      UserParty.modelToDto(userParty)
     );
-    dto.messages = userModel.messages.map((message) =>
+    dto.messages = userModel?.messages?.map((message) =>
       Message.modelToDto(message)
     );
     return dto;
@@ -90,10 +91,10 @@ export class User {
     model.image = user.image;
     model.bankAccount = user.bankAccount;
     model.nationality = user.nationality;
-    model.messages = user.messages.map((message) =>
+    model.messages = user?.messages?.map((message) =>
       Message.dtoToModel(message)
     );
-    model.userParties = user.parties.map((party) =>
+    model.userParties = user?.parties?.map((party) =>
       UserParty.dtoToModel(party)
     );
     return model;
