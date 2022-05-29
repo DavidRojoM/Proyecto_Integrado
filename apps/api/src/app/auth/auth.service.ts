@@ -14,9 +14,7 @@ export class AuthService {
     @Inject('AUTH_SERVICE') private readonly authProxy: ClientProxy
   ) {}
 
-  async login(
-    credentials: LoginRequestDto
-  ): Promise<LoginResponse | undefined> {
+  async login(credentials: LoginRequestDto): Promise<LoginResponse> {
     const response = (await firstValueFrom(
       this.authProxy.send<LoginResponse, LoginRequestDto>(
         PayloadActions.AUTH.LOGIN,
