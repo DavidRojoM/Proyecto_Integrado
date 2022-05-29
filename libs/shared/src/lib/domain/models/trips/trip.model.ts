@@ -17,9 +17,15 @@ export class Trip {
     entity.id = trip.id;
     entity.from = trip.from;
     entity.to = trip.to;
-    entity.destination = Destination.modelToEntity(trip.destination);
-    entity.transport = Transport.modelToEntity(trip.transport);
-    entity.hotel = Hotel.modelToEntity(trip.hotel);
+    if (trip.destination) {
+      entity.destination = Destination.modelToEntity(trip.destination);
+    }
+    if (trip.transport) {
+      entity.transport = Transport.modelToEntity(trip.transport);
+    }
+    if (trip.hotel) {
+      entity.hotel = Hotel.modelToEntity(trip.hotel);
+    }
     return entity;
   }
 
@@ -28,9 +34,15 @@ export class Trip {
     model.id = trip.id;
     model.from = trip.from;
     model.to = trip.to;
-    model.destination = Destination.entityToModel(trip.destination);
-    model.transport = Transport.entityToModel(trip.transport);
-    model.hotel = Hotel.entityToModel(trip.hotel);
+    if (trip.destination) {
+      model.destination = Destination.entityToModel(trip.destination);
+    }
+    if (trip.transport) {
+      model.transport = Transport.entityToModel(trip.transport);
+    }
+    if (trip.hotel) {
+      model.hotel = Hotel.entityToModel(trip.hotel);
+    }
     return model;
   }
 
@@ -39,9 +51,15 @@ export class Trip {
     dto.id = trip.id;
     dto.from = trip.from;
     dto.to = trip.to;
-    dto.destination = Destination.modelToDto(trip.destination);
-    dto.transport = Transport.modelToDto(trip.transport);
-    dto.hotel = Hotel.modelToDto(trip.hotel);
+    if (trip.destination) {
+      dto.destination = Destination.modelToDto(trip.destination);
+    }
+    if (trip.transport) {
+      dto.transport = Transport.modelToDto(trip.transport);
+    }
+    if (trip.hotel) {
+      dto.hotel = Hotel.modelToDto(trip.hotel);
+    }
     return dto;
   }
 
@@ -50,9 +68,15 @@ export class Trip {
     model.id = trip.id;
     model.from = trip.from;
     model.to = trip.to;
-    model.destination = Destination.dtoToModel(trip.destination);
-    model.transport = Transport.dtoToModel(trip.transport);
-    model.hotel = Hotel.dtoToModel(trip.hotel);
+    if (trip.destination) {
+      model.destination = Destination.dtoToModel(trip.destination);
+    }
+    if (trip.transport) {
+      model.transport = Transport.dtoToModel(trip.transport);
+    }
+    if (trip.hotel) {
+      model.hotel = Hotel.dtoToModel(trip.hotel);
+    }
     return model;
   }
 }
