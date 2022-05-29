@@ -7,9 +7,14 @@ import { LoggingService } from './shared/services/logging.service';
 import { UsersController } from './users/users.controller';
 import { UsersService } from './users/users.service';
 import { EntitiesModule } from '@proyecto-integrado/shared';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
-  imports: [ClientsModule.register(RMQCONFIG), EntitiesModule],
+  imports: [
+    ClientsModule.register(RMQCONFIG),
+    EntitiesModule,
+    MulterModule.register(),
+  ],
   controllers: [AuthController, UsersController],
   providers: [AuthService, LoggingService, UsersService],
 })
