@@ -4,6 +4,7 @@ import {
   LoginRequestDto,
   LoginResponse,
   PayloadActions,
+  SuccessfulLoginResponse,
   Token,
 } from '@proyecto-integrado/shared';
 import { firstValueFrom } from 'rxjs';
@@ -14,7 +15,7 @@ export class AuthService {
     @Inject('AUTH_SERVICE') private readonly authProxy: ClientProxy
   ) {}
 
-  async login(credentials: LoginRequestDto): Promise<LoginResponse> {
+  async login(credentials: LoginRequestDto): Promise<SuccessfulLoginResponse> {
     const response = (await firstValueFrom(
       this.authProxy.send<LoginResponse, LoginRequestDto>(
         PayloadActions.AUTH.LOGIN,
@@ -28,7 +29,10 @@ export class AuthService {
         statusText: response.error.statusText,
       });
     }
-    return response;
+    return {
+      access_token: response.value.access_token,
+      user: response.value.user,
+    };
   }
 
   checkAuth(token: Token): Promise<LoginResponse> {
