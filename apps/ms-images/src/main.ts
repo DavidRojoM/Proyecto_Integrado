@@ -24,6 +24,7 @@ async function bootstrap() {
   app.useStaticAssets(join(__filename, '..', 'public'), {
     prefix: '/public',
   });
+  //EXAMPLE URL http://localhost:3001/public/test.jpg
   const port = ENVIRONMENT.IMAGES_PORT || 3001;
   await app.startAllMicroservices();
   await app.listen(port);
