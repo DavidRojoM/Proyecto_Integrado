@@ -1,13 +1,21 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { PayloadActions, UserDto } from '@proyecto-integrado/shared';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import {
+  AddUserResponse,
+  ImageInput,
+  ImageUploadResponse,
+  PayloadActions,
+  UserDto,
+} from '@proyecto-integrado/shared';
 import { firstValueFrom } from 'rxjs';
 import { ClientProxy } from '@nestjs/microservices';
+import { validate } from 'class-validator';
 
 @Injectable()
 export class UsersService {
   constructor(
     @Inject('USERS_SERVICE') private readonly usersProxy: ClientProxy,
-    @Inject('MAILER_SERVICE') private readonly mailerProxy: ClientProxy
+    @Inject('MAILER_SERVICE') private readonly mailerProxy: ClientProxy,
+    @Inject('IMAGES_SERVICE') private readonly imagesProxy: ClientProxy
   ) {}
 
   findAll() {
