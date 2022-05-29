@@ -39,12 +39,13 @@ export class UsersService {
       !image
         ? undefined
         : {
+            userId: newUser.id,
             buffer: image?.buffer,
             size: image?.size,
-            mimeType: image?.mimeType,
+            mimeType: image?.mimetype,
           }
     );
-    const userAdded = this.createUser(newUser);
+    const userAdded = await this.createUser(newUser);
     this.mailerProxy.emit(PayloadActions.MAIL.SEND_SIGNUP_WELCOME, userAdded);
     return userAdded;
   }
