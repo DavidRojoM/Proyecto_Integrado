@@ -5,13 +5,18 @@ import {
   Param,
   Post,
   Put,
+  UploadedFile,
   UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UserDto } from '@proyecto-integrado/shared';
 import { AuthInterceptor } from '../auth/interceptors/auth.interceptor';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { LoggingInterceptor } from '../shared/interceptors/logging.interceptor';
+import { Multer } from 'multer';
 
+@UseInterceptors(LoggingInterceptor)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -27,9 +32,18 @@ export class UsersController {
   }
 
   //TODO: Add @File to upload images on signup
+  @UseInterceptors(FileInterceptor('image'))
   @Post()
-  signup(@Body(new ValidationPipe()) user: UserDto): Promise<Partial<UserDto>> {
-    return this.usersService.signup(user);
+  async signup(
+    @UploadedFile() image: Express.Multer.File,
+    @Body()
+    user: // new ValidationPipe({
+    //   transform: true,
+    // })
+    any
+  ): Promise<Partial<UserDto>> {
+    //TODO: Add formdata validation (test front first)
+    return this.usersService.signup(user, image);
   }
 
   @UseInterceptors(AuthInterceptor)
