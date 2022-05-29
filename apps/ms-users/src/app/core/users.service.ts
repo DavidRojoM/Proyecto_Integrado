@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import {
+  AddUserResponse,
   FindOneByUsernameResponse,
   User,
   UserDto,
@@ -10,9 +11,23 @@ import { UsersRepository } from './users.repository';
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
-  async addOne(user: UserDto): Promise<UserDto> {
-    const userModel = await this.usersRepository.addOne(User.dtoToModel(user));
-    return User.modelToDto(userModel);
+  async addOne(user: UserDto): Promise<AddUserResponse> {
+    let userAdded;
+    try {
+      userAdded = await this.usersRepository.addOne(User.dtoToModel(user));
+    } catch (e) {
+      return {
+        ok: false,
+        error: {
+          statusCode: e.response.statusCode,
+          statusText: e.response.statusText,
+        },
+      };
+    }
+    return {
+      ok: true,
+      value: User.modelToDto(userAdded),
+    };
   }
 
   async findOneByUsername(
