@@ -46,4 +46,15 @@ export const RMQCONFIG: ClientsModuleOptions = [
       },
     },
   },
+  {
+    name: 'IMAGES_SERVICE',
+    transport: Transport.RMQ,
+    options: {
+      queue: QUEUES.IMAGES,
+      urls: [ENVIRONMENT.RMQ_URL],
+      queueOptions: {
+        durable: true,
+      },
+    },
+  },
 ];
