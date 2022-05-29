@@ -1,13 +1,21 @@
 import { User, UserEntity } from '@proyecto-integrado/shared';
 import { EntityRepository, Repository } from 'typeorm';
-import { UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 
 //TODO: MAP ENTITIES TO BUSINESS MODELS
 @EntityRepository(UserEntity)
 export class UsersRepository extends Repository<UserEntity> {
   async addOne(user: User): Promise<User> {
     const entity = User.modelToEntity(user);
-    await this.insert(entity);
+
+    try {
+      await this.insert(entity);
+    } catch (e) {
+      throw new BadRequestException({
+        statusCode: 400,
+        statusText: 'User already exists',
+      });
+    }
     return user;
   }
 
