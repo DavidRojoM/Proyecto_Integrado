@@ -11,7 +11,7 @@ export const ormconfig: MysqlConnectionOptions = {
   database: ENVIRONMENT.MYSQL_DATABASE,
   entities: [...entities],
   synchronize: true,
-  logging: false,
+  logging: true,
   // migrations: ['dist/migrations/*.js'],
   // cli: {
   //   migrationsDir: 'src/migrations',

@@ -61,7 +61,6 @@ export class User {
 
   static modelToDto(userModel: User): UserDto {
     const dto = new UserDto();
-    console.log('modelToDto', userModel.userParties);
     dto.id = userModel.id;
     dto.email = userModel.email;
     dto.username = userModel.username;
