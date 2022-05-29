@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ImageInput, ImageUploadResponse } from '@proyecto-integrado/shared';
+import * as fs from 'fs';
+import { join } from 'path';
 
 @Injectable()
 export class AppService {
@@ -18,7 +20,8 @@ export class AppService {
       };
     }
 
-    if (image.size > 1000000) {
+    //10Mb
+    if (image.size > 10485760) {
       return {
         ok: false,
         error: {
@@ -27,5 +30,33 @@ export class AppService {
         },
       };
     }
+
+    const fileExtension = image.mimeType.split('/')[1];
+
+    try {
+      fs.writeFileSync(
+        join(__filename, '..', 'public', `${image.userId}.${fileExtension}`),
+        Buffer.from(image.buffer),
+        {
+          encoding: 'binary',
+          flag: 'w',
+        }
+      );
+    } catch (e) {
+      return {
+        ok: false,
+        error: {
+          statusCode: 500,
+          statusText: 'Unable to upload image',
+        },
+      };
+    }
+
+    return {
+      ok: true,
+      value: {
+        url: `http://localhost:3001/public/${image.userId}.${fileExtension}`,
+      },
+    };
   }
 }
