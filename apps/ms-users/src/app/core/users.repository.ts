@@ -14,7 +14,8 @@ export class UsersRepository extends Repository<UserEntity> {
   async findOneByUsername(username: string): Promise<User> {
     const result = await this.createQueryBuilder('user')
       .select()
-      .leftJoinAndSelect('user.parties', 'parties')
+      .leftJoinAndSelect('user.userParties', 'userParties')
+      .leftJoinAndSelect('userParties.party', 'party')
       .leftJoinAndSelect('user.messages', 'messages')
       .where('user.username = :username', { username })
       .getOne();
