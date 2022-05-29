@@ -1,5 +1,6 @@
 import { Controller } from '@nestjs/common';
 import {
+  AddUserResponse,
   FindOneByUsername,
   FindOneByUsernameResponse,
   PayloadActions,
@@ -13,7 +14,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @MessagePattern(PayloadActions.USERS.CREATE)
-  addOne(@Payload() user: UserDto): Promise<UserDto> {
+  addOne(@Payload() user: UserDto): Promise<AddUserResponse> {
     return this.usersService.addOne(user);
   }
 
