@@ -7,3 +7,5 @@ export interface FindOneByUsername {
 }
 
 export type FindOneByUsernameResponse = Result<UserDto, ErrorPayload>;
+
+export type AddUserResponse = Result<UserDto, ErrorPayload>;
