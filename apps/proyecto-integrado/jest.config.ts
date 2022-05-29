@@ -1,6 +1,6 @@
-module.exports = {
+export default {
   displayName: 'proyecto-integrado',
-  preset: '../../jest.preset.ts',
+  preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {

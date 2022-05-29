@@ -1,5 +1,4 @@
 {
-  "root": "apps/ms-auth",
   "sourceRoot": "apps/ms-auth/src",
   "projectType": "application",
   "targets": {

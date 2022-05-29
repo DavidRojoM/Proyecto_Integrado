@@ -1,5 +1,4 @@
 {
-  "root": "apps/ms-comms",
   "sourceRoot": "apps/ms-comms/src",
   "projectType": "application",
   "targets": {

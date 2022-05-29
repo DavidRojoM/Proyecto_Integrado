@@ -1,6 +1,5 @@
 {
   "projectType": "application",
-  "root": "apps/proyecto-integrado",
   "sourceRoot": "apps/proyecto-integrado/src",
   "prefix": "proyecto-integrado",
   "targets": {

@@ -1,5 +1,4 @@
 {
-  "root": "apps/ms-mailer",
   "sourceRoot": "apps/ms-mailer/src",
   "projectType": "application",
   "targets": {
@@ -10,7 +9,7 @@
         "outputPath": "dist/apps/ms-mailer",
         "main": "apps/ms-mailer/src/main.ts",
         "tsConfig": "apps/ms-mailer/tsconfig.app.json",
-        "assets": ["apps/ms-mailer/src/assets","apps/ms-mailer/src/templates"]
+        "assets": ["apps/ms-mailer/src/assets", "apps/ms-mailer/src/templates"]
       },
       "configurations": {
         "production": {

@@ -1,5 +1,4 @@
 {
-  "root": "apps/ms-users",
   "sourceRoot": "apps/ms-users/src",
   "projectType": "application",
   "targets": {

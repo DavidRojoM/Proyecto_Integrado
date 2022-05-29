@@ -1,5 +1,4 @@
 {
-  "root": "apps/ms-images",
   "sourceRoot": "apps/ms-images/src",
   "projectType": "application",
   "targets": {
@@ -10,7 +9,7 @@
         "outputPath": "dist/apps/ms-images",
         "main": "apps/ms-images/src/main.ts",
         "tsConfig": "apps/ms-images/tsconfig.app.json",
-        "assets": ["apps/ms-images/src/assets","apps/ms-images/src/public"]
+        "assets": ["apps/ms-images/src/assets", "apps/ms-images/src/public"]
       },
       "configurations": {
         "production": {
