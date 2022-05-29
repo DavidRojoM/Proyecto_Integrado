@@ -46,4 +46,66 @@ export class UsersService {
       this.usersProxy.send(PayloadActions.USERS.UPDATE, updatedUser)
     );
   }
+
+  private async createUser(user: UserDto): Promise<UserDto> {
+    const response = await firstValueFrom(
+      this.usersProxy.send<AddUserResponse, UserDto>(
+        PayloadActions.USERS.CREATE,
+        user
+      )
+    );
+
+    if (response.ok === false) {
+      //TODO: send image deletion event
+      throw new BadRequestException({
+        statusText: response.error.statusText,
+        statusCode: response.error.statusCode,
+      });
+    }
+
+    return response.value;
+  }
+
+  private async plainToUserDto(user: any): Promise<UserDto> {
+    const newUser = Object.assign(new UserDto(), {
+      ...user,
+      parties: user.parties ? JSON.parse(user.parties) : [],
+      messages: user.messages ? JSON.parse(user.messages) : [],
+    });
+    const validationErrors = await validate(UserDto, newUser);
+    if (validationErrors.length) {
+      throw new Error(validationErrors.map((e) => e.constraints).join(', '));
+    }
+    return newUser;
+  }
+
+  private async uploadUserImage(image: ImageInput): Promise<string> {
+    if (!image) {
+      return 'http://localhost:3001/public/test.jpg';
+    }
+    let uploadResponse;
+
+    try {
+      uploadResponse = await firstValueFrom(
+        this.imagesProxy.send<ImageUploadResponse, ImageInput>(
+          PayloadActions.IMAGES.CREATE,
+          image
+        )
+      );
+    } catch (e) {
+      throw new BadRequestException({
+        statusCode: e.statusCode,
+        statusText: e.message,
+      });
+    }
+
+    if (uploadResponse.ok === false) {
+      throw new BadRequestException({
+        statusText: uploadResponse.error.statusText,
+        statusCode: uploadResponse.error.statusCode,
+      });
+    }
+
+    return uploadResponse.value.url;
+  }
 }
