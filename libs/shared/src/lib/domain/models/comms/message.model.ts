@@ -13,8 +13,12 @@ export class Message {
     const model = new Message();
     model.message = message.message;
     model.createdAt = message.createdAt;
-    model.user = User.entityToModel(message.user);
-    model.party = Party.entityToModel(message.party);
+    if (message.user) {
+      model.user = User.entityToModel(message.user);
+    }
+    if (message.party) {
+      model.party = Party.entityToModel(message.party);
+    }
 
     return model;
   }
@@ -23,8 +27,12 @@ export class Message {
     const entity = new MessageEntity();
     entity.message = message.message;
     entity.createdAt = message.createdAt;
-    entity.user = User.modelToEntity(message.user);
-    entity.party = Party.modelToEntity(message.party);
+    if (message.user) {
+      entity.user = User.modelToEntity(message.user);
+    }
+    if (message.party) {
+      entity.party = Party.modelToEntity(message.party);
+    }
 
     return entity;
   }
@@ -33,8 +41,12 @@ export class Message {
     const dto = new MessageDto();
     dto.message = message.message;
     dto.createdAt = message.createdAt;
-    dto.user = User.modelToDto(message.user);
-    dto.party = Party.modelToDto(message.party);
+    if (message.user) {
+      dto.user = User.modelToDto(message.user);
+    }
+    if (message.party) {
+      dto.party = Party.modelToDto(message.party);
+    }
     return dto;
   }
 
@@ -42,8 +54,12 @@ export class Message {
     const model = new Message();
     model.message = message.message;
     model.createdAt = message.createdAt;
-    model.user = User.dtoToModel(message.user);
-    model.party = Party.dtoToModel(message.party);
+    if (message.user) {
+      model.user = User.dtoToModel(message.user);
+    }
+    if (message.party) {
+      model.party = Party.dtoToModel(message.party);
+    }
     return model;
   }
 }
