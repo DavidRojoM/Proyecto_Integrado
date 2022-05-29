@@ -9,8 +9,12 @@ export class UserParty {
 
   static modelToEntity(userParty: UserParty): UserPartiesEntity {
     const entity = new UserPartiesEntity();
-    entity.user = User.modelToEntity(userParty.user);
-    entity.party = Party.modelToEntity(userParty.party);
+    if (userParty.user) {
+      entity.user = User.modelToEntity(userParty.user);
+    }
+    if (userParty.party) {
+      entity.party = Party.modelToEntity(userParty.party);
+    }
     entity.status = userParty.status;
 
     return entity;
@@ -18,8 +22,12 @@ export class UserParty {
 
   static entityToModel(userParty: UserPartiesEntity): UserParty {
     const model = new UserParty();
-    model.user = User.entityToModel(userParty.user);
-    model.party = Party.entityToModel(userParty.party);
+    if (userParty.user) {
+      model.user = User.entityToModel(userParty.user);
+    }
+    if (userParty.party) {
+      model.party = Party.entityToModel(userParty.party);
+    }
     model.status = userParty.status;
 
     return model;
@@ -27,17 +35,25 @@ export class UserParty {
 
   static dtoToModel(userParty: UserPartiesDto): UserParty {
     const model = new UserParty();
-    model.user = User.dtoToModel(userParty.user);
-    model.party = Party.dtoToModel(userParty.party);
+    if (userParty.user) {
+      model.user = User.dtoToModel(userParty.user);
+    }
+    if (userParty.party) {
+      model.party = Party.dtoToModel(userParty.party);
+    }
     model.status = userParty.status;
     return model;
   }
 
-  static modelToDto(party: UserParty): UserPartiesDto {
+  static modelToDto(userParty: UserParty): UserPartiesDto {
     const dto = new UserPartiesDto();
-    dto.user = User.modelToDto(party.user);
-    dto.party = Party.modelToDto(party.party);
-    dto.status = party.status;
+    if (userParty?.user) {
+      dto.user = User.modelToDto(userParty.user);
+    }
+    if (userParty?.party) {
+      dto.party = Party.modelToDto(userParty.party);
+    }
+    dto.status = userParty.status;
     return dto;
   }
 }
