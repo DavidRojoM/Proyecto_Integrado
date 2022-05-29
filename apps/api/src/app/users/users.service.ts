@@ -33,12 +33,20 @@ export class UsersService {
     );
   }
 
-  async signup(user: UserDto): Promise<Partial<UserDto>> {
-    const result = await firstValueFrom(
-      this.usersProxy.send<UserDto, UserDto>(PayloadActions.USERS.CREATE, user)
+  async signup(user: any, image?: any): Promise<Partial<UserDto>> {
+    const newUser = await this.plainToUserDto(user);
+    newUser.image = await this.uploadUserImage(
+      !image
+        ? undefined
+        : {
+            buffer: image?.buffer,
+            size: image?.size,
+            mimeType: image?.mimeType,
+          }
     );
-    this.mailerProxy.emit(PayloadActions.MAIL.SEND_SIGNUP_WELCOME, result);
-    return result;
+    const userAdded = this.createUser(newUser);
+    this.mailerProxy.emit(PayloadActions.MAIL.SEND_SIGNUP_WELCOME, userAdded);
+    return userAdded;
   }
 
   update(updatedUser: UserDto) {
