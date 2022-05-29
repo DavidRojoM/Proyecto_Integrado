@@ -7,7 +7,10 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginRequestDto, LoginResponse } from '@proyecto-integrado/shared';
+import {
+  LoginRequestDto,
+  SuccessfulLoginResponse,
+} from '@proyecto-integrado/shared';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { LoggingInterceptor } from '../shared/interceptors/logging.interceptor';
 
@@ -25,7 +28,7 @@ export class AuthController {
       })
     )
     credentials: LoginRequestDto
-  ): Promise<LoginResponse> {
+  ): Promise<SuccessfulLoginResponse> {
     return this.authService.login(credentials);
   }
 
