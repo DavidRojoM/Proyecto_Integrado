@@ -10,6 +10,7 @@ export interface ImageUploadSuccessfulResponse {
 }
 
 export interface ImageInput {
+  userId: string;
   mimeType: string;
   size: number;
   buffer: Buffer;
