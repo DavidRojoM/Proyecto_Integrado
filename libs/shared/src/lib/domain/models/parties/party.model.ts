@@ -16,13 +16,15 @@ export class Party {
     const entity = new PartyEntity();
     entity.id = model.id;
     entity.name = model.name;
-    entity.messages = model.messages.map((message) =>
+    entity.messages = model?.messages?.map((message) =>
       Message.modelToEntity(message)
     );
-    entity.trip = Trip.modelToEntity(model.trip);
-    entity.userParties = model.users.map((user) =>
+    entity.userParties = model?.users?.map((user) =>
       UserParty.modelToEntity(user)
     );
+    if (model.trip) {
+      entity.trip = Trip.modelToEntity(model.trip);
+    }
     return entity;
   }
 
@@ -30,11 +32,13 @@ export class Party {
     const model = new Party();
     model.id = entity.id;
     model.name = entity.name;
-    model.messages = entity.messages.map((message) =>
+    model.messages = entity?.messages?.map((message) =>
       Message.entityToModel(message)
     );
-    model.trip = Trip.entityToModel(entity.trip);
-    model.users = entity.userParties.map((user) =>
+    if (entity.trip) {
+      model.trip = Trip.entityToModel(entity.trip);
+    }
+    model.users = entity?.userParties?.map((user) =>
       UserParty.entityToModel(user)
     );
     return model;
@@ -44,9 +48,13 @@ export class Party {
     const dto = new PartyDto();
     dto.id = party.id;
     dto.name = party.name;
-    dto.messages = party.messages.map((message) => Message.modelToDto(message));
-    dto.users = party.users.map((user) => UserParty.modelToDto(user));
-    dto.trip = Trip.modelToDto(party.trip);
+    dto.messages = party?.messages?.map((message) =>
+      Message.modelToDto(message)
+    );
+    dto.users = party?.users?.map((user) => UserParty.modelToDto(user));
+    if (party.trip) {
+      dto.trip = Trip.modelToDto(party.trip);
+    }
     return dto;
   }
 
@@ -54,11 +62,13 @@ export class Party {
     const model = new Party();
     model.id = party.id;
     model.name = party.name;
-    model.messages = party.messages.map((message) =>
+    model.messages = party?.messages?.map((message) =>
       Message.dtoToModel(message)
     );
-    model.users = party.users.map((user) => UserParty.dtoToModel(user));
-    model.trip = Trip.dtoToModel(party.trip);
+    model.users = party?.users?.map((user) => UserParty.dtoToModel(user));
+    if (party.trip) {
+      model.trip = Trip.dtoToModel(party.trip);
+    }
     return model;
   }
 }
