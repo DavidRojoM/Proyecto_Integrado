@@ -57,4 +57,15 @@ export const RMQCONFIG: ClientsModuleOptions = [
       },
     },
   },
+  {
+    name: 'TRIPS_SERVICE',
+    transport: Transport.RMQ,
+    options: {
+      queue: QUEUES.TRIPS,
+      urls: [ENVIRONMENT.RMQ_URL],
+      queueOptions: {
+        durable: true,
+      },
+    },
+  },
 ];
