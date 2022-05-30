@@ -33,6 +33,7 @@ export class UsersService {
     );
   }
 
+  //TODO: Add Typing
   async signup(user: any, image?: any): Promise<Partial<UserDto>> {
     const newUser = await this.plainToUserDto(user);
     newUser.image = await this.uploadUserImage(
