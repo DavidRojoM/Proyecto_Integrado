@@ -2,7 +2,7 @@ import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import {
-  FindOneByUsernameResponse,
+  FindUserByUsernameResponse,
   LoginRequestDto,
   LoginResponse,
   PayloadActions,
@@ -25,12 +25,12 @@ export class AuthService {
     password: string
   ): Promise<UserDto> {
     const response = await firstValueFrom(
-      this.usersProxy.send<FindOneByUsernameResponse, Partial<LoginRequestDto>>(
-        PayloadActions.USERS.FIND_BY_USERNAME,
-        {
-          username,
-        }
-      )
+      this.usersProxy.send<
+        FindUserByUsernameResponse,
+        Partial<LoginRequestDto>
+      >(PayloadActions.USERS.FIND_BY_USERNAME, {
+        username,
+      })
     );
 
     if (response.ok === false) {
