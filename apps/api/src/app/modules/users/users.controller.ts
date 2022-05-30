@@ -13,7 +13,7 @@ import { UsersService } from './users.service';
 import { UserDto } from '@proyecto-integrado/shared';
 import { AuthInterceptor } from '../auth/interceptors/auth.interceptor';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { LoggingInterceptor } from '../shared/interceptors/logging.interceptor';
+import { LoggingInterceptor } from '../../shared/interceptors/logging.interceptor';
 import { Multer } from 'multer';
 
 @UseInterceptors(LoggingInterceptor)
