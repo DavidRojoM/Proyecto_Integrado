@@ -6,6 +6,7 @@ export * from './lib/payloads/auth/auth.payloads.interface';
 export * from './lib/payloads/users/users.payloads.interface';
 export * from './lib/payloads/errors/error.payload';
 export * from './lib/payloads/images/images.payloads.interface';
+export * from './lib/payloads/trips/trips.payloads.interface';
 
 export * from './lib/domain/enums/roles.enum';
 export * from './lib/domain/enums/transports.enum';

@@ -6,6 +6,6 @@ export interface FindOneByUsername {
   username: string;
 }
 
-export type FindOneByUsernameResponse = Result<UserDto, ErrorPayload>;
+export type FindUserByUsernameResponse = Result<UserDto, ErrorPayload>;
 
 export type AddUserResponse = Result<UserDto, ErrorPayload>;
