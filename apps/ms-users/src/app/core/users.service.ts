@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import {
   AddUserResponse,
-  FindOneByUsernameResponse,
+  FindUserByUsernameResponse,
   User,
   UserDto,
 } from '@proyecto-integrado/shared';
@@ -32,7 +32,7 @@ export class UsersService {
 
   async findOneByUsername(
     username: string
-  ): Promise<FindOneByUsernameResponse> {
+  ): Promise<FindUserByUsernameResponse> {
     try {
       const userModel = await this.usersRepository.findOneByUsername(username);
       return {
