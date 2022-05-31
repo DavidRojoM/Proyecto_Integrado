@@ -8,8 +8,10 @@ import { UsersController } from './modules/users/users.controller';
 import { UsersService } from './modules/users/users.service';
 import { EntitiesModule } from '@proyecto-integrado/shared';
 import { MulterModule } from '@nestjs/platform-express';
-import { TripsService } from './modules/trips/trips.service';
-import { TripsController } from './modules/trips/trips.controller';
+import { TripsService } from './modules/trips/trips/trips.service';
+import { TripsController } from './modules/trips/trips/trips.controller';
+import { TransportsController } from './modules/trips/transports/transports.controller';
+import { TransportsService } from './modules/trips/transports/transports.service';
 
 @Module({
   imports: [
@@ -17,7 +19,18 @@ import { TripsController } from './modules/trips/trips.controller';
     EntitiesModule,
     MulterModule.register(),
   ],
-  controllers: [AuthController, UsersController, TripsController],
-  providers: [AuthService, LoggingService, UsersService, TripsService],
+  controllers: [
+    AuthController,
+    UsersController,
+    TripsController,
+    TransportsController,
+  ],
+  providers: [
+    AuthService,
+    LoggingService,
+    UsersService,
+    TripsService,
+    TransportsService,
+  ],
 })
 export class AppModule {}

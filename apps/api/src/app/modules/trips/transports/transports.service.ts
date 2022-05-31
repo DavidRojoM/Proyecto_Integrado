@@ -1,23 +1,23 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import {
-  FindAllTripsResponse,
-  InsertTripResponse,
+  FindAllTransportsResponse,
+  InsertTransportResponse,
   PayloadActions,
-  TripDto,
+  TransportDto,
 } from '@proyecto-integrado/shared';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
-export class TripsService {
+export class TransportsService {
   constructor(
-    @Inject('TRIPS_SERVICE') private readonly usersProxy: ClientProxy
+    @Inject('TRIPS_SERVICE') private readonly tripsProxy: ClientProxy
   ) {}
 
-  async getTrips(): Promise<TripDto[]> {
+  async getTransports(): Promise<TransportDto[]> {
     const result = await firstValueFrom(
-      this.usersProxy.send<FindAllTripsResponse, any>(
-        PayloadActions.TRIPS.TRIPS.FIND_ALL,
+      this.tripsProxy.send<FindAllTransportsResponse>(
+        PayloadActions.TRIPS.TRANSPORTS.FIND_ALL,
         {}
       )
     );
@@ -29,11 +29,11 @@ export class TripsService {
     return result.value;
   }
 
-  async createTrip(trip: TripDto): Promise<TripDto> {
+  async createTransport(transport: TransportDto): Promise<TransportDto> {
     const response = await firstValueFrom(
-      this.usersProxy.send<InsertTripResponse, TripDto>(
-        PayloadActions.TRIPS.TRIPS.CREATE,
-        trip
+      this.tripsProxy.send<InsertTransportResponse, TransportDto>(
+        PayloadActions.TRIPS.TRANSPORTS.CREATE,
+        transport
       )
     );
 
