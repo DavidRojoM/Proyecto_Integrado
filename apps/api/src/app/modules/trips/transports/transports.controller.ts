@@ -16,12 +16,12 @@ export class TransportsController {
   constructor(private readonly transportsService: TransportsService) {}
 
   @Get()
-  getTrips(): Promise<TransportDto[]> {
+  getTransports(): Promise<TransportDto[]> {
     return this.transportsService.getTransports();
   }
 
   @Post()
-  createTrip(
+  createTransport(
     @Body(new ValidationPipe()) trip: TransportDto
   ): Promise<TransportDto> {
     return this.transportsService.createTransport(trip);
