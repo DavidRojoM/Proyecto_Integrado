@@ -12,6 +12,10 @@ import { TripsService } from './modules/trips/trips/trips.service';
 import { TripsController } from './modules/trips/trips/trips.controller';
 import { TransportsController } from './modules/trips/transports/transports.controller';
 import { TransportsService } from './modules/trips/transports/transports.service';
+import { HotelsController } from './modules/trips/hotels/hotels.controller';
+import { DestinationsController } from './modules/trips/destinations/destinations.controller';
+import { HotelsService } from './modules/trips/hotels/hotels.service';
+import { DestinationsService } from './modules/trips/destinations/destinations.service';
 
 @Module({
   imports: [
@@ -24,6 +28,8 @@ import { TransportsService } from './modules/trips/transports/transports.service
     UsersController,
     TripsController,
     TransportsController,
+    HotelsController,
+    DestinationsController,
   ],
   providers: [
     AuthService,
@@ -31,6 +37,8 @@ import { TransportsService } from './modules/trips/transports/transports.service
     UsersService,
     TripsService,
     TransportsService,
+    HotelsService,
+    DestinationsService,
   ],
 })
 export class AppModule {}
