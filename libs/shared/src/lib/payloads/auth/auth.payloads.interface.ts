@@ -15,6 +15,8 @@ export class LoginRequestDto {
 
 export type LoginResponse = Result<SuccessfulLoginResponse, ErrorPayload>;
 
+export type ValidateUser = Result<UserDto, ErrorPayload>;
+
 export interface SuccessfulLoginResponse {
   access_token: string;
   user: Partial<UserDto>;
