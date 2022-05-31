@@ -8,6 +8,7 @@
     "ms-comms": "apps/ms-comms",
     "ms-images": "apps/ms-images",
     "ms-mailer": "apps/ms-mailer",
+    "ms-parties": "apps/ms-parties",
     "ms-trips": "apps/ms-trips",
     "ms-users": "apps/ms-users",
     "proyecto-integrado": "apps/proyecto-integrado",
