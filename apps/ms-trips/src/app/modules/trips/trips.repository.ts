@@ -1,6 +1,5 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { Trip, TripEntity } from '@proyecto-integrado/shared';
-import { BadRequestException } from '@nestjs/common';
+import { InsertTrip, Trip, TripEntity } from '@proyecto-integrado/shared';
 
 @EntityRepository(TripEntity)
 export class TripsRepository extends Repository<TripEntity> {
@@ -14,19 +13,22 @@ export class TripsRepository extends Repository<TripEntity> {
     return result.map((trip) => Trip.entityToModel(trip));
   }
 
-  async createTrip(trip: Trip): Promise<Trip> {
+  async createTrip(trip: Trip): Promise<InsertTrip> {
     const entity = Trip.modelToEntity(trip);
-
-    let result;
     try {
-      result = await this.save(entity);
+      await this.insert(entity);
     } catch (e) {
-      throw new BadRequestException({
-        statusCode: 400,
-        statusText: 'Unable to insert trip',
-      });
+      return {
+        ok: false,
+        error: {
+          statusCode: 400,
+          statusText: 'User already exists',
+        },
+      };
     }
-
-    return Trip.entityToModel(result);
+    return {
+      ok: true,
+      value: Trip.entityToModel(entity),
+    };
   }
 }
