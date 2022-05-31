@@ -12,41 +12,29 @@ export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
   async addOne(user: UserDto): Promise<AddUserResponse> {
-    let userAdded;
-    try {
-      userAdded = await this.usersRepository.addOne(User.dtoToModel(user));
-    } catch (e) {
-      return {
-        ok: false,
-        error: {
-          statusCode: e.response.statusCode,
-          statusText: e.response.statusText,
-        },
-      };
+    const insertResult = await this.usersRepository.addOne(
+      User.dtoToModel(user)
+    );
+    if (insertResult.ok === false) {
+      return insertResult;
     }
+
     return {
-      ok: true,
-      value: User.modelToDto(userAdded),
+      ...insertResult,
+      value: User.modelToDto(insertResult.value),
     };
   }
 
   async findOneByUsername(
     username: string
   ): Promise<FindUserByUsernameResponse> {
-    try {
-      const userModel = await this.usersRepository.findOneByUsername(username);
-      return {
-        ok: true,
-        value: User.modelToDto(userModel),
-      };
-    } catch (e) {
-      return {
-        ok: false,
-        error: {
-          statusCode: e.response.statusCode,
-          statusText: e.response.statusText,
-        },
-      };
+    const findResult = await this.usersRepository.findOneByUsername(username);
+    if (findResult.ok === false) {
+      return findResult;
     }
+    return {
+      ...findResult,
+      value: User.modelToDto(findResult.value),
+    };
   }
 }
