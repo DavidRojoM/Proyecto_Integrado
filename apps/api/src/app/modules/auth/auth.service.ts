@@ -16,12 +16,12 @@ export class AuthService {
   ) {}
 
   async login(credentials: LoginRequestDto): Promise<SuccessfulLoginResponse> {
-    const response = (await firstValueFrom(
+    const response = await firstValueFrom(
       this.authProxy.send<LoginResponse, LoginRequestDto>(
         PayloadActions.AUTH.LOGIN,
         credentials
       )
-    )) as LoginResponse;
+    );
 
     if (response.ok === false) {
       throw new UnauthorizedException({
