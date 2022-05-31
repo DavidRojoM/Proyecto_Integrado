@@ -22,7 +22,7 @@ export class TripsRepository extends Repository<TripEntity> {
         ok: false,
         error: {
           statusCode: 400,
-          statusText: 'User already exists',
+          statusText: 'Trip already exists',
         },
       };
     }

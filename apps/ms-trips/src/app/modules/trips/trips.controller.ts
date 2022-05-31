@@ -8,7 +8,7 @@ import {
 } from '@proyecto-integrado/shared';
 import { TripsService } from './trips.service';
 
-@Controller('trips')
+@Controller()
 export class TripsController {
   constructor(private readonly tripsService: TripsService) {}
 
