@@ -1,25 +1,35 @@
-import { User, UserEntity } from '@proyecto-integrado/shared';
+import {
+  FindUserByUsername,
+  InsertUser,
+  User,
+  UserEntity,
+} from '@proyecto-integrado/shared';
 import { EntityRepository, Repository } from 'typeorm';
-import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 
 //TODO: MAP ENTITIES TO BUSINESS MODELS
 @EntityRepository(UserEntity)
 export class UsersRepository extends Repository<UserEntity> {
-  async addOne(user: User): Promise<User> {
+  async addOne(user: User): Promise<InsertUser> {
     const entity = User.modelToEntity(user);
 
     try {
       await this.insert(entity);
     } catch (e) {
-      throw new BadRequestException({
-        statusCode: 400,
-        statusText: 'User already exists',
-      });
+      return {
+        ok: false,
+        error: {
+          statusCode: 400,
+          statusText: 'User already exists',
+        },
+      };
     }
-    return user;
+    return {
+      ok: true,
+      value: User.entityToModel(entity),
+    };
   }
 
-  async findOneByUsername(username: string): Promise<User> {
+  async findOneByUsername(username: string): Promise<FindUserByUsername> {
     const result = await this.createQueryBuilder('user')
       .select()
       .leftJoinAndSelect('user.userParties', 'userParties')
@@ -29,12 +39,18 @@ export class UsersRepository extends Repository<UserEntity> {
       .getOne();
 
     if (!result) {
-      throw new UnauthorizedException({
-        statusCode: 401,
-        statusText: 'Unknown user or wrong password',
-      });
+      return {
+        ok: false,
+        error: {
+          statusCode: 401,
+          statusText: 'Unknown user or wrong password',
+        },
+      };
     }
 
-    return User.entityToModel(result);
+    return {
+      ok: true,
+      value: User.entityToModel(result),
+    };
   }
 }
