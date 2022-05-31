@@ -31,22 +31,23 @@ export class TripsService {
   }
 
   async create(@Payload() trip: TripDto): Promise<InsertTripResponse> {
-    try {
-      const model = await this.tripsRepository.createTrip(
-        Trip.dtoToModel(trip)
-      );
-      return {
-        ok: true,
-        value: Trip.modelToDto(model),
-      };
-    } catch (e) {
+    const insertResult = await this.tripsRepository.createTrip(
+      Trip.dtoToModel(trip)
+    );
+
+    if (!insertResult.ok) {
       return {
         ok: false,
         error: {
-          statusCode: e.response.statusCode,
-          statusText: e.response.statusText,
+          statusCode: 400,
+          statusText: 'Trip already exists',
         },
       };
     }
+
+    return {
+      ok: true,
+      value: Trip.modelToDto(insertResult.value),
+    };
   }
 }

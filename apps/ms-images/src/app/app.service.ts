@@ -5,12 +5,10 @@ import { join } from 'path';
 
 @Injectable()
 export class AppService {
-  getData(): { message: string } {
-    return { message: 'Welcome to ms-images!' };
-  }
-
   async uploadImage(image: ImageInput): Promise<ImageUploadResponse> {
-    if (!image.mimeType.toUpperCase().includes('IMAGE')) {
+    const mimeType = image.mimeType.toUpperCase();
+
+    if (!mimeType.includes('IMAGE')) {
       return {
         ok: false,
         error: {
