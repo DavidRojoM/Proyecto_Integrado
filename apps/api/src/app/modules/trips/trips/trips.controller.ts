@@ -7,8 +7,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { TripsService } from './trips.service';
+import { LoggingInterceptor } from '../../../shared/interceptors/logging.interceptor';
 import { TripDto } from '@proyecto-integrado/shared';
-import { LoggingInterceptor } from '../../shared/interceptors/logging.interceptor';
 
 @UseInterceptors(LoggingInterceptor)
 @Controller('trips')
