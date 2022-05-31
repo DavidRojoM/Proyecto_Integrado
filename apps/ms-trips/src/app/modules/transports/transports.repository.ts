@@ -10,7 +10,7 @@ export class TransportsRepository extends Repository<TransportEntity> {
   async findAllTransports(): Promise<Transport[]> {
     const result = await this.createQueryBuilder().getMany();
 
-    return result.map((trip) => Transport.entityToModel(trip));
+    return result.map((transport) => Transport.entityToModel(transport));
   }
 
   async createTransport(transport: Transport): Promise<InsertTransport> {
