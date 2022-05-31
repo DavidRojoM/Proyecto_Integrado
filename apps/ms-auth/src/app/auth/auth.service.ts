@@ -1,4 +1,4 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import {
@@ -8,6 +8,7 @@ import {
   PayloadActions,
   Token,
   UserDto,
+  ValidateUser,
 } from '@proyecto-integrado/shared';
 import { compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -20,52 +21,16 @@ export class AuthService {
     private readonly jwtService: JwtService
   ) {}
 
-  private async validateUser(
-    username: string,
-    password: string
-  ): Promise<UserDto> {
-    const response = await firstValueFrom(
-      this.usersProxy.send<
-        FindUserByUsernameResponse,
-        Partial<LoginRequestDto>
-      >(PayloadActions.USERS.FIND_BY_USERNAME, {
-        username,
-      })
+  async login(credentials: LoginRequestDto): Promise<LoginResponse> {
+    const validationRes = await this.validateUser(
+      credentials.username,
+      credentials.password
     );
 
-    if (response.ok === false) {
-      throw new UnauthorizedException({
-        statusCode: 401,
-        statusText: 'Unknown user or wrong password',
-      });
+    if (validationRes.ok === false) {
+      return validationRes;
     }
-    if (await this.isSamePassword(password, response.value.password)) {
-      return response.value;
-    }
-
-    throw new UnauthorizedException({
-      statusCode: 401,
-      statusText: 'Unknown user or wrong password',
-    });
-  }
-
-  async login(credentials: LoginRequestDto): Promise<LoginResponse> {
-    let user;
-    try {
-      user = await this.validateUser(
-        credentials.username,
-        credentials.password
-      );
-    } catch (e) {
-      return {
-        ok: false,
-        error: {
-          statusCode: e.response.statusCode,
-          statusText: e.response.statusText,
-        },
-      };
-    }
-    return this.generateSign(user);
+    return this.generateSign(validationRes.value);
   }
 
   async check({ access_token }: Token): Promise<LoginResponse> {
@@ -85,6 +50,43 @@ export class AuthService {
     return this.generateSign(user);
   }
 
+  private async validateUser(
+    username: string,
+    password: string
+  ): Promise<ValidateUser> {
+    const response = await firstValueFrom(
+      this.usersProxy.send<
+        FindUserByUsernameResponse,
+        Partial<LoginRequestDto>
+      >(PayloadActions.USERS.FIND_BY_USERNAME, {
+        username,
+      })
+    );
+
+    if (response.ok === false) {
+      return {
+        ok: false,
+        error: {
+          statusCode: 401,
+          statusText: 'Unknown user or wrong password',
+        },
+      };
+    }
+
+    const isSame = await this.isSamePassword(password, response.value.password);
+    if (!isSame) {
+      return {
+        ok: false,
+        error: {
+          statusCode: 401,
+          statusText: 'Unknown user or wrong password',
+        },
+      };
+    }
+
+    return response;
+  }
+
   private async isSamePassword(
     password: string,
     hashedPassword: string
@@ -94,7 +96,18 @@ export class AuthService {
 
   private generateSign({ id, username, email, role }: UserDto): LoginResponse {
     const user = { id, username, email, role };
-    const access_token = this.jwtService.sign(user);
+    let access_token;
+    try {
+      access_token = this.jwtService.sign(user);
+    } catch (e) {
+      return {
+        ok: false,
+        error: {
+          statusCode: 401,
+          statusText: 'Unable to generate token',
+        },
+      };
+    }
     return {
       ok: true,
       value: {
