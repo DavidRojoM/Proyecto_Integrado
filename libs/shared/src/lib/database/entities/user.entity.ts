@@ -4,6 +4,7 @@ import {
   Column,
   Entity,
   OneToMany,
+  OneToOne,
   PrimaryColumn,
 } from 'typeorm';
 
@@ -12,6 +13,8 @@ import { Roles } from '../../domain/enums/roles.enum';
 import * as bcrypt from 'bcrypt';
 import { MessageEntity } from './message.entity';
 import { UserPartiesEntity } from './user-parties.entity';
+import { BalanceEntity } from './balances.entity';
+import { UserWishlistEntity } from './user-wishlist.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -61,6 +64,12 @@ export class UserEntity {
 
   @OneToMany((type) => MessageEntity, (message) => message.user)
   messages: MessageEntity[];
+
+  @OneToOne((type) => BalanceEntity, (balance) => balance.user)
+  balance: BalanceEntity;
+
+  @OneToMany((type) => UserWishlistEntity, (userWishlist) => userWishlist.user)
+  userWishlists: UserWishlistEntity[];
 
   @BeforeInsert()
   @BeforeUpdate()
