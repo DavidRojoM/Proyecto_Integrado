@@ -45,3 +45,11 @@ export * from './lib/database/entities/trip.entity';
 export * from './lib/database/entities/user-parties.entity';
 
 export * from './lib/database/entities';
+
+export * from './lib/database/repositories/destinations.repository';
+export * from './lib/database/repositories/hotels.repository';
+export * from './lib/database/repositories/transports.repository';
+export * from './lib/database/repositories/trips.repository';
+export * from './lib/database/repositories/users.repository';
+export * from './lib/database/repositories/parties.repository';
+export * from './lib/database/repositories/user-parties.repository';
