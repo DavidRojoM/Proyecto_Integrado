@@ -1,4 +1,3 @@
-import { PartyDto } from '../parties/party.dto';
 import { MessageDto } from '../comms/message.dto';
 import { Roles } from '../../enums/roles.enum';
 import {
@@ -6,11 +5,12 @@ import {
   IsBoolean,
   IsEmail,
   IsNotEmpty,
+  IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { UserPartiesDto } from './user-parties.dto';
+import { UserPartyDto } from './user-party.dto';
 
 export class UserDto {
   @IsString()
@@ -35,6 +35,7 @@ export class UserDto {
   @IsBoolean()
   banned?: boolean;
 
+  @IsOptional()
   @IsString()
   image?: string;
 
@@ -49,8 +50,8 @@ export class UserDto {
   @ValidateNested({
     each: true,
   })
-  @Type(() => UserPartiesDto)
-  parties: UserPartiesDto[];
+  @Type(() => UserPartyDto)
+  parties: UserPartyDto[];
 
   @IsArray()
   @ValidateNested({

@@ -8,10 +8,10 @@ import {
   ValidateNested,
 } from 'class-validator';
 
-export class UserPartiesDto {
+export class UserPartyDto {
   @IsNotEmpty()
   @ValidateNested()
-  @Type(() => UserPartiesDto)
+  @Type(() => UserPartyDto)
   user: UserDto;
 
   @IsNotEmpty()

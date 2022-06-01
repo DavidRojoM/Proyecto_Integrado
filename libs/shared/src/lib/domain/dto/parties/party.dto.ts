@@ -1,6 +1,6 @@
 import { TripDto } from '../trips/trip.dto';
 import { MessageDto } from '../comms/message.dto';
-import { UserPartiesDto } from '../users/user-parties.dto';
+import { UserPartyDto } from '../users/user-party.dto';
 import { IsOptional, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -18,5 +18,5 @@ export class PartyDto {
   messages: MessageDto[];
 
   @IsOptional()
-  users: UserPartiesDto[];
+  users: UserPartyDto[];
 }
