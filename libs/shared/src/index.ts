@@ -3,10 +3,11 @@ export * from './lib/environment';
 
 export * from './lib/payload.actions';
 export * from './lib/payloads/auth/auth.payloads.interface';
-export * from './lib/payloads/users/users.payloads.interface';
-export * from './lib/payloads/errors/error.payload';
-export * from './lib/payloads/images/images.payloads.interface';
-export * from './lib/payloads/trips/trips.payloads.interface';
+export * from './lib/payloads/users/users.payloads';
+export * from './lib/payloads/errors/error.payloads';
+export * from './lib/payloads/images/images.payloads';
+export * from './lib/payloads/trips/trips.payloads';
+export * from './lib/payloads/parties/parties.payloads';
 
 export * from './lib/domain/enums/roles.enum';
 export * from './lib/domain/enums/transports.enum';
@@ -27,6 +28,8 @@ export * from './lib/domain/dto/trips/hotel.dto';
 export * from './lib/domain/dto/trips/destination.dto';
 export * from './lib/domain/dto/trips/transport.dto';
 export * from './lib/domain/dto/users/user.dto';
+export * from './lib/domain/dto/users/user-party.dto';
+export * from './lib/domain/dto/parties/join-party.dto';
 
 export * from './lib/domain/types/result.type';
 
