@@ -1,11 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  UseInterceptors,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import {
   LoginRequestDto,
@@ -21,12 +14,7 @@ export class AuthController {
 
   @Post('login')
   login(
-    @Body(
-      new ValidationPipe({
-        transform: true,
-        errorHttpStatusCode: 401,
-      })
-    )
+    @Body()
     credentials: LoginRequestDto
   ): Promise<SuccessfulLoginResponse> {
     return this.authService.login(credentials);

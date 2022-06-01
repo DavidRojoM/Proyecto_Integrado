@@ -1,11 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  UseInterceptors,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
 import { HotelsService } from './hotels.service';
 import { LoggingInterceptor } from '../../../shared/interceptors/logging.interceptor';
 import { HotelDto } from '@proyecto-integrado/shared';
@@ -21,7 +14,7 @@ export class HotelsController {
   }
 
   @Post()
-  createHotel(@Body(new ValidationPipe()) trip: HotelDto): Promise<HotelDto> {
+  createHotel(@Body() trip: HotelDto): Promise<HotelDto> {
     return this.hotelsService.createHotel(trip);
   }
 }

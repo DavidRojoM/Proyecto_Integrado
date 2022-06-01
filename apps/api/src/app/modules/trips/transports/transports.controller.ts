@@ -1,11 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  UseInterceptors,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
 import { TransportsService } from './transports.service';
 import { LoggingInterceptor } from '../../../shared/interceptors/logging.interceptor';
 import { TransportDto } from '@proyecto-integrado/shared';
@@ -21,9 +14,7 @@ export class TransportsController {
   }
 
   @Post()
-  createTransport(
-    @Body(new ValidationPipe()) trip: TransportDto
-  ): Promise<TransportDto> {
+  createTransport(@Body() trip: TransportDto): Promise<TransportDto> {
     return this.transportsService.createTransport(trip);
   }
 }

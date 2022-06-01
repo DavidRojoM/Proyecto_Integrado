@@ -37,10 +37,7 @@ export class UsersController {
   async signup(
     @UploadedFile() image: Express.Multer.File,
     @Body()
-    user: // new ValidationPipe({
-    //   transform: true,
-    // })
-    any
+    user: any
   ): Promise<Partial<UserDto>> {
     //TODO: Add formdata validation (test front first)
     return this.usersService.signup(user, image);
@@ -48,9 +45,7 @@ export class UsersController {
 
   @UseInterceptors(AuthInterceptor)
   @Put()
-  update(
-    @Body(new ValidationPipe()) updatedUser: UserDto
-  ): Promise<Partial<UserDto>> {
+  update(@Body() updatedUser: UserDto): Promise<Partial<UserDto>> {
     return this.usersService.update(updatedUser);
   }
 }

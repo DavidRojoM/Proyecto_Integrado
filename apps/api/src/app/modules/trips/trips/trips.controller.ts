@@ -1,11 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  UseInterceptors,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
 import { TripsService } from './trips.service';
 import { LoggingInterceptor } from '../../../shared/interceptors/logging.interceptor';
 import { TripDto } from '@proyecto-integrado/shared';
@@ -21,7 +14,7 @@ export class TripsController {
   }
 
   @Post()
-  createTrip(@Body(new ValidationPipe()) trip: TripDto): Promise<TripDto> {
+  createTrip(@Body() trip: TripDto): Promise<TripDto> {
     return this.tripsService.createTrip(trip);
   }
 }
