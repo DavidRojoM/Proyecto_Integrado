@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TransportsRepository } from './transports.repository';
 import { TransportsService } from './transports.service';
 import { TransportsController } from './transports.controller';
+import { TransportsRepository } from '@proyecto-integrado/shared';
 
 @Module({
   imports: [TypeOrmModule.forFeature([TransportsRepository])],

@@ -3,8 +3,7 @@ import { ClientsModule } from '@nestjs/microservices';
 import { RMQCONFIG } from '@proyecto-integrado/config';
 import { UsersController } from './core/users.controller';
 import { UsersService } from './core/users.service';
-import { UsersRepository } from './core/users.repository';
-import { EntitiesModule } from '@proyecto-integrado/shared';
+import { EntitiesModule, UsersRepository } from '@proyecto-integrado/shared';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({

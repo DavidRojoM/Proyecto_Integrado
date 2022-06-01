@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { DestinationsRepository } from './destinations.repository';
 import {
   FindAllDestinationsResponse,
   Destination,
   DestinationDto,
   InsertDestinationResponse,
+  DestinationsRepository,
 } from '@proyecto-integrado/shared';
 import { Payload } from '@nestjs/microservices';
 

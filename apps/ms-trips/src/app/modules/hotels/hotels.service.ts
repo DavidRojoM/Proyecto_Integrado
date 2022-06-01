@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { HotelsRepository } from './hotels.repository';
 import {
   FindAllHotelsResponse,
   Hotel,
   HotelDto,
+  HotelsRepository,
   InsertHotelResponse,
 } from '@proyecto-integrado/shared';
 import { Payload } from '@nestjs/microservices';

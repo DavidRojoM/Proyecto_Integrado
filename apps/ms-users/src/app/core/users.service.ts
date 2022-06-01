@@ -4,8 +4,8 @@ import {
   FindUserByUsernameResponse,
   User,
   UserDto,
+  UsersRepository,
 } from '@proyecto-integrado/shared';
-import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {

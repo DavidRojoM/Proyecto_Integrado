@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { HotelsRepository } from './hotels.repository';
 import { HotelsService } from './hotels.service';
 import { HotelsController } from './hotels.controller';
+import { HotelsRepository } from '@proyecto-integrado/shared';
 
 @Module({
   imports: [TypeOrmModule.forFeature([HotelsRepository])],
