@@ -77,14 +77,28 @@ export class UsersService {
   }
 
   private async plainToUserDto(user: any): Promise<UserDto> {
+    //TODO: Fix parsing
     const newUser = Object.assign(new UserDto(), {
       ...user,
-      parties: user.parties ? JSON.parse(user.parties) : [],
-      messages: user.messages ? JSON.parse(user.messages) : [],
+      banned:
+        typeof user.banned === 'string' ? JSON.parse(user.banned) : user.banned,
+      parties: user.parties
+        ? typeof user.parties === 'string'
+          ? JSON.parse(user.parties)
+          : user.parties
+        : [],
+      messages: user.messages
+        ? typeof user.messages === 'string'
+          ? JSON.parse(user.messages)
+          : user.messages
+        : [],
     });
-    const validationErrors = await validate(UserDto, newUser);
+    const validationErrors = await validate(newUser);
     if (validationErrors.length) {
-      throw new Error(validationErrors.map((e) => e.constraints).join(', '));
+      const validationsToString = validationErrors
+        .map((e) => Object.values(e.constraints).join(', '))
+        .join(', ');
+      throw new Error(validationsToString);
     }
     return newUser;
   }
