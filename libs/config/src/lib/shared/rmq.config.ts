@@ -68,4 +68,15 @@ export const RMQCONFIG: ClientsModuleOptions = [
       },
     },
   },
+  {
+    name: 'PARTIES_SERVICE',
+    transport: Transport.RMQ,
+    options: {
+      queue: QUEUES.PARTIES,
+      urls: [ENVIRONMENT.RMQ_URL],
+      queueOptions: {
+        durable: true,
+      },
+    },
+  },
 ];
