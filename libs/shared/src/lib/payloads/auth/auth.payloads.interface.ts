@@ -1,5 +1,5 @@
 import { UserDto } from '../../domain/dto/users/user.dto';
-import { ErrorPayload } from '../errors/error.payload';
+import { ErrorPayload } from '../errors/error.payloads';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { Result } from '../../domain/types/result.type';
 
