@@ -1,6 +1,6 @@
 import { Party, User, UserPartiesEntity } from '@proyecto-integrado/shared';
 import { UserPartyStatus } from '../../enums/user-party-status.enum';
-import { UserPartiesDto } from '../../dto/users/user-parties.dto';
+import { UserPartyDto } from '../../dto/users/user-party.dto';
 
 export class UserParty {
   user: User;
@@ -33,7 +33,7 @@ export class UserParty {
     return model;
   }
 
-  static dtoToModel(userParty: UserPartiesDto): UserParty {
+  static dtoToModel(userParty: UserPartyDto): UserParty {
     const model = new UserParty();
     if (userParty.user) {
       model.user = User.dtoToModel(userParty.user);
@@ -45,8 +45,8 @@ export class UserParty {
     return model;
   }
 
-  static modelToDto(userParty: UserParty): UserPartiesDto {
-    const dto = new UserPartiesDto();
+  static modelToDto(userParty: UserParty): UserPartyDto {
+    const dto = new UserPartyDto();
     if (userParty?.user) {
       dto.user = User.modelToDto(userParty.user);
     }
