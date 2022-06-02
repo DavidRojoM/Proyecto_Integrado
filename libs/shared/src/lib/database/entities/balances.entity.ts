@@ -1,5 +1,10 @@
-import { Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Column } from 'typeorm/browser';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { UserEntity } from '@proyecto-integrado/shared';
 
 @Entity('balances')
@@ -13,5 +18,6 @@ export class BalanceEntity {
   amount: number;
 
   @OneToOne((type) => UserEntity, (user) => user.balance)
+  @JoinColumn()
   user: UserEntity;
 }

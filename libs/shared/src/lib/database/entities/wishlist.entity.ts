@@ -1,5 +1,11 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
-import { PrimaryGeneratedColumn } from 'typeorm/browser';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { DestinationEntity } from '@proyecto-integrado/shared';
 import { UserWishlistEntity } from './user-wishlist.entity';
 
