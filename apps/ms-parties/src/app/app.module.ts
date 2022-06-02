@@ -7,7 +7,6 @@ import {
   EntitiesModule,
   PartiesRepository,
   UserPartiesRepository,
-  UsersRepository,
 } from '@proyecto-integrado/shared';
 import { ClientsModule } from '@nestjs/microservices';
 import { RMQCONFIG } from '@proyecto-integrado/config';
@@ -16,11 +15,7 @@ import { RMQCONFIG } from '@proyecto-integrado/config';
   imports: [
     ClientsModule.register(RMQCONFIG),
     EntitiesModule,
-    TypeOrmModule.forFeature([
-      UsersRepository,
-      PartiesRepository,
-      UserPartiesRepository,
-    ]),
+    TypeOrmModule.forFeature([PartiesRepository, UserPartiesRepository]),
   ],
   controllers: [PartiesController],
   providers: [PartiesService],

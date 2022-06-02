@@ -2,7 +2,7 @@ import { Test } from '@nestjs/testing';
 
 import { PartiesService } from './parties.service';
 
-describe('AppService', () => {
+describe('CommsService', () => {
   let service: PartiesService;
 
   beforeAll(async () => {

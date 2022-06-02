@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PartiesController } from './parties.controller';
 import { PartiesService } from './parties.service';
 
-describe('AppController', () => {
+describe('CommsController', () => {
   let app: TestingModule;
 
   beforeAll(async () => {

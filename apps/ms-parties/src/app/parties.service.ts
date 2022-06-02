@@ -19,7 +19,7 @@ export class PartiesService {
   constructor(
     private readonly userPartiesRepository: UserPartiesRepository,
     private readonly partiesRepository: PartiesRepository,
-    @Inject() private readonly usersProxy: ClientProxy
+    @Inject('USERS_SERVICE') private readonly usersProxy: ClientProxy
   ) {}
 
   async joinParty(
