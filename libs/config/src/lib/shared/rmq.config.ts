@@ -79,4 +79,15 @@ export const RMQCONFIG: ClientsModuleOptions = [
       },
     },
   },
+  {
+    name: 'COMMS_SERVICE',
+    transport: Transport.RMQ,
+    options: {
+      queue: QUEUES.COMMS,
+      urls: [ENVIRONMENT.RMQ_URL],
+      queueOptions: {
+        durable: true,
+      },
+    },
+  },
 ];
