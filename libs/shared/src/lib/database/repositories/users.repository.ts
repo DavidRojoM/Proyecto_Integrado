@@ -1,5 +1,5 @@
 import {
-  FindUserByUsername,
+  FindUser,
   InsertUser,
   User,
   UserEntity,
@@ -29,7 +29,7 @@ export class UsersRepository extends Repository<UserEntity> {
     };
   }
 
-  async findOneByUsername(username: string): Promise<FindUserByUsername> {
+  async findOneByUsername(username: string): Promise<FindUser> {
     const result = await this.createQueryBuilder('user')
       .select()
       .leftJoinAndSelect('user.userParties', 'userParties')
@@ -44,6 +44,31 @@ export class UsersRepository extends Repository<UserEntity> {
         error: {
           statusCode: 401,
           statusText: 'Unknown user or wrong password',
+        },
+      };
+    }
+
+    return {
+      ok: true,
+      value: User.entityToModel(result),
+    };
+  }
+
+  async findOneById(id: string): Promise<FindUser> {
+    const result = await this.createQueryBuilder('user')
+      .select()
+      .leftJoinAndSelect('user.userParties', 'userParties')
+      .leftJoinAndSelect('userParties.party', 'party')
+      .leftJoinAndSelect('user.messages', 'messages')
+      .where('user.id = :id', { id })
+      .getOne();
+
+    if (!result) {
+      return {
+        ok: false,
+        error: {
+          statusCode: 401,
+          statusText: 'Can not find user',
         },
       };
     }
