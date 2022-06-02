@@ -1,14 +1,4 @@
-import { DestinationDto } from './destination.dto';
-import { HotelDto } from './hotel.dto';
-import { TransportDto } from './transport.dto';
-import {
-  IsDate,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class TripDto {
   @IsNotEmpty()
@@ -24,17 +14,14 @@ export class TripDto {
   to: Date;
 
   @IsOptional()
-  @ValidateNested()
-  @Type(() => DestinationDto)
-  destination: DestinationDto;
+  @IsNumber()
+  destinationId: number;
 
   @IsOptional()
-  @ValidateNested()
-  @Type(() => HotelDto)
-  hotel: HotelDto;
+  @IsNumber()
+  hotelId: number;
 
+  @IsNumber()
   @IsOptional()
-  @ValidateNested()
-  @Type(() => TransportDto)
-  transport: TransportDto;
+  transportId: number;
 }
