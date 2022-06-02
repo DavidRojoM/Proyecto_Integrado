@@ -22,8 +22,8 @@ export class TransportsRepository extends Repository<TransportEntity> {
       return {
         ok: false,
         error: {
-          statusCode: 400,
-          statusText: 'Could not create transport',
+          statusCode: e.statusCode,
+          statusText: e.statusText,
         },
       };
     }

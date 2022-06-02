@@ -22,8 +22,8 @@ export class UserPartiesRepository extends Repository<UserPartiesEntity> {
       return {
         ok: false,
         error: {
-          statusCode: 400,
-          statusText: 'Could not create userParty',
+          statusCode: e.statusCode,
+          statusText: e.statusText,
         },
       };
     }

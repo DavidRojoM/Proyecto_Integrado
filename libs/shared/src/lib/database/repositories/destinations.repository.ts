@@ -24,8 +24,8 @@ export class DestinationsRepository extends Repository<DestinationEntity> {
       return {
         ok: false,
         error: {
-          statusCode: 400,
-          statusText: 'Could not create destination',
+          statusCode: e.statusCode,
+          statusText: e.statusText,
         },
       };
     }

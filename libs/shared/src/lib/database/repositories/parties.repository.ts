@@ -18,8 +18,8 @@ export class PartiesRepository extends Repository<PartyEntity> {
       return {
         ok: false,
         error: {
-          statusCode: 400,
-          statusText: 'Could not create party',
+          statusCode: e.statusCode,
+          statusText: e.statusText,
         },
       };
     }

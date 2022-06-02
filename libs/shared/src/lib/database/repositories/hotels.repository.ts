@@ -18,8 +18,8 @@ export class HotelsRepository extends Repository<HotelEntity> {
       return {
         ok: false,
         error: {
-          statusCode: 400,
-          statusText: 'Could not create hotel',
+          statusCode: e.statusCode,
+          statusText: e.statusText,
         },
       };
     }

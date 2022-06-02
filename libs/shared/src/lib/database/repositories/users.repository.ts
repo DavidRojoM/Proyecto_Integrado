@@ -6,7 +6,6 @@ import {
 } from '@proyecto-integrado/shared';
 import { EntityRepository, Repository } from 'typeorm';
 
-//TODO: MAP ENTITIES TO BUSINESS MODELS
 @EntityRepository(UserEntity)
 export class UsersRepository extends Repository<UserEntity> {
   async addOne(user: User): Promise<InsertUser> {
@@ -18,8 +17,8 @@ export class UsersRepository extends Repository<UserEntity> {
       return {
         ok: false,
         error: {
-          statusCode: 400,
-          statusText: 'User already exists',
+          statusCode: e.statusCode,
+          statusText: e.statusText,
         },
       };
     }

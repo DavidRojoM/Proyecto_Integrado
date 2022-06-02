@@ -21,8 +21,8 @@ export class TripsRepository extends Repository<TripEntity> {
       return {
         ok: false,
         error: {
-          statusCode: 400,
-          statusText: 'Trip already exists',
+          statusCode: e.statusCode,
+          statusText: e.statusText,
         },
       };
     }
