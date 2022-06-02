@@ -2,12 +2,13 @@ export * from './lib/shared.module';
 export * from './lib/environment';
 
 export * from './lib/payload.actions';
-export * from './lib/payloads/auth/auth.payloads.interface';
+export * from './lib/payloads/auth/auth.payloads';
 export * from './lib/payloads/users/users.payloads';
 export * from './lib/payloads/errors/error.payloads';
 export * from './lib/payloads/images/images.payloads';
 export * from './lib/payloads/trips/trips.payloads';
 export * from './lib/payloads/parties/parties.payloads';
+export * from './lib/payloads/comms/comms.payloads';
 
 export * from './lib/domain/enums/roles.enum';
 export * from './lib/domain/enums/transports.enum';
@@ -43,6 +44,9 @@ export * from './lib/database/entities/message.entity';
 export * from './lib/database/entities/destination.entity';
 export * from './lib/database/entities/trip.entity';
 export * from './lib/database/entities/user-parties.entity';
+export * from './lib/database/entities/balances.entity';
+export * from './lib/database/entities/user-wishlist.entity';
+export * from './lib/database/entities/wishlist.entity';
 
 export * from './lib/database/entities';
 
@@ -53,3 +57,4 @@ export * from './lib/database/repositories/trips.repository';
 export * from './lib/database/repositories/users.repository';
 export * from './lib/database/repositories/parties.repository';
 export * from './lib/database/repositories/user-parties.repository';
+export * from './lib/database/repositories/messages.repository';

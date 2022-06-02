@@ -42,10 +42,10 @@ export class Message {
     dto.message = message.message;
     dto.createdAt = message.createdAt;
     if (message.user) {
-      dto.user = User.modelToDto(message.user);
+      dto.userId = User.modelToDto(message.user).id;
     }
     if (message.party) {
-      dto.party = Party.modelToDto(message.party);
+      dto.partyId = Party.modelToDto(message.party).id;
     }
     return dto;
   }
@@ -54,12 +54,6 @@ export class Message {
     const model = new Message();
     model.message = message.message;
     model.createdAt = message.createdAt;
-    if (message.user) {
-      model.user = User.dtoToModel(message.user);
-    }
-    if (message.party) {
-      model.party = Party.dtoToModel(message.party);
-    }
     return model;
   }
 }
