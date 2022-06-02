@@ -1,9 +1,9 @@
 import { Message } from '../comms/message.model';
-import { User } from '../users/user.model';
 import { Trip } from '../trips/trip.model';
 import { PartyDto } from '../../dto/parties/party.dto';
 import { PartyEntity } from '../../../database/entities/party.entity';
 import { UserParty } from '../users/user-party.model';
+import { User } from '../users/user.model';
 
 export class Party {
   id: string;
@@ -51,7 +51,9 @@ export class Party {
     dto.messages = party?.messages?.map((message) =>
       Message.modelToDto(message)
     );
-    dto.users = party?.users?.map((user) => UserParty.modelToDto(user));
+    dto.users = party?.users?.map((userParty) =>
+      User.modelToDto(userParty.user)
+    );
     if (party.trip) {
       dto.trip = Trip.modelToDto(party.trip);
     }
@@ -65,7 +67,7 @@ export class Party {
     model.messages = party?.messages?.map((message) =>
       Message.dtoToModel(message)
     );
-    model.users = party?.users?.map((user) => UserParty.dtoToModel(user));
+    // model.users = party?.users?.map((user) => UserParty.dtoToModel(user));
     if (party.trip) {
       model.trip = Trip.dtoToModel(party.trip);
     }
