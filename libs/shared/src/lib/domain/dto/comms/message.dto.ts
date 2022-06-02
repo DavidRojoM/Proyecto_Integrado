@@ -1,9 +1,19 @@
-import { UserDto } from '../users/user.dto';
-import { PartyDto } from '../parties/party.dto';
+import { IsDate, IsNotEmpty, IsString } from 'class-validator';
 
 export class MessageDto {
+  @IsNotEmpty()
+  @IsString()
   message: string;
+
+  @IsNotEmpty()
+  @IsDate()
   createdAt: Date;
-  user: UserDto;
-  party: PartyDto;
+
+  @IsString()
+  @IsNotEmpty()
+  userId: string;
+
+  @IsString()
+  @IsNotEmpty()
+  partyId: string;
 }
