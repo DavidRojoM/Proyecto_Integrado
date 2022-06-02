@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import {
   AddUserResponse,
-  FindUserByUsernameResponse,
+  FindUserResponse,
   User,
   UserDto,
   UsersRepository,
@@ -25,9 +25,7 @@ export class UsersService {
     };
   }
 
-  async findOneByUsername(
-    username: string
-  ): Promise<FindUserByUsernameResponse> {
+  async findOneByUsername(username: string): Promise<FindUserResponse> {
     const findResult = await this.usersRepository.findOneByUsername(username);
     if (findResult.ok === false) {
       return findResult;
@@ -36,5 +34,17 @@ export class UsersService {
       ...findResult,
       value: User.modelToDto(findResult.value),
     };
+  }
+
+  async findOneById(id: string): Promise<FindUserResponse> {
+    const findResult = await this.usersRepository.findOneById(id);
+    if (findResult.ok === false) {
+      return findResult;
+    }
+    return {
+      ...findResult,
+      value: User.modelToDto(findResult.value),
+    };
+    // return Promise.resolve(undefined);
   }
 }
