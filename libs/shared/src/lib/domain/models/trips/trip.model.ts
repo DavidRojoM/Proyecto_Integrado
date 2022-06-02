@@ -52,13 +52,13 @@ export class Trip {
     dto.from = trip.from;
     dto.to = trip.to;
     if (trip.destination) {
-      dto.destination = Destination.modelToDto(trip.destination);
+      dto.destinationId = Destination.modelToDto(trip.destination).id;
     }
     if (trip.transport) {
-      dto.transport = Transport.modelToDto(trip.transport);
+      dto.transportId = Transport.modelToDto(trip.transport).id;
     }
     if (trip.hotel) {
-      dto.hotel = Hotel.modelToDto(trip.hotel);
+      dto.hotelId = Hotel.modelToDto(trip.hotel).id;
     }
     return dto;
   }
@@ -68,15 +68,6 @@ export class Trip {
     model.id = trip.id;
     model.from = trip.from;
     model.to = trip.to;
-    if (trip.destination) {
-      model.destination = Destination.dtoToModel(trip.destination);
-    }
-    if (trip.transport) {
-      model.transport = Transport.dtoToModel(trip.transport);
-    }
-    if (trip.hotel) {
-      model.hotel = Hotel.dtoToModel(trip.hotel);
-    }
     return model;
   }
 }
