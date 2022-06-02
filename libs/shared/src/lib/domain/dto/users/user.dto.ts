@@ -25,6 +25,7 @@ export class UserDto {
   @IsNotEmpty()
   username: string;
 
+  @IsOptional()
   @IsString()
   role?: Roles;
 
@@ -37,26 +38,30 @@ export class UserDto {
 
   @IsOptional()
   @IsString()
+  @IsNotEmpty()
   image?: string;
 
   @IsString()
   @IsNotEmpty()
   bankAccount: string;
 
+  @IsOptional()
   @IsString()
   nationality?: string;
 
+  @IsOptional()
   @IsArray()
   @ValidateNested({
     each: true,
   })
   @Type(() => UserPartyDto)
-  parties: UserPartyDto[];
+  parties?: UserPartyDto[];
 
+  @IsOptional()
   @IsArray()
   @ValidateNested({
     each: true,
   })
   @Type(() => MessageDto)
-  messages: MessageDto[];
+  messages?: MessageDto[];
 }

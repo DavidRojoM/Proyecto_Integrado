@@ -1,5 +1,4 @@
 import { PartyDto, UserDto } from '@proyecto-integrado/shared';
-import { UserPartyStatus } from '../../enums/user-party-status.enum';
 import { Type } from 'class-transformer';
 import {
   IsEnum,
@@ -7,6 +6,7 @@ import {
   IsOptional,
   ValidateNested,
 } from 'class-validator';
+import { UserPartyStatus } from '../../enums/user-party-status.enum';
 
 export class UserPartyDto {
   @IsNotEmpty()
