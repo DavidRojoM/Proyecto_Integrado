@@ -1,30 +1,44 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import {
+  FindUserByIdPayload,
+  FindUserResponse,
   InsertUserPartyResponse,
   JoinPartyDto,
   PartiesRepository,
   Party,
+  PayloadActions,
   User,
   UserPartiesRepository,
   UserParty,
-  UsersRepository,
 } from '@proyecto-integrado/shared';
+import { ClientProxy } from '@nestjs/microservices';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class PartiesService {
   constructor(
     private readonly userPartiesRepository: UserPartiesRepository,
-    private readonly usersRepository: UsersRepository,
-    private readonly partiesRepository: PartiesRepository
+    private readonly partiesRepository: PartiesRepository,
+    @Inject() private readonly usersProxy: ClientProxy
   ) {}
 
   async joinParty(
     joinPartyDto: JoinPartyDto
   ): Promise<InsertUserPartyResponse> {
     const userParty = new UserParty();
-    userParty.user = User.entityToModel(
-      await this.usersRepository.findOne(joinPartyDto.userId)
+
+    const findUserResult = await firstValueFrom(
+      this.usersProxy.send<FindUserResponse, FindUserByIdPayload>(
+        PayloadActions.USERS.FIND_BY_ID,
+        { id: joinPartyDto.userId }
+      )
     );
+
+    if (findUserResult.ok === false) {
+      return findUserResult;
+    }
+    userParty.user = User.dtoToModel(findUserResult.value);
+
     userParty.party = Party.entityToModel(
       await this.partiesRepository.findOne(joinPartyDto.partyId)
     );
