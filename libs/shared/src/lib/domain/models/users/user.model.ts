@@ -14,8 +14,8 @@ export class User {
   image: string;
   nationality: string;
   bankAccount: string;
-  userParties: UserParty[];
-  messages: Message[];
+  userParties?: UserParty[];
+  messages?: Message[];
 
   static modelToEntity(user: User): UserEntity {
     const entity = new UserEntity();
