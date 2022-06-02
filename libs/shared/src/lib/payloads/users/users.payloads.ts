@@ -5,12 +5,16 @@ import { User } from '../../domain/models/users/user.model';
 import { UserPartyDto } from '../../domain/dto/users/user-party.dto';
 import { UserParty } from '../../domain/models/users/user-party.model';
 
-export interface FindOneByUsername {
+export interface FindUserByUsernamePayload {
   username: string;
 }
 
-export type FindUserByUsernameResponse = Result<UserDto, ErrorPayload>;
-export type FindUserByUsername = Result<User, ErrorPayload>;
+export interface FindUserByIdPayload {
+  id: string;
+}
+
+export type FindUserResponse = Result<UserDto, ErrorPayload>;
+export type FindUser = Result<User, ErrorPayload>;
 
 export type AddUserResponse = Result<UserDto, ErrorPayload>;
 export type InsertUser = Result<User, ErrorPayload>;
