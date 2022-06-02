@@ -1,8 +1,9 @@
 import { TripDto } from '../trips/trip.dto';
 import { MessageDto } from '../comms/message.dto';
 import { UserPartyDto } from '../users/user-party.dto';
-import { IsOptional, IsString } from 'class-validator';
+import { IsArray, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
+import { UserDto } from '../users/user.dto';
 
 export class PartyDto {
   @IsString()
@@ -11,12 +12,23 @@ export class PartyDto {
   @IsString()
   name: string;
 
+  @IsOptional()
   @Type(() => TripDto)
   trip: TripDto;
 
   @IsOptional()
+  @IsArray()
+  @ValidateNested({
+    each: true,
+  })
+  @Type(() => TripDto)
   messages: MessageDto[];
 
   @IsOptional()
-  users: UserPartyDto[];
+  @IsArray()
+  @ValidateNested({
+    each: true,
+  })
+  @Type(() => UserPartyDto)
+  users: UserDto[];
 }
