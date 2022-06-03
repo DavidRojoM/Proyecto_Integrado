@@ -18,6 +18,7 @@ services:
     container_name: mysql-pi
     image: mysql:8
     environment:
+      TZ: Europe/Madrid
       MYSQL_TCP_PORT: 3306
       MYSQL_USER: david
       MYSQL_PASSWORD: david
