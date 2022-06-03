@@ -25,6 +25,9 @@ export * from './lib/domain/models/users/user-party.model';
 export * from './lib/domain/dto/trips/trip.dto';
 export * from './lib/domain/dto/parties/party.dto';
 export * from './lib/domain/dto/comms/message.dto';
+export * from './lib/domain/dto/comms/message.input';
+export * from './lib/domain/dto/comms/message.output';
+
 export * from './lib/domain/dto/trips/hotel.dto';
 export * from './lib/domain/dto/trips/destination.dto';
 export * from './lib/domain/dto/trips/transport.dto';
