@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import {
   FindAllPartiesResponse,
   InsertPartyResponse,
@@ -26,7 +26,10 @@ export class PartiesService {
     );
 
     if (findResponse.ok === false) {
-      throw new Error(findResponse.error.statusText);
+      throw new BadRequestException({
+        statusText: findResponse.error.statusText,
+        statusCode: findResponse.error.statusCode,
+      });
     }
     return findResponse.value;
   }
@@ -40,7 +43,10 @@ export class PartiesService {
     );
 
     if (createResponse.ok === false) {
-      throw new Error(createResponse.error.statusText);
+      throw new BadRequestException({
+        statusText: createResponse.error.statusText,
+        statusCode: createResponse.error.statusCode,
+      });
     }
     return createResponse.value;
   }
