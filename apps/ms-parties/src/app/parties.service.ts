@@ -1,11 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
+  FindAllPartiesResponse,
+  FindPartyResponse,
   FindUserByIdPayload,
   FindUserResponse,
+  InsertPartyResponse,
   InsertUserPartyResponse,
   JoinPartyDto,
   PartiesRepository,
   Party,
+  PartyDto,
   PayloadActions,
   User,
   UserPartiesRepository,
@@ -60,6 +64,41 @@ export class PartiesService {
     return {
       ok: true,
       value: UserParty.modelToDto(insertResult.value),
+    };
+  }
+
+  async findById(id: string): Promise<FindPartyResponse> {
+    const result = await this.partiesRepository.findById(id);
+    if (result.ok === false) {
+      return result;
+    }
+    return {
+      ok: true,
+      value: Party.modelToDto(result.value),
+    };
+  }
+
+  async create(party: PartyDto): Promise<InsertPartyResponse> {
+    const insertResult = await this.partiesRepository.createParty(
+      Party.dtoToModel(party)
+    );
+    if (insertResult.ok === false) {
+      return insertResult;
+    }
+    return {
+      ok: true,
+      value: Party.modelToDto(insertResult.value),
+    };
+  }
+
+  async findAll(): Promise<FindAllPartiesResponse> {
+    const findResult = await this.partiesRepository.findAll();
+    if (findResult.ok === false) {
+      return findResult;
+    }
+    return {
+      ok: true,
+      value: findResult.value.map((party) => Party.modelToDto(party)),
     };
   }
 }
