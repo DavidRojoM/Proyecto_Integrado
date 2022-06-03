@@ -7,9 +7,13 @@ export class UserWishlistEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne((type) => WishlistEntity, (wishList) => wishList.userWishlists)
+  @ManyToOne((type) => WishlistEntity, (wishList) => wishList.userWishlists, {
+    onDelete: 'CASCADE',
+  })
   wishList: WishlistEntity;
 
-  @ManyToOne((type) => UserEntity, (user) => user.userWishlists)
+  @ManyToOne((type) => UserEntity, (user) => user.userWishlists, {
+    onDelete: 'CASCADE',
+  })
   user: UserEntity;
 }

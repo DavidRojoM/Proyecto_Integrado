@@ -21,9 +21,13 @@ export class MessageEntity {
   })
   message: string;
 
-  @ManyToOne((type) => UserEntity, (user) => user.messages)
+  @ManyToOne((type) => UserEntity, (user) => user.messages, {
+    onDelete: 'CASCADE',
+  })
   user: UserEntity;
 
-  @ManyToOne((type) => PartyEntity, (party) => party.messages)
+  @ManyToOne((type) => PartyEntity, (party) => party.messages, {
+    onDelete: 'CASCADE',
+  })
   party: PartyEntity;
 }

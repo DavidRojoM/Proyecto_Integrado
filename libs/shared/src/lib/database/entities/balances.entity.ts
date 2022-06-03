@@ -17,7 +17,9 @@ export class BalanceEntity {
   })
   amount: number;
 
-  @OneToOne((type) => UserEntity, (user) => user.balance)
+  @OneToOne((type) => UserEntity, (user) => user.balance, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   user: UserEntity;
 }

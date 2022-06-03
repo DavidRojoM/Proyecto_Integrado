@@ -8,10 +8,14 @@ export class UserPartiesEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne((type) => UserEntity, (user) => user.userParties)
+  @ManyToOne((type) => UserEntity, (user) => user.userParties, {
+    onDelete: 'CASCADE',
+  })
   user: UserEntity;
 
-  @ManyToOne((type) => PartyEntity, (party) => party.userParties)
+  @ManyToOne((type) => PartyEntity, (party) => party.userParties, {
+    onDelete: 'CASCADE',
+  })
   party: PartyEntity;
 
   @Column({
