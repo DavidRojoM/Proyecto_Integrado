@@ -9,6 +9,7 @@ import {
   MessagesRepository,
   Party,
   PayloadActions,
+  SendMessageResponse,
   User,
 } from '@proyecto-integrado/shared';
 import { ClientProxy } from '@nestjs/microservices';
@@ -22,8 +23,7 @@ export class CommsService {
     private readonly messagesRepository: MessagesRepository
   ) {}
 
-  async insertMessage(message: MessageDto): Promise<void> {
-    const model = Message.dtoToModel(message);
+  async insertMessage(message: MessageDto): Promise<SendMessageResponse> {
     const user = await firstValueFrom(
       this.usersProxy.send<FindUserResponse, FindUserByIdPayload>(
         PayloadActions.USERS.FIND_BY_ID,
@@ -33,16 +33,23 @@ export class CommsService {
 
     const party = await firstValueFrom(
       this.partiesProxy.send<FindPartyResponse, FindPartyByIdPayload>(
-        PayloadActions.USERS.FIND_BY_ID,
-        { id: message.userId }
+        PayloadActions.PARTIES.FIND_BY_ID,
+        { id: message.partyId }
       )
     );
 
-    if (user.ok !== true || party.ok !== true) {
-      return;
+    if (user.ok === false || party.ok === false) {
+      return {
+        ok: false,
+        error: {
+          statusCode: 400,
+          statusText: 'Invalid user or party',
+        },
+      };
     }
+    const model = Message.dtoToModel(message);
     model.user = User.dtoToModel(user.value);
     model.party = Party.dtoToModel(party.value);
-    this.messagesRepository.addOne(model);
+    return this.messagesRepository.addOne(model);
   }
 }
