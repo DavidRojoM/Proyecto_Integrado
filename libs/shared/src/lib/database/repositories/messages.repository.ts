@@ -1,6 +1,6 @@
 import {
   FindMessages,
-  InsertMessage,
+  SendMessageResponse,
   Message,
   MessageEntity,
 } from '@proyecto-integrado/shared';
@@ -8,23 +8,23 @@ import { EntityRepository, Repository } from 'typeorm';
 
 @EntityRepository(MessageEntity)
 export class MessagesRepository extends Repository<MessageEntity> {
-  async addOne(message: Message): Promise<InsertMessage> {
+  async addOne(message: Message): Promise<SendMessageResponse> {
     const entity = Message.modelToEntity(message);
-
+    let result;
     try {
-      await this.insert(entity);
+      result = await this.save(entity);
     } catch (e) {
       return {
         ok: false,
         error: {
-          statusCode: e.statusCode,
-          statusText: e.statusText,
+          statusCode: e.errno,
+          statusText: e.sqlMessage,
         },
       };
     }
     return {
       ok: true,
-      value: Message.entityToModel(entity),
+      value: Message.entityToModel(result),
     };
   }
 
