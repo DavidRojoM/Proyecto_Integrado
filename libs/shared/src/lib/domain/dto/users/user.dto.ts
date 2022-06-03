@@ -33,6 +33,7 @@ export class UserDto {
   @IsNotEmpty()
   password: string;
 
+  @IsOptional()
   @IsBoolean()
   banned?: boolean;
 
@@ -64,4 +65,7 @@ export class UserDto {
   })
   @Type(() => MessageDto)
   messages?: MessageDto[];
+
+  @IsOptional()
+  status?: string;
 }
