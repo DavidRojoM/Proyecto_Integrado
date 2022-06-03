@@ -17,8 +17,8 @@ export class UsersRepository extends Repository<UserEntity> {
       return {
         ok: false,
         error: {
-          statusCode: e.statusCode,
-          statusText: e.statusText,
+          statusCode: e.errno,
+          statusText: e.sqlMessage,
         },
       };
     }

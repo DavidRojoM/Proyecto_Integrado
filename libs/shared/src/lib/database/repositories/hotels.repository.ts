@@ -18,8 +18,8 @@ export class HotelsRepository extends Repository<HotelEntity> {
       return {
         ok: false,
         error: {
-          statusCode: e.statusCode,
-          statusText: e.statusText,
+          statusCode: e.errno,
+          statusText: e.sqlMessage,
         },
       };
     }

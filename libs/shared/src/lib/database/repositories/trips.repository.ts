@@ -21,8 +21,8 @@ export class TripsRepository extends Repository<TripEntity> {
       return {
         ok: false,
         error: {
-          statusCode: e.statusCode,
-          statusText: e.statusText,
+          statusCode: e.errno,
+          statusText: e.sqlMessage,
         },
       };
     }

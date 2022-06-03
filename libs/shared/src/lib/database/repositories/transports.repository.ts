@@ -22,8 +22,8 @@ export class TransportsRepository extends Repository<TransportEntity> {
       return {
         ok: false,
         error: {
-          statusCode: e.statusCode,
-          statusText: e.statusText,
+          statusCode: e.errno,
+          statusText: e.sqlMessage,
         },
       };
     }
