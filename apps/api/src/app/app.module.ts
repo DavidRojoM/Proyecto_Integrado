@@ -17,14 +17,22 @@ import { DestinationsController } from './modules/trips/destinations/destination
 import { HotelsService } from './modules/trips/hotels/hotels.service';
 import { DestinationsService } from './modules/trips/destinations/destinations.service';
 import { PartiesService } from './modules/parties/parties.service';
-import { CommsController } from './modules/comms/comms.controller';
+import { CommsResolver } from './modules/comms/comms.resolver';
 import { CommsService } from './modules/comms/comms.service';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver } from '@nestjs/apollo';
+import { PartiesController } from './modules/parties/parties.controller';
 
 @Module({
   imports: [
     ClientsModule.register(RMQCONFIG),
     EntitiesModule,
     MulterModule.register(),
+    GraphQLModule.forRoot({
+      driver: ApolloDriver,
+      autoSchemaFile: true,
+      installSubscriptionHandlers: true,
+    }),
   ],
   controllers: [
     AuthController,
@@ -33,7 +41,7 @@ import { CommsService } from './modules/comms/comms.service';
     TransportsController,
     HotelsController,
     DestinationsController,
-    CommsController,
+    PartiesController,
   ],
   providers: [
     AuthService,
@@ -45,6 +53,7 @@ import { CommsService } from './modules/comms/comms.service';
     DestinationsService,
     PartiesService,
     CommsService,
+    CommsResolver,
   ],
 })
 export class AppModule {}
