@@ -1,6 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { MessageDto, PayloadActions } from '@proyecto-integrado/shared';
+import {
+  Message,
+  MessageDto,
+  MessageInput,
+  PayloadActions,
+  SendMessageResponse,
+} from '@proyecto-integrado/shared';
+import { firstValueFrom } from 'rxjs';
+import { ApolloError } from 'apollo-server-express';
 
 @Injectable()
 export class CommsService {
@@ -8,7 +16,21 @@ export class CommsService {
     @Inject('COMMS_SERVICE') private readonly commsProxy: ClientProxy
   ) {}
 
-  sendMessage(message: MessageDto): void {
-    this.commsProxy.emit(PayloadActions.COMMS.SEND_MESSAGE, message);
+  async sendMessage(message: MessageInput): Promise<Message> {
+    const response = await firstValueFrom(
+      this.commsProxy.send<SendMessageResponse, MessageDto>(
+        PayloadActions.COMMS.SEND_MESSAGE,
+        Message.inputToDto(message)
+      )
+    );
+    if (response.ok === false) {
+      throw new ApolloError(
+        response.error.statusText,
+        response.error.statusCode.toString()
+      );
+    }
+    return response.value;
   }
+
+  // findAll() {}
 }
