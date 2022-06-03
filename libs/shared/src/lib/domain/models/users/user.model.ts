@@ -3,6 +3,7 @@ import { Message } from '../comms/message.model';
 import { UserDto } from '../../dto/users/user.dto';
 import { UserEntity } from '../../../database/entities/user.entity';
 import { UserParty } from './user-party.model';
+import { UserOutput } from '../../dto/users/user.output';
 
 export class User {
   id: string;
@@ -59,7 +60,7 @@ export class User {
     return model;
   }
 
-  static modelToDto(userModel: User): UserDto {
+  static modelToDto(userModel: User & { status?: string }): UserDto {
     const dto = new UserDto();
     dto.id = userModel.id;
     dto.email = userModel.email;
@@ -76,6 +77,9 @@ export class User {
     dto.messages = userModel?.messages?.map((message) =>
       Message.modelToDto(message)
     );
+    if (userModel.status) {
+      dto.status = userModel.status;
+    }
     return dto;
   }
 
@@ -97,5 +101,13 @@ export class User {
       UserParty.dtoToModel(party)
     );
     return model;
+  }
+
+  static modelToOutput(userModel: User): UserOutput {
+    const output = new UserOutput();
+    output.id = userModel.id;
+    output.username = userModel.username;
+    output.image = userModel.image;
+    return output;
   }
 }
