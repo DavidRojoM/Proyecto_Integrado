@@ -1,22 +1,29 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app/app.module';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { ENVIRONMENT, QUEUES } from '@proyecto-integrado/shared';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || 3333;
-  await app.listen(port);
-  Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    AppModule,
+    {
+      transport: Transport.RMQ,
+      options: {
+        urls: [ENVIRONMENT.RMQ_URL],
+        queue: QUEUES.PARTIES,
+        queueOptions: {
+          durable: true,
+        },
+      },
+    }
   );
+  app.listen().then(() => {
+    Logger.log(
+      `**PARTIES** Application is running on: ${ENVIRONMENT.RMQ_URL} AT ${QUEUES.PARTIES}`
+    );
+  });
 }
 
 bootstrap();
