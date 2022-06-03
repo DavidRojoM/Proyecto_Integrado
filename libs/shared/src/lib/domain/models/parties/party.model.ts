@@ -38,8 +38,8 @@ export class Party {
     if (entity.trip) {
       model.trip = Trip.entityToModel(entity.trip);
     }
-    model.users = entity?.userParties?.map((user) =>
-      UserParty.entityToModel(user)
+    model.users = entity?.userParties?.map((userParty) =>
+      UserParty.entityToModel(userParty)
     );
     return model;
   }
@@ -51,12 +51,16 @@ export class Party {
     dto.messages = party?.messages?.map((message) =>
       Message.modelToDto(message)
     );
-    dto.users = party?.users?.map((userParty) =>
-      User.modelToDto(userParty.user)
-    );
     if (party.trip) {
       dto.trip = Trip.modelToDto(party.trip);
     }
+    dto.users = party?.users?.map((userParty) => {
+      return User.modelToDto({
+        ...userParty.user,
+        status: userParty.status,
+      });
+    });
+
     return dto;
   }
 
