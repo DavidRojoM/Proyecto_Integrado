@@ -2,8 +2,11 @@ import { User } from '../users/user.model';
 import { Party } from '../parties/party.model';
 import { MessageDto } from '../../dto/comms/message.dto';
 import { MessageEntity } from '../../../database/entities/message.entity';
+import { MessageInput } from '../../dto/comms/message.input';
+import { MessageOutput } from '../../dto/comms/message.output';
 
 export class Message {
+  id: number;
   message: string;
   createdAt: Date;
   user: User;
@@ -13,6 +16,7 @@ export class Message {
     const model = new Message();
     model.message = message.message;
     model.createdAt = message.createdAt;
+    model.id = message.id;
     if (message.user) {
       model.user = User.entityToModel(message.user);
     }
@@ -53,7 +57,25 @@ export class Message {
   static dtoToModel(message: MessageDto): Message {
     const model = new Message();
     model.message = message.message;
-    model.createdAt = message.createdAt;
+    // model.createdAt = message.createdAt;
     return model;
+  }
+
+  static inputToDto(message: MessageInput): MessageDto {
+    const dto = new MessageDto();
+    dto.message = message.message;
+    // dto.createdAt = message.createdAt;
+    dto.userId = message.userId;
+    dto.partyId = message.partyId;
+    return dto;
+  }
+
+  static modelToOutput(message: Message): MessageOutput {
+    const output = new MessageOutput();
+    output.message = message.message;
+    output.createdAt = message.createdAt.toString();
+    output.user = User.modelToOutput(message.user);
+    // output.party = message.party;
+    return output;
   }
 }
