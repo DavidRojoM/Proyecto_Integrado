@@ -39,9 +39,15 @@ export class PartiesService {
     }
     userParty.user = User.dtoToModel(findUserResult.value);
 
-    userParty.party = Party.entityToModel(
-      await this.partiesRepository.findOne(joinPartyDto.partyId)
+    const findPartyResult = await this.partiesRepository.findById(
+      joinPartyDto.partyId
     );
+
+    if (findPartyResult.ok === false) {
+      return findPartyResult;
+    }
+
+    userParty.party = findPartyResult.value;
 
     const insertResult = await this.userPartiesRepository.createUserParty(
       userParty
