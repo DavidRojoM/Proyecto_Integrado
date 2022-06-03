@@ -32,5 +32,5 @@ export class CommsService {
     return response.value;
   }
 
-  // findAll() {}
+  findAll() {}
 }
