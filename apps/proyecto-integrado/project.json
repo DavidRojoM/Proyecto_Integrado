@@ -15,10 +15,15 @@
         "inlineStyleLanguage": "scss",
         "assets": [
           "apps/proyecto-integrado/src/favicon.ico",
-          "apps/proyecto-integrado/src/assets"
+          "apps/proyecto-integrado/src/assets",
+          "apps/proyecto-integrado/src/manifest.webmanifest"
         ],
-        "styles": ["apps/proyecto-integrado/src/styles.scss"],
-        "scripts": []
+        "styles": [
+          "apps/proyecto-integrado/src/styles.scss"
+        ],
+        "scripts": [],
+        "serviceWorker": true,
+        "ngswConfigPath": "apps/proyecto-integrado/ngsw-config.json"
       },
       "configurations": {
         "production": {
