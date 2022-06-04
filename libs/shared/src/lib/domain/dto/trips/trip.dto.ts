@@ -15,13 +15,13 @@ export class TripDto {
 
   @IsOptional()
   @IsNumber()
-  destinationId: number;
+  destinationId?: number;
 
   @IsOptional()
   @IsNumber()
-  hotelId: number;
+  hotelId?: number;
 
   @IsNumber()
   @IsOptional()
-  transportId: number;
+  transportId?: number;
 }
