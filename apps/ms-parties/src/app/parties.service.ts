@@ -41,6 +41,20 @@ export class PartiesService {
     if (findUserResult.ok === false) {
       return findUserResult;
     }
+
+    if (
+      findUserResult.value.parties.some(
+        (party) => party.party.id === joinPartyDto.partyId
+      )
+    ) {
+      return {
+        ok: false,
+        error: {
+          statusCode: 400,
+          statusText: 'User already joined this party',
+        },
+      };
+    }
     userParty.user = User.dtoToModel(findUserResult.value);
 
     const findPartyResult = await this.partiesRepository.findById(

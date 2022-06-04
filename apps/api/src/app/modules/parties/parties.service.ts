@@ -60,7 +60,10 @@ export class PartiesService {
     );
 
     if (joinResponse.ok === false) {
-      throw new Error(joinResponse.error.statusText);
+      throw new BadRequestException({
+        statusText: joinResponse.error.statusText,
+        statusCode: joinResponse.error.statusCode,
+      });
     }
     return joinResponse.value;
   }
