@@ -6,6 +6,7 @@ import { NxWelcomeComponent } from './nx-welcome.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent],
@@ -18,6 +19,7 @@ import { environment } from '../environments/environment';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

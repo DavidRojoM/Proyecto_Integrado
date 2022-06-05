@@ -4,12 +4,17 @@
   "targets": {
     "build": {
       "executor": "@nrwl/node:webpack",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/ms-images",
         "main": "apps/ms-images/src/main.ts",
         "tsConfig": "apps/ms-images/tsconfig.app.json",
-        "assets": ["apps/ms-images/src/assets", "apps/ms-images/src/public"]
+        "assets": [
+          "apps/ms-images/src/assets",
+          "apps/ms-images/src/public"
+        ]
       },
       "configurations": {
         "production": {
@@ -33,14 +38,20 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["apps/ms-images/**/*.ts"]
+        "lintFilePatterns": [
+          "apps/ms-images/**/*.ts"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/ms-images"],
+      "outputs": [
+        "coverage/apps/ms-images"
+      ],
       "options": {
         "jestConfig": "apps/ms-images/jest.config.ts",
         "passWithNoTests": true

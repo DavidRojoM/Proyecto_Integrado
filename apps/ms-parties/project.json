@@ -5,12 +5,16 @@
   "targets": {
     "build": {
       "executor": "@nrwl/node:webpack",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/ms-parties",
         "main": "apps/ms-parties/src/main.ts",
         "tsConfig": "apps/ms-parties/tsconfig.app.json",
-        "assets": ["apps/ms-parties/src/assets"]
+        "assets": [
+          "apps/ms-parties/src/assets"
+        ]
       },
       "configurations": {
         "production": {
@@ -34,14 +38,20 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["apps/ms-parties/**/*.ts"]
+        "lintFilePatterns": [
+          "apps/ms-parties/**/*.ts"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/ms-parties"],
+      "outputs": [
+        "coverage/apps/ms-parties"
+      ],
       "options": {
         "jestConfig": "apps/ms-parties/jest.config.ts",
         "passWithNoTests": true

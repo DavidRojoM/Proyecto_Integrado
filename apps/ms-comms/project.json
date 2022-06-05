@@ -4,12 +4,16 @@
   "targets": {
     "build": {
       "executor": "@nrwl/node:webpack",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/ms-comms",
         "main": "apps/ms-comms/src/main.ts",
         "tsConfig": "apps/ms-comms/tsconfig.app.json",
-        "assets": ["apps/ms-comms/src/assets"]
+        "assets": [
+          "apps/ms-comms/src/assets"
+        ]
       },
       "configurations": {
         "production": {
@@ -33,14 +37,20 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["apps/ms-comms/**/*.ts"]
+        "lintFilePatterns": [
+          "apps/ms-comms/**/*.ts"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/ms-comms"],
+      "outputs": [
+        "coverage/apps/ms-comms"
+      ],
       "options": {
         "jestConfig": "apps/ms-comms/jest.config.ts",
         "passWithNoTests": true
