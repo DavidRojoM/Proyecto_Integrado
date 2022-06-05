@@ -8,6 +8,13 @@ const routes: Routes = [
       import('./core/pages/landing/landing.module').then(
         (m) => m.LandingModule
       ),
+    pathMatch: 'full',
+  },
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./core/pages/auth/auth.module').then((m) => m.AuthModule),
+    pathMatch: 'full',
   },
   {
     path: 'notfound',
@@ -15,6 +22,7 @@ const routes: Routes = [
       import('./core/shared/pages/not-found/not-found.module').then(
         (m) => m.NotFoundModule
       ),
+    pathMatch: 'full',
   },
   {
     path: '**',
