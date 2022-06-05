@@ -12,7 +12,7 @@ const routes: Routes = [
   {
     path: 'notfound',
     loadChildren: () =>
-      import('./core/pages/not-found/not-found.module').then(
+      import('./core/shared/pages/not-found/not-found.module').then(
         (m) => m.NotFoundModule
       ),
   },
