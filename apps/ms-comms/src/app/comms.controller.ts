@@ -1,8 +1,9 @@
 import { Controller } from '@nestjs/common';
 
 import { CommsService } from './comms.service';
-import { MessagePattern } from '@nestjs/microservices';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import {
+  FindMessages,
   MessageDto,
   PayloadActions,
   SendMessageResponse,
@@ -15,5 +16,12 @@ export class CommsController {
   @MessagePattern(PayloadActions.COMMS.SEND_MESSAGE)
   sendMessage(message: MessageDto): Promise<SendMessageResponse> {
     return this.commsService.insertMessage(message);
+  }
+
+  @MessagePattern(PayloadActions.COMMS.FIND_MESSAGE_BY_PARTY_ID)
+  findMessageByPartyId(
+    @Payload('partyId') partyId: string
+  ): Promise<FindMessages> {
+    return this.commsService.findMessageByPartyId(partyId);
   }
 }
