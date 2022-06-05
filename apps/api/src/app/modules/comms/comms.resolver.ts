@@ -16,15 +16,15 @@ export class CommsResolver {
   @Query((returns) => [MessageOutput], {
     nullable: 'items',
   })
-  findAll() {
-    return this.commsService.findAll();
+  async findAll(@Args('partyId') partyId: string) {
+    const messages = await this.commsService.findMessagesByPartyId(partyId);
+    return messages.map(Message.modelToOutput);
   }
 
   @Mutation((returns) => MessageOutput)
   async sendMessage(@Args('messageInput') messageInput: MessageInput) {
     const message = await this.commsService.sendMessage(messageInput);
     const output = Message.modelToOutput(message);
-    console.log(output);
 
     this.pubSub.publish(message.party.id, {
       messageAdded: output,
