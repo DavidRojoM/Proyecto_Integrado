@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
+  FindMessages,
   FindPartyByIdPayload,
   FindPartyResponse,
   FindUserByIdPayload,
@@ -51,5 +52,9 @@ export class CommsService {
     model.user = User.dtoToModel(user.value);
     model.party = Party.dtoToModel(party.value);
     return this.messagesRepository.addOne(model);
+  }
+
+  findMessageByPartyId(partyId: string): Promise<FindMessages> {
+    return this.messagesRepository.findByPartyId(partyId);
   }
 }
