@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import {
+  FindMessages,
   Message,
   MessageDto,
   MessageInput,
@@ -32,5 +33,22 @@ export class CommsService {
     return response.value;
   }
 
-  findAll() {}
+  async findMessagesByPartyId(partyId: string): Promise<Message[]> {
+    const response = await firstValueFrom(
+      this.commsProxy.send<FindMessages>(
+        PayloadActions.COMMS.FIND_MESSAGE_BY_PARTY_ID,
+        {
+          partyId,
+        }
+      )
+    );
+
+    if (response.ok === false) {
+      throw new ApolloError(
+        response.error.statusText,
+        response.error.statusCode.toString()
+      );
+    }
+    return response.value;
+  }
 }
