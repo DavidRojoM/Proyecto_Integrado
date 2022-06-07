@@ -29,6 +29,7 @@ export class AuthService {
         statusText: response.error.statusText,
       });
     }
+
     return {
       access_token: response.value.access_token,
       user: response.value.user,

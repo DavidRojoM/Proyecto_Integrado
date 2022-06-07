@@ -12,7 +12,7 @@ import { LoggingInterceptor } from '../../shared/interceptors/logging.intercepto
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('login')
+  @Post()
   login(
     @Body()
     credentials: LoginRequestDto
