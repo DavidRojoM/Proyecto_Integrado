@@ -34,6 +34,13 @@ export class AuthInterceptor implements NestInterceptor {
       });
     }
 
+    if (loginResponse.value.user.banned) {
+      throw new UnauthorizedException({
+        statusCode: 401,
+        statusText: 'User banned',
+      });
+    }
+
     return next.handle().pipe(
       tap(() => {
         context
