@@ -5,15 +5,15 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
-      import('./core/pages/landing/landing.module').then(
-        (m) => m.LandingModule
-      ),
+      import('./core/pages/auth/auth.module').then((m) => m.AuthModule),
     pathMatch: 'full',
   },
   {
-    path: 'auth',
+    path: 'home',
     loadChildren: () =>
-      import('./core/pages/auth/auth.module').then((m) => m.AuthModule),
+      import('./core/pages/landing/landing.module').then(
+        (m) => m.LandingModule
+      ),
     pathMatch: 'full',
   },
   {
