@@ -30,6 +30,7 @@ export class AuthService {
     if (validationRes.ok === false) {
       return validationRes;
     }
+
     return this.generateSign(validationRes.value);
   }
 
@@ -69,6 +70,16 @@ export class AuthService {
         error: {
           statusCode: 401,
           statusText: 'Unknown user or wrong password',
+        },
+      };
+    }
+
+    if (response.value.banned) {
+      return {
+        ok: false,
+        error: {
+          statusCode: 401,
+          statusText: 'User is banned',
         },
       };
     }
