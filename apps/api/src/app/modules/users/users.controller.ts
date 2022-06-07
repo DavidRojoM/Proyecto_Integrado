@@ -31,7 +31,13 @@ export class UsersController {
   }
 
   //TODO: Add @File to upload images on signup
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(
+    FileInterceptor('image', {
+      limits: {
+        fileSize: 1000000,
+      },
+    })
+  )
   @Post()
   async signup(
     @UploadedFile() image: Express.Multer.File,

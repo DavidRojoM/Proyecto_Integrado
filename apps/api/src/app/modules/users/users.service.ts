@@ -34,19 +34,18 @@ export class UsersService {
   }
 
   //TODO: Add Typing
-  async signup(user: any, image?: any): Promise<Partial<UserDto>> {
-    const newUser = await this.plainToUserDto(user);
-    newUser.image = await this.uploadUserImage(
+  async signup(user: UserDto, image?: any): Promise<Partial<UserDto>> {
+    user.image = await this.uploadUserImage(
       !image
         ? undefined
         : {
-            userId: newUser.id,
+            userId: user.id,
             buffer: image?.buffer,
             size: image?.size,
             mimeType: image?.mimetype,
           }
     );
-    const userAdded = await this.createUser(newUser);
+    const userAdded = await this.createUser(user);
     this.mailerProxy.emit(PayloadActions.MAIL.SEND_SIGNUP_WELCOME, userAdded);
     return userAdded;
   }
