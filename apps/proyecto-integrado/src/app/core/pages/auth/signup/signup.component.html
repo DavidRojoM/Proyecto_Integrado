@@ -1,1 +1,81 @@
-<p>signup works!</p>
+<mat-stepper [orientation]="(stepperOrientation | async)!">
+  <mat-step [stepControl]="firstFormGroup" label="Fill out your user data">
+    <form [formGroup]="firstFormGroup">
+      <mat-form-field appearance="fill">
+        <mat-label>Username</mat-label>
+        <input type="text" matInput formControlName="username" required />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>email</mat-label>
+        <input type="email" matInput formControlName="email" required />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>password</mat-label>
+        <input
+          matInput
+          [type]="hidePassword ? 'password' : 'text'"
+          formControlName="password"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="hidePassword = !hidePassword"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hidePassword"
+        >
+          <mat-icon>{{
+            hidePassword ? 'visibility_off' : 'visibility'
+          }}</mat-icon>
+        </button>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup" label="Fill out personal data">
+    <form [formGroup]="secondFormGroup">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Country</mat-label>
+        <input
+          matInput
+          aria-label="State"
+          [matAutocomplete]="auto"
+          formControlName="nationality"
+        />
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let country of filteredCountries | async"
+            [value]="country.name.common"
+          >
+            <span>{{ country.flag }}</span> |
+            <span>{{ country.name.common }}</span>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Bank Account</mat-label>
+        <input matInput formControlName="bankAccount" required />
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step label="Upload an image">
+    <form [formGroup]="thirdFormGroup">
+      <ngx-file-drag-drop
+        formControlName="image"
+        activeBorderColor="#3F51B5"
+        (valueChanged)="onValueChange($event)"
+      >
+      </ngx-file-drag-drop>
+      <span>{{ fileSize | byte }} / 10Mb</span>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-raised-button color="primary" (click)="signUp()">
+        Signup
+      </button>
+    </form>
+  </mat-step>
+</mat-stepper>
