@@ -4,6 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { ENVIRONMENT, QUEUES } from '@proyecto-integrado/shared';
 import { Transport } from '@nestjs/microservices';
+import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +22,9 @@ async function bootstrap() {
   });
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
+  app.use(bodyParser.json({ limit: '50mb' }));
+  app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
   const port = ENVIRONMENT.GATEWAY_PORT || 3000;
   await app.startAllMicroservices();
   await app.listen(port);
