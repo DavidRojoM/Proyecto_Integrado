@@ -15,6 +15,30 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'parties',
+    loadChildren: () =>
+      import('./core/pages/parties/parties.module').then(
+        (m) => m.PartiesModule
+      ),
+    pathMatch: 'full',
+  },
+  {
+    path: 'profile',
+    loadChildren: () =>
+      import('./core/pages/profile/profile.module').then(
+        (m) => m.ProfileModule
+      ),
+    pathMatch: 'full',
+  },
+  {
+    path: 'wishlists',
+    loadChildren: () =>
+      import('./core/pages/wishlists/wishlists.module').then(
+        (m) => m.WishlistsModule
+      ),
+    pathMatch: 'full',
+  },
+  {
     path: 'backoffice',
     loadChildren: () =>
       import('./core/pages/backoffice/backoffice.module').then(
