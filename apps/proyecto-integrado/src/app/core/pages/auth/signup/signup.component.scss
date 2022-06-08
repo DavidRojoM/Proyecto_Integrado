@@ -8,6 +8,7 @@ form {
   width: 100%;
 
   ngx-file-drag-drop {
+    border-color: #505050 !important;
     min-height: 200px;
     width: 100%;
   }
@@ -20,6 +21,7 @@ form {
 mat-stepper {
   background-color: transparent;
   min-height: 500px;
+  width: 100%;
 
   mat-form-field {
     width: 70%;

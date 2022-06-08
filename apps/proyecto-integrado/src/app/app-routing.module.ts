@@ -11,8 +11,14 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () =>
-      import('./core/pages/landing/landing.module').then(
-        (m) => m.LandingModule
+      import('./core/pages/home/home.module').then((m) => m.HomeModule),
+    pathMatch: 'full',
+  },
+  {
+    path: 'backoffice',
+    loadChildren: () =>
+      import('./core/pages/backoffice/backoffice.module').then(
+        (m) => m.BackofficeModule
       ),
     pathMatch: 'full',
   },

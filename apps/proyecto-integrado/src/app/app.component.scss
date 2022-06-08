@@ -1,0 +1,124 @@
+.navigation-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  mat-toolbar {
+    background: var(--second-color);
+    color: white;
+  }
+}
+
+.is-mobile .toolbar {
+  position: fixed;
+  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+  z-index: 2;
+}
+
+h1.app-name {
+  margin-left: 8px;
+}
+
+.sidenav-container {
+  /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+     causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+  flex: 1;
+}
+
+.is-mobile .sidenav-container {
+  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+     `<body>` to be our scrolling element for mobile layouts. */
+  flex: 1 0 auto;
+}
+
+mat-sidenav {
+  margin: 16px;
+  width: 200px;
+  border-right: none;
+  background: var(--first-color);
+  color: white;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+
+.content {
+  height: calc(100vh - 96px);
+  border-radius: 10px;
+  margin: 16px 16px 16px 32px;
+  overflow: auto;
+  background-color: white;
+}
+
+mat-sidenav-container {
+  height: calc(100vh - 65px);
+  background-color: var(--forth-color);
+}
+.active-link {
+  font-weight: bold;
+  color: black !important;
+  background-color: var(--forth-color) !important;
+}
+
+.login {
+  background-color: #6abf59;
+}
+
+.logout {
+  background-color: #f44336;
+}
+
+mat-nav-list {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    .menu-button {
+      padding: 5px;
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      &:not(.active-link):hover {
+        background-color: var(--forth-color);
+        color: black;
+      }
+      mat-icon {
+        margin-top: -3px;
+        margin-right: 10px;
+      }
+    }
+
+    mat-divider {
+      width: 100%;
+      border-top-color: var(--forth-color);
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  mat-sidenav {
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .content {
+    height: 100%;
+    border-radius: 0;
+    margin: 0;
+  }
+}

@@ -1,1 +1,97 @@
-<router-outlet></router-outlet>
+<nav class="navigation-container" [class.is-mobile]="mobileQuery.matches">
+  <mat-toolbar class="toolbar">
+    <button mat-icon-button (click)="snav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="app-name">Meet n Trip</h1>
+  </mat-toolbar>
+
+  <mat-sidenav-container
+    class="sidenav-container"
+    [style.marginTop.px]="mobileQuery.matches ? 58 : 0"
+  >
+    >
+    <mat-sidenav
+      class="mat-elevation-z8"
+      #snav
+      [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [fixedInViewport]="mobileQuery.matches"
+      fixedTopGap="58"
+    >
+      <mat-nav-list>
+        <div>
+          <a
+            mat-button
+            class="menu-button"
+            routerLink="/home"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="snav.toggle()"
+          >
+            <mat-icon>home</mat-icon>
+            <span>Home</span>
+          </a>
+          <a
+            mat-button
+            class="menu-button"
+            routerLink="/profile"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="snav.toggle()"
+          >
+            <mat-icon>person</mat-icon>
+            <span>Profile</span>
+          </a>
+        </div>
+        <div>
+          <mat-divider></mat-divider>
+          <a
+            mat-button
+            class="menu-button"
+            routerLink="/info"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="snav.toggle()"
+          >
+            <mat-icon>info</mat-icon>
+            <span>Info</span>
+          </a>
+
+          <a
+            mat-button
+            class="menu-button"
+            routerLink="/help"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="snav.toggle()"
+          >
+            <mat-icon>help</mat-icon>
+            <span>Help</span>
+          </a>
+          <mat-divider></mat-divider>
+          <a
+            mat-button
+            class="menu-button login"
+            routerLink="/"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="snav.toggle()"
+          >
+            <mat-icon>login</mat-icon>
+            <span>Login</span>
+          </a>
+          <a mat-button class="menu-button logout" (click)="snav.toggle()">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </a>
+        </div>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <main class="content mat-elevation-z8">
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</nav>
