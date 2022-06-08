@@ -66,6 +66,17 @@
           </a>
         </div>
         <div>
+          <a
+            mat-button
+            class="menu-button"
+            routerLink="/backoffice"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="snav.toggle()"
+          >
+            <mat-icon>settings</mat-icon>
+            <span>Admin site</span>
+          </a>
           <mat-divider></mat-divider>
           <a
             mat-button
