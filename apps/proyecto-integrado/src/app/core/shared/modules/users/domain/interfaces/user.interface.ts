@@ -7,4 +7,6 @@ export interface User {
   bankAccount: string;
   image: string;
   role: string;
+  banned?: string;
+  status?: string;
 }
