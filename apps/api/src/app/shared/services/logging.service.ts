@@ -3,7 +3,6 @@ import { Request } from 'express';
 import { promisify } from 'util';
 import { writeFile } from 'graceful-fs';
 const promiseWriteFile = promisify(writeFile);
-//TODO: Add LoggingInterceptor
 @Injectable()
 export class LoggingService {
   async logRequest(request: Request, context: string): Promise<void> {

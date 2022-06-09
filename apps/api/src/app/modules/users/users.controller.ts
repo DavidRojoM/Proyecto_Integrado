@@ -30,7 +30,6 @@ export class UsersController {
     return this.usersService.findOne(id);
   }
 
-  //TODO: Add @File to upload images on signup
   @UseInterceptors(
     FileInterceptor('image', {
       limits: {
@@ -44,7 +43,7 @@ export class UsersController {
     @Body()
     user: UserDto
   ): Promise<Partial<UserDto>> {
-    //TODO: Add formdata validation (test front first)
+    console.log(user);
     return this.usersService.signup(user, image);
   }
 
