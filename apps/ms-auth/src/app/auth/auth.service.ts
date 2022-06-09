@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import {
+  ENVIRONMENT,
   FindUserResponse,
   LoginRequestDto,
   LoginResponse,
@@ -37,7 +38,9 @@ export class AuthService {
   async check({ access_token }: Token): Promise<LoginResponse> {
     let user;
     try {
-      user = await this.jwtService.verifyAsync<UserDto>(access_token);
+      user = await this.jwtService.verifyAsync<UserDto>(access_token, {
+        secret: ENVIRONMENT.JWT_SECRET_KEY,
+      });
     } catch (e) {
       return {
         ok: false,
@@ -109,7 +112,9 @@ export class AuthService {
     const user = { id, username, email, role };
     let access_token;
     try {
-      access_token = this.jwtService.sign(user);
+      access_token = this.jwtService.sign(user, {
+        secret: ENVIRONMENT.JWT_SECRET_KEY,
+      });
     } catch (e) {
       return {
         ok: false,
