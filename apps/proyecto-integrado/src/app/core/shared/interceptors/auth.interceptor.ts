@@ -31,11 +31,12 @@ export class AuthInterceptor implements HttpInterceptor {
           (res?.url?.includes(environment.GATEWAY_URL) ||
             res?.url?.includes(environment.IMAGES_URL))
         ) {
-          const headers = res.headers;
-          if (headers.get('authorization')) {
+          const authorization = res.headers.get('authorization');
+          console.log('front interceptor authorization', authorization);
+          if (authorization) {
             this.localStorageService.setItem(
               'access_token',
-              headers.get('authorization').split(' ')[1]
+              authorization.split(' ')[1]
             );
           }
         }
