@@ -8,6 +8,10 @@ const routes: Routes = [
     component: PartiesComponent,
     pathMatch: 'full',
   },
+  {
+    path: '**',
+    redirectTo: '/notfound',
+  },
 ];
 
 @NgModule({
