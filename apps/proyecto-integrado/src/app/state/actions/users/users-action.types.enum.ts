@@ -1,8 +1,4 @@
 export enum UsersActionTypes {
-  CREATE_USER_REQUEST = '[Users] Create User Request',
-  CREATE_USER_SUCCESS = '[Users] Create User Success',
-  CREATE_USER_FAILURE = '[Users] Create User Failure',
-
   GET_USERS_REQUEST = '[Users] Get Users Request',
   GET_USERS_SUCCESS = '[Users] Get Users Success',
   GET_USERS_FAILURE = '[Users] Get Users Failure',
