@@ -4,6 +4,10 @@
       <mat-icon>menu</mat-icon>
     </button>
     <h1 class="app-name">Meet n Trip</h1>
+    <!--    TODO: CURRENCY OBSERVABLE-->
+    <span *ngIf="isAuhenticated | async" class="balance">
+      {{ 10 | currency: 'EUR' }}</span
+    >
   </mat-toolbar>
 
   <mat-sidenav-container
@@ -19,7 +23,7 @@
       fixedTopGap="58"
     >
       <mat-nav-list>
-        <div>
+        <div *ngIf="isAuhenticated | async">
           <a
             mat-button
             class="menu-button"
@@ -67,6 +71,7 @@
         </div>
         <div>
           <a
+            *ngIf="(isAuhenticated | async) && (isAdmin | async)"
             mat-button
             class="menu-button"
             routerLink="/backoffice"
@@ -103,6 +108,7 @@
           </a>
           <mat-divider></mat-divider>
           <a
+            *ngIf="(isAuhenticated | async) === false"
             mat-button
             class="menu-button login"
             routerLink="/"
@@ -113,10 +119,15 @@
             <mat-icon>login</mat-icon>
             <span>Login</span>
           </a>
-          <a mat-button class="menu-button logout" (click)="snav.toggle()">
+          <button
+            mat-button
+            class="menu-button logout"
+            (click)="logout(snav)"
+            *ngIf="isAuhenticated | async"
+          >
             <mat-icon>logout</mat-icon>
             <span>Logout</span>
-          </a>
+          </button>
         </div>
       </mat-nav-list>
     </mat-sidenav>

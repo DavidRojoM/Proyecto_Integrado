@@ -10,6 +10,20 @@
   mat-toolbar {
     background: var(--second-color);
     color: white;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    text-align: center;
+    //flex-direction: row;
+    //justify-content: space-between;
+    //align-items: center;
+
+    .balance {
+      margin-left: auto;
+      background-color: var(--first-color);
+      padding: 5px 10px;
+      border-radius: 10px;
+      width: fit-content;
+    }
   }
 }
 
