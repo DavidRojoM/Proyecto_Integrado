@@ -7,6 +7,7 @@ import { AuthEffects } from './effects/auth/auth.effects';
 import { SharedModule } from '../core/shared/shared.module';
 import { AuthActions } from './actions/auth/auth.actions';
 import { ROOT_REDUCERS } from './app.state';
+import { PartiesEffects } from './effects/parties/parties.effects';
 
 @NgModule({
   declarations: [],
@@ -14,7 +15,7 @@ import { ROOT_REDUCERS } from './app.state';
     SharedModule,
     CommonModule,
     StoreModule.forRoot(ROOT_REDUCERS),
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([AuthEffects, PartiesEffects]),
     StoreDevtoolsModule.instrument(),
   ],
   providers: [
