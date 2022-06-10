@@ -14,6 +14,7 @@ export class BalanceEntity {
 
   @Column({
     type: 'decimal',
+    default: 0,
   })
   amount: number;
 

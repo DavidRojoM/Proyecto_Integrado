@@ -65,7 +65,9 @@ export class UserEntity {
   @OneToMany((type) => MessageEntity, (message) => message.user)
   messages: MessageEntity[];
 
-  @OneToOne((type) => BalanceEntity, (balance) => balance.user)
+  @OneToOne((type) => BalanceEntity, (balance) => balance.user, {
+    cascade: true,
+  })
   balance: BalanceEntity;
 
   @OneToMany((type) => UserWishlistEntity, (userWishlist) => userWishlist.user)
