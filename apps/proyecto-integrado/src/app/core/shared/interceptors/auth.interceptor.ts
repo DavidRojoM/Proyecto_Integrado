@@ -1,18 +1,25 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpRequest,
-  HttpHandler,
   HttpEvent,
+  HttpEventType,
+  HttpHandler,
   HttpInterceptor,
+  HttpRequest,
   HttpStatusCode,
 } from '@angular/common/http';
 import { catchError, Observable, tap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { LocalStorageService } from '../services/local-storage.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../state/interfaces/app.state.interface';
+import { AuthActions } from '../../../state/actions/auth/auth.actions';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private readonly localStorageService: LocalStorageService) {}
+  constructor(
+    private readonly localStorageService: LocalStorageService,
+    private readonly store$: Store<AppState>
+  ) {}
 
   intercept(
     request: HttpRequest<unknown>,
@@ -24,15 +31,15 @@ export class AuthInterceptor implements HttpInterceptor {
         `Bearer ${this.localStorageService.getItem('access_token')}`
       ),
     });
+
     return next.handle(newReq).pipe(
-      tap((res: any) => {
+      tap((res: HttpEvent<any>) => {
         if (
-          res.type === 4 &&
+          res.type === HttpEventType.Response &&
           (res?.url?.includes(environment.GATEWAY_URL) ||
             res?.url?.includes(environment.IMAGES_URL))
         ) {
           const authorization = res.headers.get('authorization');
-          console.log('front interceptor authorization', authorization);
           if (authorization) {
             this.localStorageService.setItem(
               'access_token',
@@ -43,7 +50,7 @@ export class AuthInterceptor implements HttpInterceptor {
       }),
       catchError((err: any) => {
         if (err.status === HttpStatusCode.Unauthorized) {
-          //store logout
+          this.store$.dispatch(AuthActions.logoutRequest());
         }
         return next.handle(newReq);
       })
