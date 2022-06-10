@@ -61,3 +61,4 @@ export * from './lib/database/repositories/users.repository';
 export * from './lib/database/repositories/parties.repository';
 export * from './lib/database/repositories/user-parties.repository';
 export * from './lib/database/repositories/messages.repository';
+export * from './lib/database/repositories/balances.repository';

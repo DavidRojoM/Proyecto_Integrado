@@ -17,6 +17,7 @@ export class User {
   bankAccount: string;
   userParties?: UserParty[];
   messages?: Message[];
+  balance?: number;
 
   static modelToEntity(user: User): UserEntity {
     const entity = new UserEntity();
@@ -50,7 +51,7 @@ export class User {
     model.image = user.image;
     model.nationality = user.nationality;
     model.bankAccount = user.bankAccount;
-
+    model.balance = user?.balance?.amount;
     model.userParties = user?.userParties?.map((userParty) =>
       UserParty.entityToModel(userParty)
     );
@@ -68,6 +69,7 @@ export class User {
     dto.password = userModel.password;
     dto.role = userModel.role;
     dto.banned = userModel.banned;
+    dto.balance = userModel.balance;
     dto.image = userModel.image;
     dto.bankAccount = userModel.bankAccount;
     dto.nationality = userModel.nationality;
@@ -88,6 +90,7 @@ export class User {
     model.id = user.id;
     model.email = user.email;
     model.username = user.username;
+    model.balance = user.balance;
     model.password = user.password;
     model.role = user.role;
     model.banned = user.banned;
