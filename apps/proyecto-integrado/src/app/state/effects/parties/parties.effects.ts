@@ -4,7 +4,6 @@ import { PartiesService } from '../../../core/shared/modules/parties/services/pa
 import { SnackbarService } from '../../../core/shared/services/snackbar.service';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { PartiesActionTypes } from '../../actions/parties/parties-action.types.enum';
-import { AuthActionTypes } from '../../actions/auth/auth-action.types.enum';
 
 @Injectable()
 export class PartiesEffects {
@@ -36,7 +35,7 @@ export class PartiesEffects {
   findAllFailure$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(AuthActionTypes.CHECK_AUTH_FAILURE),
+        ofType(PartiesActionTypes.GET_PARTIES_FAILURE),
         tap(() => {
           this.snackbarService.open(
             'Error while retrieving parties',

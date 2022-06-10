@@ -42,7 +42,6 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActionTypes.LOGIN_SUCCESS),
         tap(({ loginResponse }: any) => {
-          console.log('loginSuccess$', loginResponse);
           this.localStorageService.setItem(
             'access_token',
             loginResponse.access_token
@@ -115,7 +114,6 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActionTypes.CHECK_AUTH_SUCCESS),
         tap(({ loginResponse }: any) => {
-          console.log('checkSuccess', loginResponse);
           this.localStorageService.setItem(
             'access_token',
             loginResponse.access_token
