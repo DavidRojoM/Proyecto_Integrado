@@ -9,6 +9,7 @@ import {
   selectIsAdmin,
   selectIsAuthenticated,
 } from './state/selectors/auth/auth.selectors';
+import { selectBalances } from './state/selectors/balances/balances.selectors';
 
 @Component({
   selector: 'proyecto-integrado-root',
@@ -18,6 +19,7 @@ import {
 export class AppComponent implements OnDestroy {
   isAuhenticated!: Observable<boolean>;
   isAdmin!: Observable<boolean>;
+  userBalances!: Observable<number>;
 
   mobileQuery: MediaQueryList;
 
@@ -33,6 +35,7 @@ export class AppComponent implements OnDestroy {
     this.mobileQuery.addListener(this._mobileQueryListener);
     this.isAuhenticated = this.store$.select(selectIsAuthenticated);
     this.isAdmin = this.store$.select(selectIsAdmin);
+    this.userBalances = this.store$.select(selectBalances);
   }
 
   ngOnDestroy(): void {

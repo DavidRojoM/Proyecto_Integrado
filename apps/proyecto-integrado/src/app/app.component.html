@@ -6,7 +6,7 @@
     <h1 class="app-name">Meet n Trip</h1>
     <!--    TODO: CURRENCY OBSERVABLE-->
     <span *ngIf="isAuhenticated | async" class="balance">
-      {{ 10 | currency: 'EUR' }}</span
+      {{ userBalances | async | currency: 'EUR' }}</span
     >
   </mat-toolbar>
 
