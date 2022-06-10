@@ -5,6 +5,7 @@ import {
   IsBoolean,
   IsEmail,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   ValidateNested,
@@ -67,5 +68,10 @@ export class UserDto {
   messages?: MessageDto[];
 
   @IsOptional()
+  @IsString()
   status?: string;
+
+  @IsOptional()
+  @IsNumber()
+  balance?: number;
 }
