@@ -45,18 +45,7 @@ export class AuthInterceptor implements NestInterceptor {
       'authorization',
       `Bearer ${loginResponse.value.access_token}`
     );
-    return next
-      .handle()
-      .pipe
-      // tap(() => {
-      //   context
-      //     .switchToHttp()
-      //     .getResponse()
-      //     .setHeader(
-      //       'authorization',
-      //       `Bearer ${loginResponse.value.access_token}`
-      //     );
-      // })
-      ();
+    response.setHeader('Access-Control-Expose-Headers', '*');
+    return next.handle();
   }
 }
