@@ -9,4 +9,5 @@ export interface User {
   role: string;
   banned?: string;
   status?: string;
+  balance?: number;
 }
