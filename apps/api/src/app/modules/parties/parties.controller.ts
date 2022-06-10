@@ -1,11 +1,14 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
 import { PartiesService } from './parties.service';
 import {
   JoinPartyDto,
   PartyDto,
   UserPartyDto,
 } from '@proyecto-integrado/shared';
+import { LoggingInterceptor } from '../../shared/interceptors/logging.interceptor';
+import { AuthInterceptor } from '../auth/interceptors/auth.interceptor';
 
+@UseInterceptors(LoggingInterceptor, AuthInterceptor)
 @Controller('parties')
 export class PartiesController {
   constructor(private readonly partiesService: PartiesService) {}
