@@ -1,4 +1,5 @@
 import {
+  BalanceEntity,
   FindUser,
   InsertUser,
   User,
@@ -10,9 +11,23 @@ import { EntityRepository, Repository } from 'typeorm';
 export class UsersRepository extends Repository<UserEntity> {
   async addOne(user: User): Promise<InsertUser> {
     const entity = User.modelToEntity(user);
+    entity.balance = new BalanceEntity();
 
     try {
-      await this.insert(entity);
+      const exists = await this.findByUsernameOrEmail(
+        entity.username,
+        entity.email
+      );
+      if (exists) {
+        return {
+          ok: false,
+          error: {
+            statusCode: 400,
+            statusText: 'User already exists',
+          },
+        };
+      }
+      await this.save(entity);
     } catch (e) {
       return {
         ok: false,
@@ -31,12 +46,12 @@ export class UsersRepository extends Repository<UserEntity> {
   async findOneByUsername(username: string): Promise<FindUser> {
     const result = await this.createQueryBuilder('user')
       .select()
+      .leftJoinAndSelect('user.balance', 'balance')
       .leftJoinAndSelect('user.userParties', 'userParties')
       .leftJoinAndSelect('userParties.party', 'party')
       .leftJoinAndSelect('user.messages', 'messages')
       .where('user.username = :username', { username })
       .getOne();
-
     if (!result) {
       return {
         ok: false,
@@ -76,5 +91,15 @@ export class UsersRepository extends Repository<UserEntity> {
       ok: true,
       value: User.entityToModel(result),
     };
+  }
+
+  private async findByUsernameOrEmail(
+    username: string,
+    email: string
+  ): Promise<UserEntity | undefined> {
+    return this.createQueryBuilder()
+      .select()
+      .where('username = :username OR email = :email', { username, email })
+      .getOne();
   }
 }
