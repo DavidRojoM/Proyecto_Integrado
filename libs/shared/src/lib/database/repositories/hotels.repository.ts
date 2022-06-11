@@ -29,4 +29,15 @@ export class HotelsRepository extends Repository<HotelEntity> {
       value: Hotel.entityToModel(insertedEntity),
     };
   }
+
+  async findById(id: number) {
+    const result = await this.createQueryBuilder('hotel')
+      .select()
+      .where('hotel.id = :id', { id })
+      .getOne();
+    if (!result) {
+      return null;
+    }
+    return Hotel.entityToModel(result);
+  }
 }
