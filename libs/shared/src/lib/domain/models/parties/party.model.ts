@@ -52,7 +52,7 @@ export class Party {
       Message.modelToDto(message)
     );
     if (party.trip) {
-      dto.trip = Trip.modelToDto(party.trip);
+      dto.trip = party.trip;
     }
     dto.users = party?.users?.map((userParty) => {
       return User.modelToDto({
