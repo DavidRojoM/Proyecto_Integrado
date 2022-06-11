@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from '../../shared/modules/users/domain/interfaces/user.interface';
 import { Credentials } from '../../shared/modules/auth/domain/credentials.interface';
 import { MatTabGroup } from '@angular/material/tabs';
@@ -11,10 +11,12 @@ import { selectUserAdded } from '../../../state/selectors/auth/auth.selectors';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
   @ViewChild('tabs') tabGroup!: MatTabGroup;
-  constructor(private readonly store$: Store<any>) {
-    store$.select(selectUserAdded).subscribe((isAdded) => {
+  constructor(private readonly store$: Store<any>) {}
+
+  ngOnInit(): void {
+    this.store$.select(selectUserAdded).subscribe((isAdded) => {
       if (isAdded) {
         this.tabGroup.selectedIndex = 0;
       }

@@ -89,6 +89,9 @@ export class SignupComponent implements OnInit {
       };
 
       this.signupEmitter.emit(user);
+      this.firstFormGroup.reset();
+      this.secondFormGroup.reset();
+      this.thirdFormGroup.reset();
     }
   }
 
