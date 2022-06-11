@@ -1,4 +1,5 @@
 import { User } from '../../users/domain/interfaces/user.interface';
+import { Trip } from '../../trips/domain/trips.interface';
 
 export interface PartyInput {
   id: string;
@@ -9,4 +10,5 @@ export interface PartyOutput {
   id: string;
   name: string;
   users: User[];
+  trip: Trip;
 }
