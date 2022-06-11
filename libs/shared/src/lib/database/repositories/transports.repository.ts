@@ -33,4 +33,15 @@ export class TransportsRepository extends Repository<TransportEntity> {
       value: Transport.entityToModel(insertedEntity),
     };
   }
+
+  async findById(id: number) {
+    const result = await this.createQueryBuilder('transport')
+      .select()
+      .where('transport.id = :id', { id })
+      .getOne();
+    if (!result) {
+      return null;
+    }
+    return Transport.entityToModel(result);
+  }
 }
