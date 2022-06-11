@@ -30,6 +30,7 @@ export const authReducers = createReducer(
   on(AuthActions.signupRequest, (state) => ({
     ...state,
     loading: true,
+    userAdded: false,
   })),
   on(AuthActions.signupSuccess, (state) => ({
     ...state,
