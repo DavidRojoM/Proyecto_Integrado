@@ -4,6 +4,7 @@ import { UserPartyDto } from '../users/user-party.dto';
 import { IsArray, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { UserDto } from '../users/user.dto';
+import { Trip } from '../../models/trips/trip.model';
 
 export class PartyDto {
   @IsString()
@@ -12,9 +13,10 @@ export class PartyDto {
   @IsString()
   name: string;
 
-  @IsOptional()
-  @Type(() => TripDto)
-  trip: TripDto;
+  // @IsOptional()
+  // @Type(() => TripDto)
+  // trip: TripDto;
+  trip: Trip;
 
   @IsOptional()
   @IsArray()

@@ -19,7 +19,7 @@ export type FindAllDestinationsResponse = Result<
   ErrorPayload
 >;
 
-export type InsertTripResponse = Result<TripDto, ErrorPayload>;
+export type InsertTripResponse = Result<Trip, ErrorPayload>;
 export type InsertTransportResponse = Result<TransportDto, ErrorPayload>;
 export type InsertHotelResponse = Result<HotelDto, ErrorPayload>;
 export type InsertDestinationResponse = Result<DestinationDto, ErrorPayload>;
