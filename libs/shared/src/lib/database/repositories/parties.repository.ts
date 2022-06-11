@@ -59,6 +59,9 @@ export class PartiesRepository extends Repository<PartyEntity> {
     try {
       result = await this.createQueryBuilder('party')
         .leftJoinAndSelect('party.trip', 'trip')
+        .leftJoinAndSelect('trip.destination', 'destination')
+        .leftJoinAndSelect('trip.hotel', 'hotel')
+        .leftJoinAndSelect('trip.transport', 'transport')
         .leftJoinAndSelect('party.userParties', 'userParties')
         .leftJoinAndSelect('userParties.user', 'user')
         .getMany();
