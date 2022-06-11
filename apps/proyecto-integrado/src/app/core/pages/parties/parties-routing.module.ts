@@ -1,13 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PartiesComponent } from './parties.component';
+import { PartyComponent } from '../party/party.component';
 
 const routes: Routes = [
   {
+    path: 'details/:id',
+    component: PartyComponent,
+  },
+  {
     path: '',
     component: PartiesComponent,
-    pathMatch: 'full',
   },
+
   {
     path: '**',
     redirectTo: '/notfound',

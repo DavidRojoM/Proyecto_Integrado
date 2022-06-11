@@ -4,6 +4,7 @@ import { AppState } from '../../../state/interfaces/app.state.interface';
 import { PartiesActions } from '../../../state/actions/parties/parties.actions';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { PartyOutput } from '../../shared/modules/parties/domain/parties.interface';
+import { selectParties } from '../../../state/selectors/parties/parties.selectors';
 
 @Component({
   selector: 'proyecto-integrado-parties',
@@ -23,7 +24,7 @@ export class PartiesComponent implements OnInit {
     );
 
     this.myParties$ = this.store$
-      .select((state) => state.parties.parties)
+      .select(selectParties)
       .pipe(
         map((parties) =>
           parties.filter((party) =>
@@ -32,18 +33,16 @@ export class PartiesComponent implements OnInit {
         )
       );
 
-    this.allParties$ = this.store$
-      .select((state) => state.parties.parties)
-      .pipe(
-        map((parties) =>
-          parties.filter((party) => {
-            if (!party.users.length) {
-              return true;
-            }
-            return party.users.some((user) => user.id !== userId);
-          })
-        )
-      );
+    this.allParties$ = this.store$.select(selectParties).pipe(
+      map((parties) =>
+        parties.filter((party) => {
+          if (!party.users.length) {
+            return true;
+          }
+          return !party.users.some((user) => user.id === userId);
+        })
+      )
+    );
     // this.parties$ = this.store$.select((state) => state.parties.parties);
   }
 }

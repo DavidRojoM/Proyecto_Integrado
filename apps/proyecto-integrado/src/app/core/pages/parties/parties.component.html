@@ -1,1 +1,19 @@
-<p>parties works!</p>
+<section class="cards">
+  <h2>My parties</h2>
+  <div class="party-cards">
+    <proyecto-integrado-party-card
+      [userInParty]="true"
+      *ngFor="let party of myParties$ | async"
+      [party]="party"
+    ></proyecto-integrado-party-card>
+  </div>
+  <mat-divider></mat-divider>
+  <h2>Parties</h2>
+  <div class="party-cards">
+    <proyecto-integrado-party-card
+      [userInParty]="false"
+      *ngFor="let party of allParties$ | async"
+      [party]="party"
+    ></proyecto-integrado-party-card>
+  </div>
+</section>
