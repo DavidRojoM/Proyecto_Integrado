@@ -35,4 +35,15 @@ export class DestinationsRepository extends Repository<DestinationEntity> {
       value: Destination.entityToModel(insertedEntity),
     };
   }
+
+  async findById(id: number) {
+    const result = await this.createQueryBuilder('destination')
+      .select()
+      .where('destination.id = :id', { id })
+      .getOne();
+    if (!result) {
+      return null;
+    }
+    return Destination.entityToModel(result);
+  }
 }
