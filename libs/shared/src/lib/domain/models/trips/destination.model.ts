@@ -8,6 +8,7 @@ export class Destination {
 
   static modelToEntity(destination: Destination): DestinationEntity {
     const entity = new DestinationEntity();
+    entity.id = destination.id;
     entity.name = destination.name;
     entity.description = destination.description;
     return entity;
