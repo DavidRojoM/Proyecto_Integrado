@@ -124,7 +124,7 @@ export class AuthEffects {
             'username',
             loginResponse.user.username
           );
-          this.router.navigate(['/home']);
+          // this.router.navigate(['/home']);
         })
       ),
     {
