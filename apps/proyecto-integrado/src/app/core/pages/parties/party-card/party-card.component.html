@@ -1,0 +1,57 @@
+<article class="card-container">
+  <header class="card-header">
+    <h3>
+      {{ party.name }}
+    </h3>
+    <span
+      ><span *ngIf="countryFlag"> Destination: {{ countryFlag }} </span>
+    </span>
+  </header>
+  <div class="card-content">
+    <div class="party-users-container">
+      <ul class="party-users">
+        <li *ngFor="let user of readyUsers" class="ready-user">
+          <img src="{{ user.image }}" alt="avatar of {{ user.username }}" />
+        </li>
+        <li class="pending-user" *ngFor="let user of pendingUsers">
+          <img src="{{ user.image }}" alt="avatar of {{ user.username }}" />
+        </li>
+      </ul>
+      <div class="party-organizer">
+        <div class="party-organizer-content" *ngIf="organizer">
+          <span>Organizer</span>
+          <img
+            src="{{ organizer.image }}"
+            alt="avatar of {{ organizer.username }}"
+            class="organizer-avatar"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="buttons-container">
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="Example icon-button with a menu"
+        class="card-menu-button"
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </div>
+  </div>
+</article>
+
+<mat-menu #menu="matMenu" yPosition="below">
+  <button mat-menu-item *ngIf="!userInParty">
+    <mat-icon>start</mat-icon>
+    <span>Join Party</span>
+  </button>
+  <button mat-menu-item *ngIf="userInParty">
+    <mat-icon>not_interested</mat-icon>
+    <span>Leave Party</span>
+  </button>
+  <button mat-menu-item routerLink="details/{{ party.id }}">
+    <mat-icon>remove_red_eye</mat-icon>
+    <span>Take a look</span>
+  </button>
+</mat-menu>
