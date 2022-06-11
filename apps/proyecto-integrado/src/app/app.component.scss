@@ -61,6 +61,7 @@ mat-sidenav {
 }
 
 .content {
+  padding: 20px 20px;
   height: calc(100vh - 96px);
   border-radius: 10px;
   margin: 16px 16px 16px 32px;
@@ -125,14 +126,22 @@ mat-nav-list {
 }
 
 @media screen and (max-width: 768px) {
-  mat-sidenav {
-    margin: 0;
-    border-radius: 0;
-  }
+  .navigation-container {
+    mat-toolbar {
+      .balance {
+        padding: 3px 6px;
+      }
+    }
 
-  .content {
-    height: 100%;
-    border-radius: 0;
-    margin: 0;
+    mat-sidenav {
+      margin: 0;
+      border-radius: 0;
+    }
+
+    .content {
+      height: 100%;
+      border-radius: 0;
+      margin: 0;
+    }
   }
 }
