@@ -3,16 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: '',
-    loadChildren: () =>
-      import('./core/pages/auth/auth.module').then((m) => m.AuthModule),
-    pathMatch: 'full',
-  },
-  {
     path: 'home',
     loadChildren: () =>
       import('./core/pages/home/home.module').then((m) => m.HomeModule),
-    pathMatch: 'full',
+    // pathMatch: 'full',
   },
   {
     path: 'parties',
@@ -20,7 +14,7 @@ const routes: Routes = [
       import('./core/pages/parties/parties.module').then(
         (m) => m.PartiesModule
       ),
-    pathMatch: 'full',
+    // pathMatch: 'full',
   },
   {
     path: 'profile',
@@ -28,7 +22,7 @@ const routes: Routes = [
       import('./core/pages/profile/profile.module').then(
         (m) => m.ProfileModule
       ),
-    pathMatch: 'full',
+    // pathMatch: 'full',
   },
   {
     path: 'wishlists',
@@ -36,7 +30,7 @@ const routes: Routes = [
       import('./core/pages/wishlists/wishlists.module').then(
         (m) => m.WishlistsModule
       ),
-    pathMatch: 'full',
+    // pathMatch: 'full',
   },
   {
     path: 'backoffice',
@@ -44,7 +38,7 @@ const routes: Routes = [
       import('./core/pages/backoffice/backoffice.module').then(
         (m) => m.BackofficeModule
       ),
-    pathMatch: 'full',
+    // pathMatch: 'full',
   },
   {
     path: 'notfound',
@@ -52,7 +46,13 @@ const routes: Routes = [
       import('./core/pages/not-found/not-found.module').then(
         (m) => m.NotFoundModule
       ),
-    pathMatch: 'full',
+    // pathMatch: 'full',
+  },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./core/pages/auth/auth.module').then((m) => m.AuthModule),
+    // pathMatch: 'full',
   },
   {
     path: '**',
