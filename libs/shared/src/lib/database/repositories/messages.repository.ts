@@ -44,11 +44,10 @@ export class MessagesRepository extends Repository<MessageEntity> {
   async findByPartyId(id: string): Promise<FindMessages> {
     const result = await this.createQueryBuilder('message')
       .select()
-      .leftJoin('message.party', 'party')
+      .leftJoinAndSelect('message.party', 'party')
       .leftJoinAndSelect('message.user', 'user')
       .where('party.id = :id', { id })
       .getMany();
-
     return {
       ok: true,
       value: result.map((message) => Message.entityToModel(message)),
