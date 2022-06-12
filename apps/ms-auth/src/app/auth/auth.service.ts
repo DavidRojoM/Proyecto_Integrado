@@ -36,9 +36,9 @@ export class AuthService {
   }
 
   async check({ access_token }: Token): Promise<LoginResponse> {
-    let user;
+    let userFromToken;
     try {
-      user = await this.jwtService.verifyAsync<UserDto>(access_token, {
+      userFromToken = await this.jwtService.verifyAsync<UserDto>(access_token, {
         secret: ENVIRONMENT.JWT_SECRET_KEY,
       });
     } catch (e) {
@@ -51,7 +51,26 @@ export class AuthService {
       };
     }
 
-    return this.generateSign(user);
+    const response = await firstValueFrom(
+      this.usersProxy.send<FindUserResponse, Partial<LoginRequestDto>>(
+        PayloadActions.USERS.FIND_BY_USERNAME,
+        {
+          username: userFromToken.username,
+        }
+      )
+    );
+
+    if (response.ok === false) {
+      return {
+        ok: false,
+        error: {
+          statusCode: 401,
+          statusText: 'Invalid token',
+        },
+      };
+    }
+
+    return this.generateSign(response.value);
   }
 
   private async validateUser(
@@ -76,6 +95,7 @@ export class AuthService {
         },
       };
     }
+    console.log(response.value.parties);
 
     if (response.value.banned) {
       return {
@@ -114,8 +134,22 @@ export class AuthService {
     email,
     role,
     balance,
+    parties,
+    nationality,
+    bankAccount,
+    image,
   }: UserDto): LoginResponse {
-    const user = { id, username, email, role, balance };
+    const user = {
+      id,
+      username,
+      email,
+      role,
+      balance,
+      parties,
+      nationality,
+      bankAccount,
+      image,
+    };
     let access_token;
     try {
       access_token = this.jwtService.sign(user, {
