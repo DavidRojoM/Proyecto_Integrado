@@ -1,6 +1,7 @@
 import { AppState } from '../../interfaces/app.state.interface';
 import { createSelector } from '@ngrx/store';
 import { AuthState } from '../../interfaces/auth.state.interface';
+import { User } from '../../../core/shared/modules/users/domain/interfaces/user.interface';
 
 const selectAuthFeature = (state: AppState) => state.auth;
 
@@ -21,7 +22,7 @@ export const selectError = createSelector(
 
 export const selectUser = createSelector(
   selectAuthFeature,
-  (authState: AuthState) => authState.user
+  (authState: AuthState) => authState.user as User
 );
 
 export const selectUserAdded = createSelector(
