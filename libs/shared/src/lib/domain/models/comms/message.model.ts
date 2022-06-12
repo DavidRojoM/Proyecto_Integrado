@@ -75,6 +75,7 @@ export class Message {
     output.message = message.message;
     output.createdAt = message.createdAt.toString();
     output.user = User.modelToOutput(message.user);
+    output.partyId = message.party.id;
     // output.party = message.party;
     return output;
   }

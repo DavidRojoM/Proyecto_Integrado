@@ -7,7 +7,4 @@ export class PartyOutput {
 
   @Field()
   username: string;
-
-  @Field()
-  image: string;
 }
