@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PartiesComponent } from './parties.component';
-import { PartyComponent } from '../party/party.component';
+import { PartyComponent } from './party/party.component';
 
 const routes: Routes = [
   {

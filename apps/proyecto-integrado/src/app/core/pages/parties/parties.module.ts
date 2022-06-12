@@ -5,11 +5,25 @@ import { PartiesRoutingModule } from './parties-routing.module';
 import { PartiesComponent } from './parties.component';
 import { PartyCardComponent } from './party-card/party-card.component';
 import { MaterialModule } from '../../shared/modules/material/material.module';
-import { PartyComponent } from '../party/party.component';
+import { PartyComponent } from './party/party.component';
+import { ChatComponent } from './party/chat/chat.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
-  declarations: [PartiesComponent, PartyCardComponent, PartyComponent],
-  imports: [CommonModule, PartiesRoutingModule, MaterialModule],
+  declarations: [
+    PartiesComponent,
+    PartyCardComponent,
+    PartyComponent,
+    ChatComponent,
+  ],
+  imports: [
+    CommonModule,
+    PartiesRoutingModule,
+    MaterialModule,
+    ReactiveFormsModule,
+    SharedModule,
+  ],
   providers: [],
 })
 export class PartiesModule {}
