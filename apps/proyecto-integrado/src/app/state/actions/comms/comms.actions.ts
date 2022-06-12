@@ -17,7 +17,7 @@ export const CommsActions = {
   ),
   loadMessagesSuccess: createAction(
     CommsActionTypes.LOAD_MESSAGES_SUCCESS,
-    props<{ messages: MessageOutput[] }>()
+    props<{ partyId: string; messages: MessageOutput[] }>()
   ),
   loadMessagesFailure: createAction(
     CommsActionTypes.LOAD_MESSAGES_FAILURE,
@@ -26,6 +26,6 @@ export const CommsActions = {
 
   loadMessageSuccess: createAction(
     CommsActionTypes.LOAD_MESSAGE_SUCCESS,
-    props<{ message: MessageOutput }>()
+    props<{ partyId: string; message: MessageOutput }>()
   ),
 };
