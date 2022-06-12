@@ -3,9 +3,6 @@ import { UserOutput } from '../users/user.output';
 
 @ObjectType()
 export class MessageOutput {
-  // @Field()
-  // party: Party;
-
   @Field()
   user: UserOutput;
 
@@ -14,4 +11,7 @@ export class MessageOutput {
 
   @Field()
   message: string;
+
+  @Field()
+  partyId: string;
 }
