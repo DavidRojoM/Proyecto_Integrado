@@ -8,6 +8,7 @@ export interface MessageInput {
 
 export interface MessageOutput {
   user: Partial<User>;
-  createdAt: string;
   message: string;
+  partyId: string;
+  createdAt: Date;
 }
