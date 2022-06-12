@@ -1,0 +1,62 @@
+section {
+  .party-header {
+    padding: 0 20px;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    h1 {
+      font-size: 2rem;
+      color: #aaa;
+      display: block;
+      width: fit-content;
+    }
+    .party-users {
+      width: 100%;
+      height: 100%;
+
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 20px;
+      list-style: none;
+
+      .party-user {
+        div {
+          aspect-ratio: 1/1;
+          width: 50px;
+          border-radius: 50%;
+          background-size: cover;
+        }
+      }
+    }
+  }
+
+  .party-content {
+    background-color: yellow;
+    display: grid;
+    height: 600px;
+    grid-template-columns: repeat(2, 1fr);
+
+    .party-trip {
+      background-color: red;
+    }
+
+    .party-chat-container {
+      background-color: green;
+
+      .not-in-party {
+        height: 100%;
+        display: grid;
+        place-content: center;
+        font-size: 2rem;
+        color: #aaa;
+        text-align: center;
+        line-height: 50px;
+      }
+    }
+  }
+}

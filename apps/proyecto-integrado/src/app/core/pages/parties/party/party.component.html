@@ -1,0 +1,31 @@
+<section *ngIf="party$ | async as party">
+  <header class="party-header">
+    <h1>{{ party.name | titlecase }}</h1>
+    <ul class="party-users">
+      <li *ngFor="let user of party.users" class="party-user">
+        <div
+          [style.background-image]="'url(' + user.image + ')'"
+          [matBadge]="userStatusMap[user.status || 'PENDING']"
+          matBadgeColor="primary"
+          matTooltip="{{ user.username }}"
+        ></div>
+      </li>
+    </ul>
+  </header>
+  <mat-divider></mat-divider>
+  <article class="party-content">
+    <div class="party-trip"></div>
+    <div class="party-chat-container">
+      <div *ngIf="imInParty; else notInParty" class="chat">
+        <proyecto-integrado-chat
+          [me]="me"
+          [messages$]="message$"
+          (sendMessageEmitter)="sendMessage($event)"
+        ></proyecto-integrado-chat>
+      </div>
+      <ng-template #notInParty>
+        <div class="not-in-party">You must join this party to chat</div>
+      </ng-template>
+    </div>
+  </article>
+</section>
