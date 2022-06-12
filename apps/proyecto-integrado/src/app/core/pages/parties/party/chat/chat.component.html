@@ -1,0 +1,30 @@
+<section class="message-section">
+  <div
+    [ngClass]="me.id === message.user.id ? 'my-message' : 'others-message'"
+    class="message"
+    *ngFor="let message of messages$ | async"
+  >
+    <span class="message-author"
+      ><b>{{
+        me.id === message.user.id ? 'Me' : (message.user.username | titlecase)
+      }}</b></span
+    >
+
+    <p>{{ message.message }}</p>
+  </div>
+</section>
+<form
+  class="new-message-section"
+  (submit)="sendMessage($event)"
+  [formGroup]="form"
+>
+  <input
+    placeholder="Type your message here..."
+    type="text"
+    name="content"
+    id="content"
+    formControlName="message"
+    autofocus
+    autocomplete="off"
+  />
+</form>

@@ -1,0 +1,53 @@
+.message-section {
+  background-image: url('https://i.pinimg.com/originals/1f/54/47/1f5447d16ee1f959caf0345fc489febb.jpg');
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-y: scroll;
+  height: 600px;
+
+  &::-webkit-scrollbar {
+    width: 20px;
+  }
+
+  .my-message {
+    background-color: #eeffde;
+    align-self: end;
+  }
+
+  .others-message {
+    background-color: #ffffff;
+    align-self: start;
+  }
+
+  .message {
+    width: 200px;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 5px;
+    box-shadow: 0 0 10px 1px #888;
+
+    .message-author {
+      display: block;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.new-message-section {
+  background-color: #fff;
+  height: 100px;
+  display: grid;
+  place-content: center;
+
+  input {
+    box-shadow: 0 0 10px 1px #aaa;
+    font-size: 1.1em;
+    border-radius: 10px;
+    border: 1px solid black;
+    padding: 10px;
+    width: 320px;
+    height: 50px;
+  }
+}
