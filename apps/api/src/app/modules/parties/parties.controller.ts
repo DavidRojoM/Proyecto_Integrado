@@ -8,7 +8,7 @@ import {
 import { LoggingInterceptor } from '../../shared/interceptors/logging.interceptor';
 import { AuthInterceptor } from '../auth/interceptors/auth.interceptor';
 
-@UseInterceptors(LoggingInterceptor, AuthInterceptor)
+@UseInterceptors(LoggingInterceptor)
 @Controller('parties')
 export class PartiesController {
   constructor(private readonly partiesService: PartiesService) {}

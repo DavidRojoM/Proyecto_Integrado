@@ -16,9 +16,11 @@ export class CommsResolver {
   @Query((returns) => [MessageOutput], {
     nullable: 'items',
   })
-  async findAll(@Args('partyId') partyId: string) {
+  async findAllByPartyId(@Args('partyId') partyId: string) {
     const messages = await this.commsService.findMessagesByPartyId(partyId);
-    return messages.map(Message.modelToOutput);
+    const result = messages.map(Message.modelToOutput);
+    console.log(result);
+    return result;
   }
 
   @Mutation((returns) => MessageOutput)
@@ -26,7 +28,7 @@ export class CommsResolver {
     const message = await this.commsService.sendMessage(messageInput);
     const output = Message.modelToOutput(message);
 
-    this.pubSub.publish(message.party.id, {
+    await this.pubSub.publish(message.party.id, {
       messageAdded: output,
     });
     return output;
