@@ -11,6 +11,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   declarations: [],
@@ -27,6 +29,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatListModule,
     MatToolbarModule,
     MatMenuModule,
+    MatTooltipModule,
+    MatBadgeModule,
   ],
 })
 export class MaterialModule {}
