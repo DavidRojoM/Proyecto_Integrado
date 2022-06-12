@@ -1,20 +1,20 @@
+---
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch_depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - name: Install deps
+        run: npm ci
+      - name: Run tests
+        run: npm run test:all
 name: Testing
-
-on:
+'on':
   push:
     branches:
       - main
-jobs:
-    test:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-          with:
-            fetch_depth: 0
-        - uses: actions/setup-node@v2
-          with:
-            node-version: 14
-        - name: "Install deps"
-          run: npm ci
-        -name: "Run tests"
-          - run: npm run test:all
