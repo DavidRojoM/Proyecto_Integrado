@@ -10,6 +10,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthInterceptor } from './core/shared/interceptors/auth.interceptor';
 import { StateModule } from './state/state.module';
 import { MaterialModule } from './core/shared/modules/material/material.module';
+import { GraphQLModule } from './graphql.module';
+import { ApolloModule } from 'apollo-angular';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,6 +28,8 @@ import { MaterialModule } from './core/shared/modules/material/material.module';
     BrowserAnimationsModule,
     StateModule,
     MaterialModule,
+    ApolloModule,
+    GraphQLModule,
   ],
   providers: [
     {
