@@ -6,7 +6,7 @@ jobs:
       - name: Cancel previous integration
         uses: styfle/cancel-workflow-action@0.9.1
         with:
-          access_token: ${{ github.access_token }}
+          access_token: ${{ github.token }}
       - uses: actions/checkout@v2
         with:
           fetch_depth: 0
