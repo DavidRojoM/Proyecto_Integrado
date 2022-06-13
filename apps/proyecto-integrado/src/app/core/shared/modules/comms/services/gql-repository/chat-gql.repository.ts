@@ -20,6 +20,7 @@ export class ChatGqlRepository {
           partyId,
         },
         query: findAllByPartyId,
+        fetchPolicy: 'no-cache',
       })
       .pipe(map(({ data }: any) => data.findAllByPartyId));
   }
