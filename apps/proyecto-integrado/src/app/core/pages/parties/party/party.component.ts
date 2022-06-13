@@ -21,7 +21,7 @@ export class PartyComponent implements OnInit, OnDestroy {
 
   party$!: Observable<PartyOutput>;
   message$!: Observable<MessageOutput[]>;
-  imInParty!: boolean;
+  myStatus: string | undefined;
   me!: User;
 
   chatSubscription!: Subscription;
@@ -55,7 +55,7 @@ export class PartyComponent implements OnInit, OnDestroy {
     this.initChat(this.partyId);
 
     this.party$.subscribe((party) => {
-      this.imInParty = party?.users.some((user) => user.id === this.me.id);
+      this.myStatus = party?.users.find((u) => u.id === this.me.id)?.status;
     });
   }
 
@@ -63,7 +63,9 @@ export class PartyComponent implements OnInit, OnDestroy {
     this.chatService.loadMessages(partyId);
     this.message$ = this.chatService.findAll(partyId).pipe(
       tap(() => {
-        this.chatService.scrollToBottom();
+        setTimeout(() => {
+          this.chatService.scrollToBottom();
+        }, 1);
       })
     );
     this.chatSubscription = this.chatService.messageAdded(partyId);
@@ -81,4 +83,23 @@ export class PartyComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.chatSubscription.unsubscribe();
   }
+  //TODO: IMPLEMENT
+  leaveParty() {}
+
+  joinParty() {
+    this.store$.dispatch(
+      PartiesActions.joinPartyRequest({
+        partyId: this.partyId,
+        userId: this.me.id,
+      })
+    );
+  }
+
+  organizeParty() {}
+
+  selectTrip() {}
+
+  checkout() {}
+
+  cancelCheckout() {}
 }
