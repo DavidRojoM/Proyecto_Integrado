@@ -4,13 +4,23 @@
     class="message"
     *ngFor="let message of messages$ | async"
   >
-    <span class="message-author"
-      ><b>{{
-        me.id === message.user.id ? 'Me' : (message.user.username | titlecase)
-      }}</b></span
-    >
+    <img
+      class="message-author-avatar"
+      src="{{ message.user.image }}"
+      alt="avatar of {{ message.user.username }}"
+    />
+    <div class="message-content">
+      <span class="message-author"
+        ><b>{{
+          me.id === message.user.id ? 'Me' : (message.user.username | titlecase)
+        }}</b></span
+      >
 
-    <p>{{ message.message }}</p>
+      <p>{{ message.message }}</p>
+      <span class="message-date">{{
+        message.createdAt | date: 'EEEE h:mm a':'GMT'
+      }}</span>
+    </div>
   </div>
 </section>
 <form
