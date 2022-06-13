@@ -186,7 +186,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActionTypes.SIGNUP_FAILURE),
         tap(() => {
-          this.snackbarService.open('Invalid credentials 😢', 'DISMISS', 2000);
+          this.snackbarService.open('User already exists', 'DISMISS', 2000);
         })
       ),
     {
