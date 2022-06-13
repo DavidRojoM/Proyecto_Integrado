@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PartyOutput } from '../../../shared/modules/parties/domain/parties.interface';
 import { CountryService } from '../../../shared/modules/country/services/country.service';
 import { User } from '../../../shared/modules/users/domain/interfaces/user.interface';
@@ -9,6 +9,8 @@ import { User } from '../../../shared/modules/users/domain/interfaces/user.inter
   styleUrls: ['./party-card.component.scss'],
 })
 export class PartyCardComponent implements OnInit {
+  @Output() joinPartyEvent = new EventEmitter<string>();
+  @Output() leavePartyEvent = new EventEmitter<string>();
   @Input() userInParty!: boolean;
   @Input() party!: PartyOutput;
   countryFlag!: string;
@@ -39,4 +41,11 @@ export class PartyCardComponent implements OnInit {
   // joinParty(partyId: string): {};
   //
   // leaveParty(partyId: string): {};
+  joinParty() {
+    this.joinPartyEvent.emit(this.party.id);
+  }
+
+  leaveParty() {
+    this.joinPartyEvent.emit(this.party.id);
+  }
 }
