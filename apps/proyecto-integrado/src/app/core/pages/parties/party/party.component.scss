@@ -1,4 +1,5 @@
 section {
+  height: 89%;
   .party-header {
     padding: 0 20px;
     height: 100px;
@@ -6,6 +7,7 @@ section {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    gap: 30px;
 
     h1 {
       font-size: 2rem;
@@ -14,13 +16,13 @@ section {
       width: fit-content;
     }
     .party-users {
+      padding: 0 30px;
       width: 100%;
       height: 100%;
-
       display: flex;
       flex-direction: row;
       align-items: center;
-      justify-content: flex-end;
+      justify-content: flex-start;
       gap: 20px;
       list-style: none;
 
@@ -33,30 +35,56 @@ section {
         }
       }
     }
+
+    .party-actions {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 20px;
+    }
   }
 
   .party-content {
-    background-color: yellow;
+    //background-color: yellow;
+    padding: 20px;
     display: grid;
-    height: 600px;
+    height: 100%;
     grid-template-columns: repeat(2, 1fr);
 
-    .party-trip {
-      background-color: red;
+    .party-trip-container {
+      //background-color: red;
+      border: none !important;
+
+      .mat-card-title {
+        margin-bottom: 20px;
+      }
+
+      .mat-card-xl-image {
+        aspect-ratio: 1/1;
+        width: 300px;
+        object-fit: cover;
+      }
+
+      .party-description {
+        border-radius: 10px;
+        display: block;
+        max-height: 250px;
+        overflow-y: auto;
+      }
     }
 
     .party-chat-container {
-      background-color: green;
-
-      .not-in-party {
-        height: 100%;
-        display: grid;
-        place-content: center;
-        font-size: 2rem;
-        color: #aaa;
-        text-align: center;
-        line-height: 50px;
-      }
+      border-left: 1px solid #ccc;
     }
   }
+}
+.error {
+  height: 100%;
+  display: grid;
+  place-content: center;
+  font-size: 2rem;
+  color: #aaa;
+  text-align: center;
+  line-height: 50px;
 }
