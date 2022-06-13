@@ -4,6 +4,7 @@ import {
   PartyInput,
   PartyOutput,
 } from '../../../core/shared/modules/parties/domain/parties.interface';
+import { User } from '../../../core/shared/modules/users/domain/interfaces/user.interface';
 
 export const PartiesActions = {
   createPartyRequest: createAction(
@@ -56,8 +57,8 @@ export const PartiesActions = {
     props<{ userId: string; partyId: string }>()
   ),
   joinPartySuccess: createAction(
-    PartiesActionTypes.JOIN_PARTY_SUCCESS
-    //TODO
+    PartiesActionTypes.JOIN_PARTY_SUCCESS,
+    props<{ user: User; partyId: string }>()
   ),
   joinPartyFailure: createAction(
     PartiesActionTypes.JOIN_PARTY_FAILURE,
