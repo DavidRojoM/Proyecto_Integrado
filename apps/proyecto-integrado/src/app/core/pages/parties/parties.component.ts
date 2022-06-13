@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../state/interfaces/app.state.interface';
 import { PartiesActions } from '../../../state/actions/parties/parties.actions';
-import { firstValueFrom, map, Observable } from 'rxjs';
+import { firstValueFrom, map, Observable, take } from 'rxjs';
 import { PartyOutput } from '../../shared/modules/parties/domain/parties.interface';
 import { selectParties } from '../../../state/selectors/parties/parties.selectors';
+import { selectUser } from '../../../state/selectors/auth/auth.selectors';
 
 @Component({
   selector: 'proyecto-integrado-parties',
@@ -44,5 +45,27 @@ export class PartiesComponent implements OnInit {
       )
     );
     // this.parties$ = this.store$.select((state) => state.parties.parties);
+  }
+
+  leaveParty(partyId: string) {
+    this.store$
+      .select(selectUser)
+      .pipe(take(1))
+      .subscribe((user) => {
+        this.store$.dispatch(
+          PartiesActions.leavePartyRequest({ partyId, userId: user.id })
+        );
+      });
+  }
+
+  joinParty(partyId: string) {
+    this.store$
+      .select(selectUser)
+      .pipe(take(1))
+      .subscribe((user) => {
+        this.store$.dispatch(
+          PartiesActions.joinPartyRequest({ partyId, userId: user.id })
+        );
+      });
   }
 }
