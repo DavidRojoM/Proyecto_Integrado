@@ -2,18 +2,22 @@
   <h2>My parties</h2>
   <div class="party-cards">
     <proyecto-integrado-party-card
+      class="party-card"
       [userInParty]="true"
       *ngFor="let party of myParties$ | async"
       [party]="party"
+      (leavePartyEvent)="leaveParty($event)"
     ></proyecto-integrado-party-card>
   </div>
   <mat-divider></mat-divider>
-  <h2>Parties</h2>
+  <h2>Find Parties</h2>
   <div class="party-cards">
     <proyecto-integrado-party-card
+      class="party-card"
       [userInParty]="false"
       *ngFor="let party of allParties$ | async"
       [party]="party"
+      (joinPartyEvent)="joinParty($event)"
     ></proyecto-integrado-party-card>
   </div>
 </section>
