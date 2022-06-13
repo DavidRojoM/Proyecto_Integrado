@@ -13,7 +13,7 @@ export class PartiesEffects {
     private readonly snackbarService: SnackbarService
   ) {}
 
-  findAll$ = createEffect(() =>
+  findAllRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PartiesActionTypes.GET_PARTIES_REQUEST),
       switchMap(() =>
@@ -39,6 +39,44 @@ export class PartiesEffects {
         tap(() => {
           this.snackbarService.open(
             'Error while retrieving parties',
+            'DISMISS',
+            2000
+          );
+        })
+      ),
+    {
+      dispatch: false,
+    }
+  );
+
+  joinPartyRequest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PartiesActionTypes.JOIN_PARTY_REQUEST),
+      switchMap(({ userId, partyId }) =>
+        this.partiesService.joinParty(userId, partyId).pipe(
+          map((user) => ({
+            type: PartiesActionTypes.JOIN_PARTY_SUCCESS,
+            user,
+            partyId,
+          })),
+          catchError((error) => {
+            return of({
+              type: PartiesActionTypes.JOIN_PARTY_FAILURE,
+              error,
+            });
+          })
+        )
+      )
+    )
+  );
+
+  joinPartyFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(PartiesActionTypes.JOIN_PARTY_FAILURE),
+        tap(() => {
+          this.snackbarService.open(
+            'Could not join the party',
             'DISMISS',
             2000
           );
