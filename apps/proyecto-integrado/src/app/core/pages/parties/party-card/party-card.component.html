@@ -42,11 +42,11 @@
 </article>
 
 <mat-menu #menu="matMenu" yPosition="below">
-  <button mat-menu-item *ngIf="!userInParty">
+  <button mat-menu-item *ngIf="!userInParty" (click)="joinParty()">
     <mat-icon>start</mat-icon>
     <span>Join Party</span>
   </button>
-  <button mat-menu-item *ngIf="userInParty">
+  <button mat-menu-item *ngIf="userInParty" (click)="leaveParty()">
     <mat-icon>not_interested</mat-icon>
     <span>Leave Party</span>
   </button>
