@@ -11,6 +11,7 @@ import {
   Party,
   PartyDto,
   PayloadActions,
+  RemoveUserPartyResponse,
   User,
   UserPartiesRepository,
   UserParty,
@@ -79,6 +80,42 @@ export class PartiesService {
       ok: true,
       value: UserParty.modelToDto(insertResult.value),
     };
+  }
+
+  async leaveParty(
+    joinPartyDto: JoinPartyDto
+  ): Promise<RemoveUserPartyResponse> {
+    const findUserResult = await firstValueFrom(
+      this.usersProxy.send<FindUserResponse, FindUserByIdPayload>(
+        PayloadActions.USERS.FIND_BY_ID,
+        { id: joinPartyDto.userId }
+      )
+    );
+
+    if (findUserResult.ok === false) {
+      return findUserResult;
+    }
+
+    if (
+      !findUserResult.value.parties.some(
+        (party) => party.party.id === joinPartyDto.partyId
+      )
+    ) {
+      return {
+        ok: false,
+        error: {
+          statusCode: 400,
+          statusText: 'User not in party',
+        },
+      };
+    }
+
+    //TODO: RETURN BALANCES TO PLAYER IF ALREADY PAID
+    //TODO ADD BALANCES TO RETURNED VALUE
+    return await this.userPartiesRepository.deleteUserParty(
+      joinPartyDto.userId,
+      joinPartyDto.partyId
+    );
   }
 
   async findById(id: string): Promise<FindPartyResponse> {

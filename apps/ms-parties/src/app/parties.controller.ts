@@ -10,6 +10,7 @@ import {
   JoinPartyDto,
   PartyDto,
   PayloadActions,
+  RemoveUserPartyResponse,
 } from '@proyecto-integrado/shared';
 
 @Controller()
@@ -34,5 +35,12 @@ export class PartiesController {
   @MessagePattern(PayloadActions.PARTIES.FIND_ALL)
   async findAll(): Promise<FindAllPartiesResponse> {
     return this.partiesService.findAll();
+  }
+
+  @MessagePattern(PayloadActions.PARTIES.LEAVE)
+  async leaveParty(
+    @Payload() leaveConfig: JoinPartyDto
+  ): Promise<RemoveUserPartyResponse> {
+    return this.partiesService.leaveParty(leaveConfig);
   }
 }
