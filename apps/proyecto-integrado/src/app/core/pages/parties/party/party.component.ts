@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../state/interfaces/app.state.interface';
 import { PartiesActions } from '../../../../state/actions/parties/parties.actions';
-import { Observable, Subscription, take, tap } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { Observable, of, Subscription, switchMap, take, tap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { selectPartyById } from '../../../../state/selectors/parties/parties.selectors';
 import { PartyOutput } from '../../../shared/modules/parties/domain/parties.interface';
 import { User } from '../../../shared/modules/users/domain/interfaces/user.interface';
@@ -23,8 +23,9 @@ export class PartyComponent implements OnInit, OnDestroy {
   message$!: Observable<MessageOutput[]>;
   myStatus: string | undefined;
   me!: User;
+  price!: Observable<number>;
 
-  chatSubscription!: Subscription;
+  subscriptions: Subscription[] = [];
 
   userStatusMap: { [index: string]: string } = {
     PENDING: '⏳',
@@ -35,7 +36,8 @@ export class PartyComponent implements OnInit, OnDestroy {
   constructor(
     private readonly store$: Store<AppState>,
     private readonly route: ActivatedRoute,
-    private readonly chatService: ChatService
+    private readonly chatService: ChatService,
+    private readonly router: Router
   ) {
     this.store$.dispatch(PartiesActions.getPartiesRequest());
   }
@@ -45,18 +47,27 @@ export class PartyComponent implements OnInit, OnDestroy {
   }
 
   private initParty(): void {
-    this.store$
+    //TODO: SHOW PRICE
+    this.party$ = this.store$.select(selectPartyById(this.partyId));
+    this.initChat(this.partyId);
+
+    const meSubscription = this.store$
       .select(selectUser)
       .pipe(take(1))
       .subscribe((user) => {
         this.me = user;
       });
-    this.party$ = this.store$.select(selectPartyById(this.partyId));
-    this.initChat(this.partyId);
 
-    this.party$.subscribe((party) => {
+    //TODO: FIX MYSTATUS
+    const statusSubscription = this.party$.subscribe((party) => {
       this.myStatus = party?.users.find((u) => u.id === this.me.id)?.status;
     });
+
+    this.subscriptions = [
+      ...this.subscriptions,
+      meSubscription,
+      statusSubscription,
+    ];
   }
 
   private initChat(partyId: string) {
@@ -68,7 +79,10 @@ export class PartyComponent implements OnInit, OnDestroy {
         }, 1);
       })
     );
-    this.chatSubscription = this.chatService.messageAdded(partyId);
+    this.subscriptions = [
+      ...this.subscriptions,
+      this.chatService.messageAdded(partyId),
+    ];
   }
 
   sendMessage(message: string) {
@@ -81,7 +95,9 @@ export class PartyComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.chatSubscription.unsubscribe();
+    for (const subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
   }
   leaveParty() {
     this.store$.dispatch(
@@ -108,7 +124,11 @@ export class PartyComponent implements OnInit, OnDestroy {
 
   selectTrip() {}
 
-  checkout() {}
+  checkout() {
+    console.log('TODO PartyComponent#checkout');
+  }
 
-  cancelCheckout() {}
+  cancelCheckout() {
+    console.log('TODO PartyComponent#cancelCheckout');
+  }
 }
