@@ -83,8 +83,17 @@ export class PartyComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.chatSubscription.unsubscribe();
   }
-  //TODO: IMPLEMENT
-  leaveParty() {}
+  leaveParty() {
+    this.store$.dispatch(
+      PartiesActions.leavePartyRequest({
+        partyId: this.partyId,
+        userId: this.me.id,
+      })
+    );
+    setTimeout(() => {
+      this.router.navigate(['/parties']);
+    }, 200);
+  }
 
   joinParty() {
     this.store$.dispatch(
