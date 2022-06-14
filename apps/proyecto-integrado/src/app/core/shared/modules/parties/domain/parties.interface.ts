@@ -11,6 +11,7 @@ export interface PartyOutput {
   name: string;
   users: User[];
   trip: Trip;
+  status?: string;
 }
 
 export interface JoinPartyResponse {
