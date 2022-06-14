@@ -1,6 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 import { AuthActions } from '../../actions/auth/auth.actions';
 import { AuthState } from '../../interfaces/auth.state.interface';
+import { PartiesActions } from '../../actions/parties/parties.actions';
+import { PartyOutput } from '../../../core/shared/modules/parties/domain/parties.interface';
+import { User } from '../../../core/shared/modules/users/domain/interfaces/user.interface';
 
 const initialState: AuthState = {
   isAuthenticated: false,
@@ -69,5 +72,19 @@ export const authReducers = createReducer(
     error: undefined,
     isAuthenticated: false,
     user: undefined,
+  })),
+  on(PartiesActions.joinPartySuccess, (state, { user, party }) => ({
+    ...state,
+    user: {
+      ...(state.user as User),
+      parties: [...(state.user?.parties || []), party],
+    },
+  })),
+  on(PartiesActions.leavePartySuccess, (state, { userId, partyId }) => ({
+    ...state,
+    user: {
+      ...(state.user as User),
+      parties: state.user?.parties.filter((p) => p.id !== partyId) || [],
+    },
   }))
 );
