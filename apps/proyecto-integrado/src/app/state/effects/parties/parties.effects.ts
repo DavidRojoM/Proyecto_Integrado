@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { PartiesService } from '../../../core/shared/modules/parties/services/parties.service';
 import { SnackbarService } from '../../../core/shared/services/snackbar.service';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { catchError, map, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { PartiesActionTypes } from '../../actions/parties/parties-action.types.enum';
 
 @Injectable()
@@ -77,6 +77,44 @@ export class PartiesEffects {
         tap(() => {
           this.snackbarService.open(
             'Could not join the party',
+            'DISMISS',
+            2000
+          );
+        })
+      ),
+    {
+      dispatch: false,
+    }
+  );
+
+  leavePartyRequest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PartiesActionTypes.LEAVE_PARTY_REQUEST),
+      switchMap(({ userId, partyId }) =>
+        this.partiesService.leaveParty(userId, partyId).pipe(
+          map(({ userId, partyId }) => ({
+            type: PartiesActionTypes.LEAVE_PARTY_SUCCESS,
+            userId,
+            partyId,
+          })),
+          catchError((error) => {
+            return of({
+              type: PartiesActionTypes.LEAVE_PARTY_FAILURE,
+              error,
+            });
+          })
+        )
+      )
+    )
+  );
+
+  leavePartyFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(PartiesActionTypes.LEAVE_PARTY_FAILURE),
+        tap(() => {
+          this.snackbarService.open(
+            'Could not leave the party',
             'DISMISS',
             2000
           );
