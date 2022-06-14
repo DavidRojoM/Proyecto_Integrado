@@ -6,6 +6,7 @@ import {
   JoinPartyResponse,
   PartyDto,
   PayloadActions,
+  RemoveUserPartyResponse,
   UserPartyDto,
 } from '@proyecto-integrado/shared';
 import { ClientProxy } from '@nestjs/microservices';
@@ -66,5 +67,23 @@ export class PartiesService {
       });
     }
     return joinResponse.value;
+  }
+
+  async leaveParty(leaveConfig: JoinPartyDto) {
+    const leaveResponse = await firstValueFrom(
+      this.partiesProxy.send<RemoveUserPartyResponse, JoinPartyDto>(
+        PayloadActions.PARTIES.LEAVE,
+        leaveConfig
+      )
+    );
+
+    if (leaveResponse.ok === false) {
+      throw new BadRequestException({
+        statusText: leaveResponse.error.statusText,
+        statusCode: leaveResponse.error.statusCode,
+      });
+    }
+
+    return leaveResponse.value;
   }
 }
