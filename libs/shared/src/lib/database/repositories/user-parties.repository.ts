@@ -1,5 +1,6 @@
 import {
   InsertUserParty,
+  RemoveUserPartyResponse,
   UserPartiesEntity,
   UserParty,
 } from '@proyecto-integrado/shared';
@@ -31,6 +32,34 @@ export class UserPartiesRepository extends Repository<UserPartiesEntity> {
     return {
       ok: true,
       value: UserParty.entityToModel(insertedEntity),
+    };
+  }
+
+  async deleteUserParty(
+    userId: string,
+    partyId: string
+  ): Promise<RemoveUserPartyResponse> {
+    try {
+      await this.createQueryBuilder()
+        .delete()
+        .where('userId = :userId', { userId })
+        .andWhere('partyId = :partyId', { partyId })
+        .execute();
+    } catch (e) {
+      return {
+        ok: false,
+        error: {
+          statusCode: e.errno,
+          statusText: e.sqlMessage,
+        },
+      };
+    }
+    return {
+      ok: true,
+      value: {
+        userId,
+        partyId,
+      },
     };
   }
 }
