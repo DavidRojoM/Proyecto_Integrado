@@ -22,5 +22,10 @@ export type InsertUser = Result<User, ErrorPayload>;
 export type FindUserPartyByIdResponse = Result<UserPartyDto, ErrorPayload>;
 export type InsertUserPartyResponse = Result<UserPartyDto, ErrorPayload>;
 
+export type RemoveUserPartyResponse = Result<
+  { userId: string; partyId: string },
+  ErrorPayload
+>;
+
 export type FindUserPartyById = Result<UserParty, ErrorPayload>;
 export type InsertUserParty = Result<UserParty, ErrorPayload>;
