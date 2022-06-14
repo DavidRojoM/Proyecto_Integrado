@@ -18,6 +18,7 @@ export const PayloadActions = {
     FIND_BY_ID: 'PARTIES__FIND_BY_ID',
     CREATE: 'PARTIES__CREATE',
     JOIN: 'PARTIES__JOIN',
+    LEAVE: 'PARTIES__LEAVE',
     DELETE: 'PARTIES__DELETE',
     UPDATE: 'PARTIES__UPDATE',
   },
