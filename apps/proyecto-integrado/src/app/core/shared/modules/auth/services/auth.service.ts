@@ -8,6 +8,7 @@ import { LoginResponse } from '../domain/login-response.interface';
 import { environment } from '../../../../../../environments/environment';
 import { User } from '../../users/domain/interfaces/user.interface';
 import { LocalStorageService } from '../../../services/local-storage.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -30,20 +31,43 @@ export class AuthService {
   }
 
   login(credentials: Credentials): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(
-      `${environment.GATEWAY_URL}/auth`,
-      credentials
-    );
+    return this.http
+      .post<LoginResponse>(`${environment.GATEWAY_URL}/auth`, credentials)
+      .pipe(
+        map((response) => ({
+          access_token: response.access_token,
+          user: {
+            ...response.user,
+            parties: response.user.parties.map((party: any) => ({
+              ...party.party,
+              status: party.status,
+            })),
+          },
+        }))
+      );
   }
 
   check(): Observable<LoginResponse> {
     const access_token = this.localStorageService.getItem('access_token');
-    return this.http.post<LoginResponse>(
-      `${environment.GATEWAY_URL}/auth/check`,
-      {
-        access_token,
-      }
-    );
+    return this.http
+      .post<{ access_token: string; user: any }>(
+        `${environment.GATEWAY_URL}/auth/check`,
+        {
+          access_token,
+        }
+      )
+      .pipe(
+        map((response) => ({
+          access_token: response.access_token,
+          user: {
+            ...response.user,
+            parties: response.user.parties.map((party: any) => ({
+              ...party.party,
+              status: party.status,
+            })),
+          },
+        }))
+      );
   }
 
   private buildFormData(user: any) {
