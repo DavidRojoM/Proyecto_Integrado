@@ -58,7 +58,7 @@ export const PartiesActions = {
   ),
   joinPartySuccess: createAction(
     PartiesActionTypes.JOIN_PARTY_SUCCESS,
-    props<{ user: User; partyId: string }>()
+    props<{ user: User; party: PartyOutput }>()
   ),
   joinPartyFailure: createAction(
     PartiesActionTypes.JOIN_PARTY_FAILURE,
@@ -69,8 +69,8 @@ export const PartiesActions = {
     props<{ userId: string; partyId: string }>()
   ),
   leavePartySuccess: createAction(
-    PartiesActionTypes.LEAVE_PARTY_SUCCESS
-    //TODO
+    PartiesActionTypes.LEAVE_PARTY_SUCCESS,
+    props<{ userId: string; partyId: string }>()
   ),
   leavePartyFailure: createAction(
     PartiesActionTypes.LEAVE_PARTY_FAILURE,

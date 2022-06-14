@@ -54,10 +54,10 @@ export class PartiesEffects {
       ofType(PartiesActionTypes.JOIN_PARTY_REQUEST),
       switchMap(({ userId, partyId }) =>
         this.partiesService.joinParty(userId, partyId).pipe(
-          map((user) => ({
+          map(({ user, party }) => ({
             type: PartiesActionTypes.JOIN_PARTY_SUCCESS,
             user,
-            partyId,
+            party,
           })),
           catchError((error) => {
             return of({
