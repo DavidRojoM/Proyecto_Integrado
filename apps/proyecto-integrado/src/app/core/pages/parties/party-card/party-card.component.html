@@ -10,10 +10,7 @@
   <div class="card-content">
     <div class="party-users-container">
       <ul class="party-users">
-        <li *ngFor="let user of readyUsers" class="ready-user">
-          <img src="{{ user.image }}" alt="avatar of {{ user.username }}" />
-        </li>
-        <li class="pending-user" *ngFor="let user of pendingUsers">
+        <li class="user" *ngFor="let user of party.users">
           <img src="{{ user.image }}" alt="avatar of {{ user.username }}" />
         </li>
       </ul>

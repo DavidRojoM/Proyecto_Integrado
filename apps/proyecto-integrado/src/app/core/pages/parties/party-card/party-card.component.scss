@@ -64,15 +64,9 @@
         flex-wrap: wrap;
         overflow-y: auto;
 
-        .ready-user {
+        .user {
           img {
-            border: 2px solid green;
-          }
-        }
-
-        .pending-user {
-          img {
-            border: 2px solid orange;
+            border: 4px solid var(--second-color);
           }
         }
 
