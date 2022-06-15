@@ -9,6 +9,8 @@ import { AuthActions } from './actions/auth/auth.actions';
 import { ROOT_REDUCERS } from './app.state';
 import { PartiesEffects } from './effects/parties/parties.effects';
 import { CommsEffects } from './effects/comms/comms.effects';
+import { TripsEffects } from './effects/trips/trips.effects';
+import { AppState } from './interfaces/app.state.interface';
 
 @NgModule({
   declarations: [],
@@ -16,15 +18,20 @@ import { CommsEffects } from './effects/comms/comms.effects';
     SharedModule,
     CommonModule,
     StoreModule.forRoot(ROOT_REDUCERS),
-    EffectsModule.forRoot([AuthEffects, PartiesEffects, CommsEffects]),
+    EffectsModule.forRoot([
+      AuthEffects,
+      PartiesEffects,
+      CommsEffects,
+      TripsEffects,
+    ]),
     StoreDevtoolsModule.instrument(),
   ],
   providers: [
     {
       provide: APP_INITIALIZER,
-      useFactory: (store: Store<any>) => {
+      useFactory: (store$: Store<AppState>) => {
         return () => {
-          store.dispatch(AuthActions.checkAuthRequest());
+          store$.dispatch(AuthActions.checkAuthRequest());
         };
       },
       multi: true,
