@@ -12,6 +12,13 @@
       </li>
     </ul>
     <div class="party-actions">
+      <button
+        mat-button
+        *ngIf="myStatus === 'ORGANIZER' && partyStatus"
+        (click)="confirmParty()"
+      >
+        Confirm trip
+      </button>
       <button mat-button *ngIf="myStatus" (click)="leaveParty()">
         Leave Party
       </button>
@@ -99,12 +106,12 @@
   </article>
 </section>
 <ng-template #noTrip>
-  <div class="error no-trip-selected">
+  <section class="error no-trip-selected">
     <p>There's no trip selected 😢</p>
-    <button *ngIf="myStatus === 'USER'" mat-button (click)="selectTrip()">
-      Select a trip
+    <button *ngIf="myStatus === 'ORGANIZER'" mat-button (click)="selectTrip()">
+      Select a trip!
     </button>
-  </div>
+  </section>
 </ng-template>
 <ng-template #notInParty>
   <div class="error not-in-party">
