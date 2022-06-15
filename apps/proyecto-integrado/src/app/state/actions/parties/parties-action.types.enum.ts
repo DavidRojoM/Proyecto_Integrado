@@ -22,4 +22,8 @@ export enum PartiesActionTypes {
   LEAVE_PARTY_REQUEST = '[Parties] Leave Party Request',
   LEAVE_PARTY_SUCCESS = '[Parties] Leave Party Success',
   LEAVE_PARTY_FAILURE = '[Parties] Leave Party Failure',
+
+  BECOME_ORGANIZER_REQUEST = '[Parties] Become Organizer Request',
+  BECOME_ORGANIZER_SUCCESS = '[Parties] Become Organizer Success',
+  BECOME_ORGANIZER_FAILURE = '[Parties] Become Organizer Failure',
 }

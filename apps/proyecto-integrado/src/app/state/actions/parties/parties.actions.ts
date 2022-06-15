@@ -76,4 +76,16 @@ export const PartiesActions = {
     PartiesActionTypes.LEAVE_PARTY_FAILURE,
     props<{ error: string }>()
   ),
+  becomeOrganizerRequest: createAction(
+    PartiesActionTypes.BECOME_ORGANIZER_REQUEST,
+    props<{ userId: string; partyId: string }>()
+  ),
+  becomeOrganizerSuccess: createAction(
+    PartiesActionTypes.BECOME_ORGANIZER_SUCCESS,
+    props<{ user: User; party: PartyOutput }>()
+  ),
+  becomeOrganizerFailure: createAction(
+    PartiesActionTypes.BECOME_ORGANIZER_FAILURE,
+    props<{ error: string }>()
+  ),
 };
