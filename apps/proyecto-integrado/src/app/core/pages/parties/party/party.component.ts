@@ -2,14 +2,15 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../state/interfaces/app.state.interface';
 import { PartiesActions } from '../../../../state/actions/parties/parties.actions';
-import { Observable, of, Subscription, switchMap, take, tap } from 'rxjs';
+import { Observable, Subscription, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { selectPartyById } from '../../../../state/selectors/parties/parties.selectors';
-import { PartyOutput } from '../../../shared/modules/parties/domain/parties.interface';
 import { User } from '../../../shared/modules/users/domain/interfaces/user.interface';
 import { selectUser } from '../../../../state/selectors/auth/auth.selectors';
 import { ChatService } from '../../../shared/modules/comms/services/chat.service';
 import { MessageOutput } from '../../../shared/modules/comms/domain/message.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { TripSelectorComponent } from './trip-dialog/trip-selector/trip-selector.component';
 
 @Component({
   selector: 'proyecto-integrado-party',
@@ -18,10 +19,10 @@ import { MessageOutput } from '../../../shared/modules/comms/domain/message.inte
 })
 export class PartyComponent implements OnInit, OnDestroy {
   partyId = this.route.snapshot.paramMap.get('id') as string;
-
-  party$!: Observable<PartyOutput>;
+  party$ = this.store$.select(selectPartyById(this.partyId));
   message$!: Observable<MessageOutput[]>;
   myStatus: string | undefined;
+  partyStatus = false;
   me!: User;
   price!: Observable<number>;
 
@@ -37,7 +38,8 @@ export class PartyComponent implements OnInit, OnDestroy {
     private readonly store$: Store<AppState>,
     private readonly route: ActivatedRoute,
     private readonly chatService: ChatService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly dialog: MatDialog
   ) {
     this.store$.dispatch(PartiesActions.getPartiesRequest());
   }
@@ -106,9 +108,7 @@ export class PartyComponent implements OnInit, OnDestroy {
         userId: this.me.id,
       })
     );
-    setTimeout(() => {
-      this.router.navigate(['/parties']);
-    }, 200);
+    this.router.navigate(['/parties']);
   }
 
   joinParty() {
@@ -120,9 +120,18 @@ export class PartyComponent implements OnInit, OnDestroy {
     );
   }
 
-  organizeParty() {}
+  organizeParty() {
+    this.store$.dispatch(
+      PartiesActions.becomeOrganizerRequest({
+        partyId: this.partyId,
+        userId: this.me.id,
+      })
+    );
+  }
 
-  selectTrip() {}
+  selectTrip() {
+    this.dialog.open(TripSelectorComponent);
+  }
 
   checkout() {
     console.log('TODO PartyComponent#checkout');
@@ -130,5 +139,9 @@ export class PartyComponent implements OnInit, OnDestroy {
 
   cancelCheckout() {
     console.log('TODO PartyComponent#cancelCheckout');
+  }
+
+  confirmParty() {
+    console.log('TODO PartyComponent#confirmParty');
   }
 }
