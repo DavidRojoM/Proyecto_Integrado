@@ -9,6 +9,7 @@ import { LocalStorageService } from './services/local-storage.service';
 import { PartiesService } from './modules/parties/services/parties.service';
 import { ChatService } from './modules/comms/services/chat.service';
 import { ChatGqlRepository } from './modules/comms/services/gql-repository/chat-gql.repository';
+import { TripService } from './modules/trips/services/trip.service';
 
 @NgModule({
   declarations: [],
@@ -23,6 +24,7 @@ import { ChatGqlRepository } from './modules/comms/services/gql-repository/chat-
     PartiesService,
     ChatService,
     ChatGqlRepository,
+    TripService,
   ],
 })
 export class SharedModule {}
