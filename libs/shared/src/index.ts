@@ -12,6 +12,7 @@ export * from './lib/payloads/comms/comms.payloads';
 
 export * from './lib/domain/enums/roles.enum';
 export * from './lib/domain/enums/transports.enum';
+export * from './lib/domain/enums/user-party-status.enum';
 
 export * from './lib/domain/models/users/user.model';
 export * from './lib/domain/models/parties/party.model';
