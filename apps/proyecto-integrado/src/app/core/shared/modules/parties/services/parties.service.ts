@@ -45,4 +45,24 @@ export class PartiesService {
       { userId, partyId }
     );
   }
+
+  becomeOrganizer(
+    userId: string,
+    partyId: string
+  ): Observable<{ user: User; party: PartyOutput }> {
+    return this.http
+      .post<JoinPartyResponse>(`${environment.GATEWAY_URL}/parties/organizer`, {
+        userId,
+        partyId,
+      })
+      .pipe(
+        map(({ party, user, status }: JoinPartyResponse) => ({
+          user,
+          party: {
+            ...party,
+            status,
+          },
+        }))
+      );
+  }
 }

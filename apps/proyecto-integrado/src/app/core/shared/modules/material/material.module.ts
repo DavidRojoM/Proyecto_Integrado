@@ -14,6 +14,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [],
@@ -33,6 +34,7 @@ import { MatCardModule } from '@angular/material/card';
     MatTooltipModule,
     MatBadgeModule,
     MatCardModule,
+    MatDialogModule,
   ],
 })
 export class MaterialModule {}
