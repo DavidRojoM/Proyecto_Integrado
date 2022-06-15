@@ -6,6 +6,8 @@ import { forkJoin, map, Observable, Subscription, take } from 'rxjs';
 import { PartyOutput } from '../../shared/modules/parties/domain/parties.interface';
 import { selectParties } from '../../../state/selectors/parties/parties.selectors';
 import { selectUser } from '../../../state/selectors/auth/auth.selectors';
+import { MatDialog } from '@angular/material/dialog';
+import { AddPartyDialogComponent } from './add-party-dialog/add-party-dialog.component';
 
 @Component({
   selector: 'proyecto-integrado-parties',
@@ -18,7 +20,10 @@ export class PartiesComponent implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
 
-  constructor(private readonly store$: Store<AppState>) {
+  constructor(
+    private readonly store$: Store<AppState>,
+    private readonly dialog: MatDialog
+  ) {
     this.store$.dispatch(PartiesActions.getPartiesRequest());
   }
 
@@ -78,5 +83,9 @@ export class PartiesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+  }
+
+  createParty() {
+    this.dialog.open(AddPartyDialogComponent, {});
   }
 }

@@ -10,6 +10,7 @@ import { ChatComponent } from './party/chat/chat.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 import { TripSelectorComponent } from './party/trip-dialog/trip-selector/trip-selector.component';
+import { AddPartyDialogComponent } from './add-party-dialog/add-party-dialog.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { TripSelectorComponent } from './party/trip-dialog/trip-selector/trip-se
     PartyComponent,
     ChatComponent,
     TripSelectorComponent,
+    AddPartyDialogComponent,
   ],
   imports: [
     CommonModule,
