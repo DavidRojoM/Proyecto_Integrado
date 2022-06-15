@@ -10,7 +10,7 @@ export interface PartyOutput {
   id: string;
   name: string;
   users: User[];
-  trip: Trip;
+  trip?: Trip;
   status?: string;
 }
 
