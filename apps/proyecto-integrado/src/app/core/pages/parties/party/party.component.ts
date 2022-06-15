@@ -48,19 +48,19 @@ export class PartyComponent implements OnInit, OnDestroy {
 
   private initParty(): void {
     //TODO: SHOW PRICE
-    this.party$ = this.store$.select(selectPartyById(this.partyId));
     this.initChat(this.partyId);
 
-    const meSubscription = this.store$
-      .select(selectUser)
-      .pipe(take(1))
-      .subscribe((user) => {
-        this.me = user;
-      });
+    const meSubscription = this.store$.select(selectUser).subscribe((user) => {
+      this.me = user;
+    });
 
-    //TODO: FIX MYSTATUS
     const statusSubscription = this.party$.subscribe((party) => {
-      this.myStatus = party?.users.find((u) => u.id === this.me.id)?.status;
+      this.myStatus = party?.users.find(
+        (user) => user.id === this.me?.id
+      )?.status;
+      this.partyStatus =
+        !!party.users.length &&
+        !party?.users.some((user) => user.status === 'PENDING');
     });
 
     this.subscriptions = [
