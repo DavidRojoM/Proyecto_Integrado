@@ -4,7 +4,7 @@
       {{ party.name }}
     </h3>
     <span
-      ><span *ngIf="countryFlag"> Destination: {{ countryFlag }} </span>
+      ><span> Destination: {{ destinationName || 'To be defined' }} </span>
     </span>
   </header>
   <div class="card-content">

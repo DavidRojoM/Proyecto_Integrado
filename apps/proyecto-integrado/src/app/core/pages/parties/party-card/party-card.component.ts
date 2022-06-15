@@ -21,9 +21,7 @@ export class PartyCardComponent implements OnInit, OnDestroy {
   @Output() leavePartyEvent = new EventEmitter<string>();
   @Input() userInParty!: boolean;
   @Input() party!: PartyOutput;
-  countryFlag!: string;
-  // pendingUsers: User[] = [];
-  // readyUsers: User[] = [];
+  destinationName = '';
 
   organizer: User | undefined;
 
@@ -32,16 +30,18 @@ export class PartyCardComponent implements OnInit, OnDestroy {
   constructor(private readonly countryService: CountryService) {}
 
   ngOnInit(): void {
+    this.destinationName = this.party?.trip?.destination?.name || '';
     const countryFlagSubscription = this.countryService
       .findOne(this.party.trip?.destination?.name as string)
       .subscribe((country) => {
-        this.countryFlag = country?.flag as string;
+        if (country?.flag) {
+          this.destinationName += ` ${country?.flag as string}`;
+        }
       });
     this.subscriptions = [...this.subscriptions, countryFlagSubscription];
     this.organizer = this.party.users.find(
       (user) => user.status === 'ORGANIZER'
     );
-    console.log('organizer', this.organizer);
   }
 
   ngOnDestroy() {
