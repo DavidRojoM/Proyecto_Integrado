@@ -34,4 +34,9 @@ export class PartiesController {
   ): Promise<{ userId: string; partyId: string }> {
     return this.partiesService.leaveParty(leaveConfig);
   }
+
+  @Post('organizer')
+  joinAsOrganizer(@Body() joinConfig: JoinPartyDto): Promise<UserPartyDto> {
+    return this.partiesService.joinAsOrganizer(joinConfig);
+  }
 }

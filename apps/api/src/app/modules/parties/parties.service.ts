@@ -11,6 +11,7 @@ import {
 } from '@proyecto-integrado/shared';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
+import { UserPartyStatus } from '@proyecto-integrado/shared';
 
 @Injectable()
 export class PartiesService {
@@ -56,7 +57,7 @@ export class PartiesService {
     const joinResponse = await firstValueFrom(
       this.partiesProxy.send<JoinPartyResponse, JoinPartyDto>(
         PayloadActions.PARTIES.JOIN,
-        joinConfig
+        { ...joinConfig, status: UserPartyStatus.PENDING }
       )
     );
 
@@ -85,5 +86,22 @@ export class PartiesService {
     }
 
     return leaveResponse.value;
+  }
+
+  async joinAsOrganizer(joinConfig: JoinPartyDto): Promise<UserPartyDto> {
+    const joinResponse = await firstValueFrom(
+      this.partiesProxy.send<JoinPartyResponse, JoinPartyDto>(
+        PayloadActions.PARTIES.JOIN,
+        { ...joinConfig, status: UserPartyStatus.ORGANIZER }
+      )
+    );
+
+    if (joinResponse.ok === false) {
+      throw new BadRequestException({
+        statusText: joinResponse.error.statusText,
+        statusCode: joinResponse.error.statusCode,
+      });
+    }
+    return joinResponse.value;
   }
 }
