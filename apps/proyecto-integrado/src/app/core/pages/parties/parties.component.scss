@@ -1,11 +1,22 @@
 .cards {
   text-align: center;
 
-  h2 {
-    font-size: 2em;
-    text-align: left;
-    color: #aaaaaa;
-    margin-bottom: 20px;
+  header {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    h2 {
+      width: fit-content;
+      font-size: 2em;
+      text-align: left;
+      color: #aaaaaa;
+      margin-bottom: 20px;
+    }
+    button {
+      margin-top: -10px;
+      aspect-ratio: 1/1;
+      border-radius: 50%;
+    }
   }
   .party-cards {
     width: 100%;

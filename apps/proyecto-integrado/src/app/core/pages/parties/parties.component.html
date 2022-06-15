@@ -1,5 +1,10 @@
 <section class="cards">
-  <h2>My parties</h2>
+  <header>
+    <h2>My parties</h2>
+    <button mat-button (click)="createParty()" matTooltip="Add a new Party">
+      <mat-icon>add</mat-icon>
+    </button>
+  </header>
   <div class="party-cards">
     <proyecto-integrado-party-card
       class="party-card"
@@ -10,7 +15,9 @@
     ></proyecto-integrado-party-card>
   </div>
   <mat-divider></mat-divider>
-  <h2>Find Parties</h2>
+  <header>
+    <h2>Find Parties</h2>
+  </header>
   <div class="party-cards">
     <proyecto-integrado-party-card
       class="party-card"
