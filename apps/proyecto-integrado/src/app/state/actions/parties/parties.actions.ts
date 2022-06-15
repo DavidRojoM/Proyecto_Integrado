@@ -9,7 +9,7 @@ import { User } from '../../../core/shared/modules/users/domain/interfaces/user.
 export const PartiesActions = {
   createPartyRequest: createAction(
     PartiesActionTypes.CREATE_PARTY_REQUEST,
-    props<{ party: PartyInput }>()
+    props<{ name: string }>()
   ),
   createPartySuccess: createAction(
     PartiesActionTypes.CREATE_PARTY_SUCCESS,
