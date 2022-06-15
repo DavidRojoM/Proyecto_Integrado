@@ -3,6 +3,9 @@
 
   h2 {
     font-size: 2em;
+    text-align: left;
+    color: #aaaaaa;
+    margin-bottom: 20px;
   }
   .party-cards {
     width: 100%;
@@ -10,8 +13,8 @@
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
+    justify-content: space-evenly;
+    row-gap: 40px;
   }
 
   mat-divider {
@@ -26,6 +29,9 @@
       justify-content: center !important;
       align-items: center !important;
       gap: 40px;
+    }
+    h2 {
+      text-align: center;
     }
   }
 }

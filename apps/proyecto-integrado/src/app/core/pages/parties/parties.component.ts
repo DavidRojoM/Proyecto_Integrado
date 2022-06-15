@@ -24,8 +24,9 @@ export class PartiesComponent implements OnInit, OnDestroy {
 
   async ngOnInit(): Promise<void> {
     const partiesSubscription = this.store$
-      .select((state) => state.auth.user?.id)
-      .subscribe((userId) => {
+      .select(selectUser)
+      .subscribe((user) => {
+        const userId = user.id;
         forkJoin([
           (this.myParties$ = this.store$
             .select(selectParties)
