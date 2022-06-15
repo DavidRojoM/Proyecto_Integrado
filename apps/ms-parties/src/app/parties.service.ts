@@ -31,7 +31,7 @@ export class PartiesService {
     joinPartyDto: JoinPartyDto
   ): Promise<InsertUserPartyResponse> {
     const userParty = new UserParty();
-
+    userParty.status = joinPartyDto.status;
     const findUserResult = await firstValueFrom(
       this.usersProxy.send<FindUserResponse, FindUserByIdPayload>(
         PayloadActions.USERS.FIND_BY_ID,

@@ -12,13 +12,16 @@ import {
   PayloadActions,
   RemoveUserPartyResponse,
 } from '@proyecto-integrado/shared';
+import { UserPartyStatus } from '@proyecto-integrado/shared';
 
 @Controller()
 export class PartiesController {
   constructor(private readonly partiesService: PartiesService) {}
 
   @MessagePattern(PayloadActions.PARTIES.JOIN)
-  joinParty(data: JoinPartyDto): Promise<InsertUserPartyResponse> {
+  joinParty(
+    data: JoinPartyDto & { status?: UserPartyStatus }
+  ): Promise<InsertUserPartyResponse> {
     return this.partiesService.joinParty(data);
   }
 
