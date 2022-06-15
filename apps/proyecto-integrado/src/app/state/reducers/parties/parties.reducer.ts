@@ -23,6 +23,28 @@ export const partiesReducer = createReducer(
     loading: false,
     error: error.error.statusText,
   })),
+  on(PartiesActions.createPartyRequest, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(PartiesActions.createPartySuccess, (state, { party }) => ({
+    ...state,
+    loading: false,
+    parties: [
+      {
+        id: party.id,
+        status: 'PENDING',
+        users: [],
+        name: party.name,
+      },
+      ...state.parties,
+    ],
+  })),
+  on(PartiesActions.createPartyFailure, (state, { error }: any) => ({
+    ...state,
+    loading: false,
+    error: error.error.statusText,
+  })),
   on(PartiesActions.joinPartyRequest, (state) => ({
     ...state,
     loading: true,
@@ -31,11 +53,13 @@ export const partiesReducer = createReducer(
     ...state,
     loading: false,
     parties: state.parties.map((party2) => {
-      console.log('USER', user);
       if (party2.id !== party.id) {
         return party2;
       }
-      return { ...party2, users: [...party2.users, user] };
+      return {
+        ...party2,
+        users: [...party2.users, { ...user, status: party.status }],
+      };
     }),
   })),
   on(PartiesActions.joinPartyFailure, (state, { error }: any) => ({
@@ -61,6 +85,28 @@ export const partiesReducer = createReducer(
     }),
   })),
   on(PartiesActions.leavePartyFailure, (state, { error }: any) => ({
+    ...state,
+    loading: false,
+    error: error.error.statusText,
+  })),
+  on(PartiesActions.becomeOrganizerRequest, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(PartiesActions.becomeOrganizerSuccess, (state, { user, party }) => ({
+    ...state,
+    loading: false,
+    parties: state.parties.map((party2) => {
+      if (party2.id !== party.id) {
+        return party2;
+      }
+      return {
+        ...party2,
+        users: [...party2.users, { ...user, status: party.status }],
+      };
+    }),
+  })),
+  on(PartiesActions.becomeOrganizerFailure, (state, { error }: any) => ({
     ...state,
     loading: false,
     error: error.error.statusText,
