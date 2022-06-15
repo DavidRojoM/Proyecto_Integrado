@@ -1,10 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { JoinPartyResponse, PartyOutput } from '../domain/parties.interface';
+import {
+  JoinPartyResponse,
+  PartyInput,
+  PartyOutput,
+} from '../domain/parties.interface';
 import { environment } from '../../../../../../environments/environment';
 import { User } from '../../users/domain/interfaces/user.interface';
 import { map } from 'rxjs/operators';
+import { v4 as uuidV4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +19,13 @@ export class PartiesService {
 
   findAll(): Observable<PartyOutput[]> {
     return this.http.get<PartyOutput[]>(`${environment.GATEWAY_URL}/parties`);
+  }
+
+  createParty(name: string): Observable<PartyInput> {
+    return this.http.post<PartyInput>(`${environment.GATEWAY_URL}/parties`, {
+      name,
+      id: uuidV4(),
+    });
   }
 
   joinParty(
