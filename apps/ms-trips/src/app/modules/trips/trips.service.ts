@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import {
   DestinationsRepository,
   FindAllTripsResponse,
+  FindTripResponse,
   HotelsRepository,
   InsertTripResponse,
   TransportsRepository,
@@ -9,7 +10,6 @@ import {
   TripDto,
   TripsRepository,
 } from '@proyecto-integrado/shared';
-import { Payload } from '@nestjs/microservices';
 
 @Injectable()
 export class TripsService {
@@ -38,7 +38,7 @@ export class TripsService {
     }
   }
 
-  async create(@Payload() trip: TripDto): Promise<InsertTripResponse> {
+  async create(trip: TripDto): Promise<InsertTripResponse> {
     const tripModel = Trip.dtoToModel(trip);
     if (trip.destinationId) {
       tripModel.destination = await this.destinationRepository.findById(
@@ -56,21 +56,10 @@ export class TripsService {
       );
     }
 
-    const insertResult = await this.tripsRepository.createTrip(tripModel);
+    return this.tripsRepository.createTrip(tripModel);
+  }
 
-    if (!insertResult.ok) {
-      return {
-        ok: false,
-        error: {
-          statusCode: 400,
-          statusText: 'Trip already exists',
-        },
-      };
-    }
-
-    return {
-      ok: true,
-      value: insertResult.value,
-    };
+  findById(id: string): Promise<FindTripResponse> {
+    return this.tripsRepository.findById(id);
   }
 }
