@@ -6,23 +6,23 @@ const selectTripsFeature = (state: AppState) => state.trips;
 
 export const selectAllTrips = createSelector(
   selectTripsFeature,
-  (partiesState: TripsState) => partiesState.trips
+  (tripsState: TripsState) => tripsState.trips
 );
 export const selectAllHotels = createSelector(
   selectTripsFeature,
-  (partiesState: TripsState) => partiesState.hotels
+  (tripsState: TripsState) => tripsState.hotels
 );
 export const selectAllTransports = createSelector(
   selectTripsFeature,
-  (partiesState: TripsState) => partiesState.transports
+  (tripsState: TripsState) => tripsState.transports
 );
 
 export const selectAllDestinations = createSelector(
   selectTripsFeature,
-  (partiesState: TripsState) => partiesState.destinations
+  (tripsState: TripsState) => tripsState.destinations
 );
 
 export const selectTripsLoading = createSelector(
   selectTripsFeature,
-  (partiesState: TripsState) => partiesState.loading
+  (tripsState: TripsState) => tripsState.loading
 );
