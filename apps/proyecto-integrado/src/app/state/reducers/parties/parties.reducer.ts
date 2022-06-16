@@ -110,5 +110,17 @@ export const partiesReducer = createReducer(
     ...state,
     loading: false,
     error: error.error.statusText,
+  })),
+  on(PartiesActions.addTripSuccess, (state, { partyId, trip }) => ({
+    ...state,
+    parties: state.parties.map((party) => {
+      if (party.id !== partyId) {
+        return party;
+      }
+      return {
+        ...party,
+        trip,
+      };
+    }),
   }))
 );
