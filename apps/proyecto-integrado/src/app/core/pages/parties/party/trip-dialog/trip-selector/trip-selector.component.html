@@ -1,2 +1,86 @@
-TRANSPORTS: {{ transports | async | json }} HOTELS :
-{{ hotels | async | json }} DESTINATIONS : {{ destinations | async | json }}
+<!--TRANSPORTS: {{ transports | async | json }} HOTELS :-->
+<!--{{ hotels | async | json }} DESTINATIONS : {{ destinations | async | json }}-->
+
+<form [formGroup]="form">
+  <mat-form-field appearance="fill">
+    <mat-label>Enter a date range</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input matStartDate placeholder="Start date" formControlName="from" />
+      <input matEndDate placeholder="End date" formControlName="to" />
+    </mat-date-range-input>
+    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Destination</mat-label>
+    <input
+      tabindex="-1"
+      matInput
+      aria-label="Destination"
+      [matAutocomplete]="destination"
+      formControlName="destination"
+    />
+    <mat-autocomplete #destination="matAutocomplete">
+      <mat-option
+        *ngFor="let country of filteredDestinations$ | async"
+        [value]="country.name"
+        matTooltip="{{ country.description }}"
+      >
+        <span>{{ country.name }}</span>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Hotel</mat-label>
+    <input
+      tabindex="-1"
+      matInput
+      aria-label="Hotel"
+      [matAutocomplete]="hotel"
+      formControlName="hotel"
+    />
+    <mat-autocomplete #hotel="matAutocomplete">
+      <mat-option
+        *ngFor="let hotel of filteredHotels$ | async"
+        [value]="hotel.name"
+        matTooltip="Night price: {{ hotel.nightPrice }}"
+      >
+        <span>{{ hotel.name }}</span>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Transport</mat-label>
+    <input
+      tabindex="-1"
+      matInput
+      aria-label="Transport"
+      [matAutocomplete]="transport"
+      formControlName="transport"
+    />
+    <mat-autocomplete #transport="matAutocomplete">
+      <mat-option
+        *ngFor="let transport of filteredTransports$ | async"
+        [value]="transport.name"
+        matTooltip="Price: {{ transport.price | currency: 'EUR' }}"
+      >
+        <span
+          >{{ transport.type }} {{ transport.name }} |
+          {{ transport.brand }}</span
+        >
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close="close">Cancel</button>
+  <button
+    mat-button
+    mat-dialog-close="close"
+    [disabled]="!form.valid"
+    (click)="selectTrip()"
+  >
+    Add
+  </button>
+</mat-dialog-actions>
