@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../interfaces/app.state.interface';
 import { selectUser } from '../../selectors/auth/auth.selectors';
 import { PartyInput } from '../../../core/shared/modules/parties/domain/parties.interface';
+import { TripsActionTypes } from '../../actions/trips/trips-action.types.enum';
 
 @Injectable()
 export class PartiesEffects {
@@ -188,27 +189,60 @@ export class PartiesEffects {
     this.actions$.pipe(
       ofType(PartiesActionTypes.CREATE_PARTY_SUCCESS),
       withLatestFrom(this.store$.select(selectUser)),
-      map(
-        ([{ party }, user]) => ({
-          type: PartiesActionTypes.JOIN_PARTY_REQUEST,
-          userId: user.id,
-          partyId: (party as PartyInput).id,
-        })
-        // switchMap(([{ id }, user]) =>
-        //   this.partiesService.joinParty(id, user.id).pipe(
-        //     map((party) => ({
-        //       type: PartiesActionTypes.JOIN_PARTY_REQUEST,
-        //       party,
-        //     })),
-        //     catchError((error) => {
-        //       return of({
-        //         type: PartiesActionTypes.JOIN_PARTY_FAILURE,
-        //         error,
-        //       });
-        //     })
-        //   )
-        // )
+      map(([{ party }, user]) => ({
+        type: PartiesActionTypes.JOIN_PARTY_REQUEST,
+        userId: user.id,
+        partyId: (party as PartyInput).id,
+      }))
+    )
+  );
+
+  createTripSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TripsActionTypes.CREATE_TRIP_SUCCESS),
+      map(({ trip, partyId }) => ({
+        type: PartiesActionTypes.ADD_TRIP_REQUEST,
+        trip,
+        partyId,
+      }))
+    )
+  );
+
+  addTripRequest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PartiesActionTypes.ADD_TRIP_REQUEST),
+      switchMap(({ trip, partyId }) =>
+        this.partiesService.createTrip({ trip, partyId }).pipe(
+          map(({ partyId, trip }) => ({
+            type: PartiesActionTypes.ADD_TRIP_SUCCESS,
+            partyId,
+            trip,
+          })),
+          catchError((error) => {
+            return of({
+              type: PartiesActionTypes.ADD_TRIP_FAILURE,
+              error,
+            });
+          })
+        )
       )
     )
+  );
+
+  addTripFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(PartiesActionTypes.ADD_TRIP_FAILURE),
+        tap(() => {
+          this.snackbarService.open(
+            'Could add the trip to the party',
+            'DISMISS',
+            2000
+          );
+        })
+      ),
+    {
+      dispatch: false,
+    }
   );
 }
