@@ -4,7 +4,7 @@ import { map, Observable, startWith, tap } from 'rxjs';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { CountryService } from '../../../shared/modules/country/services/country.service';
 import { Country } from '../../../shared/modules/country/domain/country.interface';
-import { CountryValidator } from '../../../shared/modules/country/domain/country-validator';
+import { CountryValidator } from '../../../shared/modules/country/domain/validators';
 import { FileValidators } from 'ngx-file-drag-drop';
 import { User } from '../../../shared/modules/users/domain/interfaces/user.interface';
 
