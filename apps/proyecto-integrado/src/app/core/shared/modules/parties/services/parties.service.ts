@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import {
+  AddTripToParty,
   JoinPartyResponse,
   PartyInput,
   PartyOutput,
@@ -10,6 +11,7 @@ import { environment } from '../../../../../../environments/environment';
 import { User } from '../../users/domain/interfaces/user.interface';
 import { map } from 'rxjs/operators';
 import { v4 as uuidV4 } from 'uuid';
+import { TripInput } from '../../trips/domain/trips.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -75,6 +77,27 @@ export class PartiesService {
             status,
           },
         }))
+      );
+  }
+
+  createTrip(addTripToPartConfig: AddTripToParty): Observable<AddTripToParty> {
+    const tripInput: TripInput = {
+      id: addTripToPartConfig.trip.id,
+      from: addTripToPartConfig.trip.from,
+      destinationId: addTripToPartConfig.trip.destination?.id,
+      hotelId: addTripToPartConfig.trip.hotel?.id,
+      transportId: addTripToPartConfig.trip.transport?.id,
+      to: addTripToPartConfig.trip.to,
+    };
+    return this.http
+      .post<AddTripToParty>(`${environment.GATEWAY_URL}/parties/trip`, {
+        trip: tripInput,
+        partyId: addTripToPartConfig.partyId,
+      })
+      .pipe(
+        tap((response: AddTripToParty) => {
+          console.log('response', response);
+        })
       );
   }
 }
