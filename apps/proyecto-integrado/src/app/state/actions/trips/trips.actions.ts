@@ -48,4 +48,16 @@ export const TripsActions = {
     TripsActionTypes.GET_DESTINATIONS_FAILURE,
     props<{ error: string }>()
   ),
+  createTripRequest: createAction(
+    TripsActionTypes.CREATE_TRIP_REQUEST,
+    props<{ trip: Trip; partyId: string }>()
+  ),
+  createTripSuccess: createAction(
+    TripsActionTypes.CREATE_TRIP_SUCCESS,
+    props<{ trip: Trip; partyId: string }>()
+  ),
+  createTripFailure: createAction(
+    TripsActionTypes.CREATE_TRIP_FAILURE,
+    props<{ error: string }>()
+  ),
 };
