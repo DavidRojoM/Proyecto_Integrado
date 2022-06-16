@@ -19,3 +19,8 @@ export interface JoinPartyResponse {
   party: PartyOutput;
   status: string;
 }
+
+export interface AddTripToParty {
+  partyId: string;
+  trip: Trip;
+}
