@@ -5,6 +5,7 @@ import {
   PartyOutput,
 } from '../../../core/shared/modules/parties/domain/parties.interface';
 import { User } from '../../../core/shared/modules/users/domain/interfaces/user.interface';
+import { Trip } from '../../../core/shared/modules/trips/domain/trips.interface';
 
 export const PartiesActions = {
   createPartyRequest: createAction(
@@ -87,5 +88,13 @@ export const PartiesActions = {
   becomeOrganizerFailure: createAction(
     PartiesActionTypes.BECOME_ORGANIZER_FAILURE,
     props<{ error: string }>()
+  ),
+  addTripRequest: createAction(
+    PartiesActionTypes.ADD_TRIP_REQUEST,
+    props<{ partyId: string; trip: Trip }>()
+  ),
+  addTripSuccess: createAction(
+    PartiesActionTypes.ADD_TRIP_SUCCESS,
+    props<{ partyId: string; trip: Trip }>()
   ),
 };
