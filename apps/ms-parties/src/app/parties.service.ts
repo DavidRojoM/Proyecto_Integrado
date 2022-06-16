@@ -1,10 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
+  AddTripToPartyDto,
   FindAllPartiesResponse,
   FindPartyResponse,
+  FindTripByIdPayload,
+  FindTripResponse,
   FindUserByIdPayload,
   FindUserResponse,
   InsertPartyResponse,
+  InsertTripResponse,
   InsertUserPartyResponse,
   JoinPartyDto,
   PartiesRepository,
@@ -24,7 +28,8 @@ export class PartiesService {
   constructor(
     private readonly userPartiesRepository: UserPartiesRepository,
     private readonly partiesRepository: PartiesRepository,
-    @Inject('USERS_SERVICE') private readonly usersProxy: ClientProxy
+    @Inject('USERS_SERVICE') private readonly usersProxy: ClientProxy,
+    @Inject('TRIPS_SERVICE') private readonly tripsProxy: ClientProxy
   ) {}
 
   async joinParty(
@@ -151,5 +156,23 @@ export class PartiesService {
       ok: true,
       value: findResult.value.map((party) => Party.modelToDto(party)),
     };
+  }
+
+  async addTripToParty(config: AddTripToPartyDto): Promise<InsertTripResponse> {
+    const findTripResult = await firstValueFrom(
+      this.tripsProxy.send<FindTripResponse, FindTripByIdPayload>(
+        PayloadActions.TRIPS.TRIPS.FIND_BY_ID,
+        { id: config.trip.id }
+      )
+    );
+
+    if (findTripResult.ok === false) {
+      return findTripResult;
+    }
+
+    return this.partiesRepository.addTripToParty(
+      config.partyId,
+      findTripResult.value
+    );
   }
 }
