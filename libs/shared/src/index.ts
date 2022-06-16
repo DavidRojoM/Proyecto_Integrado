@@ -28,6 +28,8 @@ export * from './lib/domain/dto/parties/party.dto';
 export * from './lib/domain/dto/comms/message.dto';
 export * from './lib/domain/dto/comms/message.input';
 export * from './lib/domain/dto/comms/message.output';
+export * from './lib/domain/dto/parties/add-trip-party.dto';
+export * from './lib/domain/dto/parties/add-trip-party-response.dto';
 
 export * from './lib/domain/dto/trips/hotel.dto';
 export * from './lib/domain/dto/trips/destination.dto';
