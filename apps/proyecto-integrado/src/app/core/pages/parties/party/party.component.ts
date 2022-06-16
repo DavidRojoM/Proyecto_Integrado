@@ -23,6 +23,7 @@ export class PartyComponent implements OnInit, OnDestroy {
   message$!: Observable<MessageOutput[]>;
   myStatus: string | undefined;
   partyStatus = false;
+  hasOrganizer!: boolean;
   me!: User;
   price!: Observable<number>;
 
@@ -61,8 +62,11 @@ export class PartyComponent implements OnInit, OnDestroy {
         (user) => user.id === this.me?.id
       )?.status;
       this.partyStatus =
-        !!party.users.length &&
+        !!party?.users.length &&
         !party?.users.some((user) => user.status === 'PENDING');
+      this.hasOrganizer = party?.users.some(
+        (user) => user.status === 'ORGANIZER'
+      );
     });
 
     this.subscriptions = [
@@ -108,7 +112,9 @@ export class PartyComponent implements OnInit, OnDestroy {
         userId: this.me.id,
       })
     );
-    this.router.navigate(['/parties']);
+    setTimeout(() => {
+      this.router.navigate(['/parties']);
+    }, 300);
   }
 
   joinParty() {
@@ -130,7 +136,11 @@ export class PartyComponent implements OnInit, OnDestroy {
   }
 
   selectTrip() {
-    this.dialog.open(TripSelectorComponent);
+    this.dialog.open(TripSelectorComponent, {
+      data: {
+        partyId: this.partyId,
+      },
+    });
   }
 
   checkout() {
