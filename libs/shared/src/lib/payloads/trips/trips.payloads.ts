@@ -11,6 +11,10 @@ import {
   TripDto,
 } from '@proyecto-integrado/shared';
 
+export interface FindTripByIdPayload {
+  id: string;
+}
+
 export type FindAllTripsResponse = Result<TripDto[], ErrorPayload>;
 export type FindAllTransportsResponse = Result<TransportDto[], ErrorPayload>;
 export type FindAllHotelsResponse = Result<HotelDto[], ErrorPayload>;
@@ -20,11 +24,14 @@ export type FindAllDestinationsResponse = Result<
 >;
 
 export type InsertTripResponse = Result<Trip, ErrorPayload>;
+export type FindTripResponse = Result<Trip, ErrorPayload>;
 export type InsertTransportResponse = Result<TransportDto, ErrorPayload>;
 export type InsertHotelResponse = Result<HotelDto, ErrorPayload>;
 export type InsertDestinationResponse = Result<DestinationDto, ErrorPayload>;
 
 export type InsertTrip = Result<Trip, ErrorPayload>;
+export type FindTrip = Result<Trip, ErrorPayload>;
+
 export type InsertTransport = Result<Transport, ErrorPayload>;
 export type InsertHotel = Result<Hotel, ErrorPayload>;
 export type InsertDestination = Result<Destination, ErrorPayload>;
