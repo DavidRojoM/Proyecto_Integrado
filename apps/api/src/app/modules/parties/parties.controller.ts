@@ -1,6 +1,8 @@
 import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
 import { PartiesService } from './parties.service';
 import {
+  AddTripPartyResponseDto,
+  AddTripToPartyDto,
   JoinPartyDto,
   PartyDto,
   UserPartyDto,
@@ -38,5 +40,12 @@ export class PartiesController {
   @Post('organizer')
   joinAsOrganizer(@Body() joinConfig: JoinPartyDto): Promise<UserPartyDto> {
     return this.partiesService.joinAsOrganizer(joinConfig);
+  }
+
+  @Post('trip')
+  addTrip(
+    @Body() addTripConfig: AddTripToPartyDto
+  ): Promise<AddTripPartyResponseDto> {
+    return this.partiesService.addTrip(addTripConfig);
   }
 }
