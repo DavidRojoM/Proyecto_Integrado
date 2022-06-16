@@ -26,4 +26,20 @@ export enum PartiesActionTypes {
   BECOME_ORGANIZER_REQUEST = '[Parties] Become Organizer Request',
   BECOME_ORGANIZER_SUCCESS = '[Parties] Become Organizer Success',
   BECOME_ORGANIZER_FAILURE = '[Parties] Become Organizer Failure',
+
+  CHECKOUT_PARTY_REQUEST = '[Parties] Checkout Party Request',
+  CHECKOUT_PARTY_SUCCESS = '[Parties] Checkout Party Success',
+  CHECKOUT_PARTY_FAILURE = '[Parties] Checkout Party Failure',
+
+  CANCEL_CHECKOUT_PARTY_REQUEST = '[Parties] Cancel Checkout Party Request',
+  CANCEL_CHECKOUT_PARTY_SUCCESS = '[Parties] Cancel Checkout Party Success',
+  CANCEL_CHECKOUT_PARTY_FAILURE = '[Parties] Cancel Checkout Party Failure',
+
+  CONFIRM_CHECKOUT_PARTY_REQUEST = '[Parties] Confirm Checkout Party Request',
+  CONFIRM_CHECKOUT_PARTY_SUCCESS = '[Parties] Confirm Checkout Party Success',
+  CONFIRM_CHECKOUT_PARTY_FAILURE = '[Parties] Confirm Checkout Party Failure',
+
+  ADD_TRIP_REQUEST = '[Parties] Add Trip Request',
+  ADD_TRIP_SUCCESS = '[Parties] Add Trip Success',
+  ADD_TRIP_FAILURE = '[Parties] Add Trip Failure',
 }
