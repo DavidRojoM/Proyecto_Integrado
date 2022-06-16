@@ -67,5 +67,19 @@ export const tripsReducer = createReducer(
     ...state,
     loading: false,
     error: error.error.statusText,
+  })),
+  on(TripsActions.createTripRequest, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(TripsActions.createTripSuccess, (state, { trip }) => ({
+    ...state,
+    loading: false,
+    trips: [...state.trips, trip],
+  })),
+  on(TripsActions.createTripFailure, (state, { error }: any) => ({
+    ...state,
+    loading: false,
+    error: error.error.statusText,
   }))
 );
