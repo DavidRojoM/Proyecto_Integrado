@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../../environments/environment';
-import { Destination, Hotel, Transport, Trip } from '../domain/trips.interface';
+import {
+  Destination,
+  Hotel,
+  Transport,
+  Trip,
+  TripInput,
+} from '../domain/trips.interface';
 import { Observable } from 'rxjs';
-
+import { v4 as uuidV4 } from 'uuid';
 @Injectable({
   providedIn: 'root',
 })
@@ -29,5 +35,17 @@ export class TripService {
 
   getDestinations(): Observable<Destination[]> {
     return this.http.get<Destination[]>(this.destinations_url);
+  }
+
+  createTrip(trip: Trip): Observable<Trip> {
+    const tripInput: TripInput = {
+      id: uuidV4(),
+      from: trip.from,
+      destinationId: trip.destination?.id,
+      hotelId: trip.hotel?.id,
+      transportId: trip.transport?.id,
+      to: trip.to,
+    };
+    return this.http.post<Trip>(this.trips_url, tripInput);
   }
 }
