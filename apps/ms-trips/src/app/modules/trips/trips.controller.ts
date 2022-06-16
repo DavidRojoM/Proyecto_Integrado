@@ -1,7 +1,8 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import {
   FindAllTripsResponse,
+  FindTripResponse,
   InsertTripResponse,
   PayloadActions,
   TripDto,
@@ -20,5 +21,10 @@ export class TripsController {
   @MessagePattern(PayloadActions.TRIPS.TRIPS.CREATE)
   create(trip: TripDto): Promise<InsertTripResponse> {
     return this.tripsService.create(trip);
+  }
+
+  @MessagePattern(PayloadActions.TRIPS.TRIPS.FIND_BY_ID)
+  findById(@Payload('id') id: string): Promise<FindTripResponse> {
+    return this.tripsService.findById(id);
   }
 }
