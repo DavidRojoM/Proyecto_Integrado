@@ -160,4 +160,42 @@ export class TripsEffects {
       dispatch: false,
     }
   );
+
+  createTripRequest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TripsActionTypes.CREATE_TRIP_REQUEST),
+      switchMap(({ trip, partyId }) =>
+        this.tripsService.createTrip(trip).pipe(
+          map((trip) => ({
+            type: TripsActionTypes.CREATE_TRIP_SUCCESS,
+            trip,
+            partyId,
+          })),
+          catchError((error) => {
+            return of({
+              type: TripsActionTypes.CREATE_TRIP_FAILURE,
+              error,
+            });
+          })
+        )
+      )
+    )
+  );
+
+  createTripFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(TripsActionTypes.CREATE_TRIP_FAILURE),
+        tap(() => {
+          this.snackbarService.open(
+            'Error while creating trip',
+            'DISMISS',
+            2000
+          );
+        })
+      ),
+    {
+      dispatch: false,
+    }
+  );
 }
