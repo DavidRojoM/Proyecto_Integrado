@@ -3,9 +3,11 @@ import { Controller } from '@nestjs/common';
 import { PartiesService } from './parties.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import {
+  AddTripToPartyDto,
   FindAllPartiesResponse,
   FindPartyResponse,
   InsertPartyResponse,
+  InsertTripResponse,
   InsertUserPartyResponse,
   JoinPartyDto,
   PartyDto,
@@ -45,5 +47,10 @@ export class PartiesController {
     @Payload() leaveConfig: JoinPartyDto
   ): Promise<RemoveUserPartyResponse> {
     return this.partiesService.leaveParty(leaveConfig);
+  }
+
+  @MessagePattern(PayloadActions.PARTIES.ADD_TRIP)
+  addTripToParty(config: AddTripToPartyDto): Promise<InsertTripResponse> {
+    return this.partiesService.addTripToParty(config);
   }
 }
