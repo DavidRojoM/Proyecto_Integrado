@@ -4,6 +4,8 @@ import {
   Party,
   FindPartyById,
   FindAllParties,
+  Trip,
+  AddTripToParty,
 } from '@proyecto-integrado/shared';
 import { EntityRepository, Repository } from 'typeorm';
 
@@ -78,6 +80,27 @@ export class PartiesRepository extends Repository<PartyEntity> {
     return {
       ok: true,
       value: result.map((party) => Party.entityToModel(party)),
+    };
+  }
+
+  async addTripToParty(partyId: string, trip: Trip): Promise<AddTripToParty> {
+    const tripEntity = Trip.modelToEntity(trip);
+    try {
+      await this.update(partyId, {
+        trip: tripEntity,
+      });
+    } catch (e) {
+      return {
+        ok: false,
+        error: {
+          statusCode: e.errno,
+          statusText: e.sqlMessage,
+        },
+      };
+    }
+    return {
+      ok: true,
+      value: trip,
     };
   }
 }
