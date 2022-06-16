@@ -6,7 +6,7 @@ export interface Destination {
 
 export interface Transport {
   id: number;
-  name: number;
+  name: string;
   type: string;
   price: number;
   brand: string;
@@ -28,4 +28,13 @@ export interface Trip {
   destination?: Destination;
   transport?: Transport;
   hotel?: Hotel;
+}
+
+export interface TripInput {
+  id: string;
+  from: Date;
+  to: Date;
+  destinationId?: number;
+  hotelId?: number;
+  transportId?: number;
 }
