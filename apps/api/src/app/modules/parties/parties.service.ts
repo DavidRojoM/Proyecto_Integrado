@@ -1,5 +1,7 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import {
+  AddTripToParty,
+  AddTripToPartyDto,
   FindAllPartiesResponse,
   InsertPartyResponse,
   JoinPartyDto,
@@ -7,6 +9,7 @@ import {
   PartyDto,
   PayloadActions,
   RemoveUserPartyResponse,
+  Trip,
   UserPartyDto,
 } from '@proyecto-integrado/shared';
 import { ClientProxy } from '@nestjs/microservices';
@@ -103,5 +106,27 @@ export class PartiesService {
       });
     }
     return joinResponse.value;
+  }
+
+  async addTrip(
+    addTripToPartyConfig: AddTripToPartyDto
+  ): Promise<{ partyId: string; trip: Trip }> {
+    const addTripResponse = await firstValueFrom(
+      this.partiesProxy.send<AddTripToParty, AddTripToPartyDto>(
+        PayloadActions.PARTIES.ADD_TRIP,
+        addTripToPartyConfig
+      )
+    );
+
+    if (addTripResponse.ok === false) {
+      throw new BadRequestException({
+        statusText: addTripResponse.error.statusText,
+        statusCode: addTripResponse.error.statusCode,
+      });
+    }
+    return {
+      partyId: addTripToPartyConfig.partyId,
+      trip: addTripResponse.value,
+    };
   }
 }
