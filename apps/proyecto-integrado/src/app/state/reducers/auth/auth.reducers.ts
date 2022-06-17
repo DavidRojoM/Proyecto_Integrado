@@ -2,7 +2,6 @@ import { createReducer, on } from '@ngrx/store';
 import { AuthActions } from '../../actions/auth/auth.actions';
 import { AuthState } from '../../interfaces/auth.state.interface';
 import { PartiesActions } from '../../actions/parties/parties.actions';
-import { PartyOutput } from '../../../core/shared/modules/parties/domain/parties.interface';
 import { User } from '../../../core/shared/modules/users/domain/interfaces/user.interface';
 
 const initialState: AuthState = {
@@ -86,5 +85,22 @@ export const authReducers = createReducer(
       ...(state.user as User),
       parties: state.user?.parties.filter((p) => p.id !== partyId) || [],
     },
+  })),
+  on(AuthActions.addBalancesRequest, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(AuthActions.addBalancesSuccess, (state, { balances }) => ({
+    ...state,
+    loading: false,
+    user: {
+      ...(state.user as User),
+      balance: balances.amount,
+    },
+  })),
+  on(AuthActions.addBalancesFailure, (state, { error }: any) => ({
+    ...state,
+    loading: false,
+    error: error.error.statusText,
   }))
 );
