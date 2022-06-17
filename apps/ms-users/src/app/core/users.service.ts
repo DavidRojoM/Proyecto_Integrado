@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import {
   AddUserResponse,
+  BalancesRepository,
+  ChangeBalancesDto,
   FindUserResponse,
   User,
   UserDto,
@@ -9,7 +11,10 @@ import {
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(
+    private readonly usersRepository: UsersRepository,
+    private readonly balancesRepository: BalancesRepository
+  ) {}
 
   async addOne(user: UserDto): Promise<AddUserResponse> {
     const insertResult = await this.usersRepository.addOne(
@@ -45,6 +50,18 @@ export class UsersService {
       ...findResult,
       value: User.modelToDto(findResult.value),
     };
-    // return Promise.resolve(undefined);
+  }
+
+  async updateBalances(config: ChangeBalancesDto) {
+    const userResponse = await this.usersRepository.findOneById(config.userId);
+
+    if (userResponse.ok === false) {
+      return userResponse;
+    }
+
+    return await this.balancesRepository.updateBalances({
+      user: userResponse.value,
+      amount: config.amount,
+    });
   }
 }

@@ -3,14 +3,18 @@ import { ClientsModule } from '@nestjs/microservices';
 import { RMQCONFIG } from '@proyecto-integrado/config';
 import { UsersController } from './core/users.controller';
 import { UsersService } from './core/users.service';
-import { EntitiesModule, UsersRepository } from '@proyecto-integrado/shared';
+import {
+  BalancesRepository,
+  EntitiesModule,
+  UsersRepository,
+} from '@proyecto-integrado/shared';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
     ClientsModule.register(RMQCONFIG),
     EntitiesModule,
-    TypeOrmModule.forFeature([UsersRepository]),
+    TypeOrmModule.forFeature([UsersRepository, BalancesRepository]),
   ],
   controllers: [UsersController],
   providers: [UsersService],

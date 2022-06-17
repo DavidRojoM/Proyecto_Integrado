@@ -1,6 +1,8 @@
 import { Controller } from '@nestjs/common';
 import {
   AddUserResponse,
+  ChangeBalancesDto,
+  ChangeBalancesResponse,
   FindUserByIdPayload,
   FindUserByUsernamePayload,
   FindUserResponse,
@@ -31,5 +33,12 @@ export class UsersController {
     @Payload() { username }: FindUserByUsernamePayload
   ): Promise<FindUserResponse> {
     return this.usersService.findOneByUsername(username);
+  }
+
+  @MessagePattern(PayloadActions.USERS.UPDATE_BALANCES)
+  async updateBalances(
+    config: ChangeBalancesDto
+  ): Promise<ChangeBalancesResponse> {
+    return this.usersService.updateBalances(config);
   }
 }
