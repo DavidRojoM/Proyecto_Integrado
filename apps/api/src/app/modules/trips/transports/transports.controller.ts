@@ -2,8 +2,9 @@ import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
 import { TransportsService } from './transports.service';
 import { LoggingInterceptor } from '../../../shared/interceptors/logging.interceptor';
 import { TransportDto } from '@proyecto-integrado/shared';
+import { AuthInterceptor } from '../../auth/interceptors/auth.interceptor';
 
-@UseInterceptors(LoggingInterceptor)
+@UseInterceptors(LoggingInterceptor, AuthInterceptor)
 @Controller('transports')
 export class TransportsController {
   constructor(private readonly transportsService: TransportsService) {}
