@@ -3,6 +3,7 @@ import { AuthActionTypes } from './auth-action.types.enum';
 import { LoginResponse } from '../../../core/shared/modules/auth/domain/login-response.interface';
 import { Credentials } from '../../../core/shared/modules/auth/domain/credentials.interface';
 import { User } from '../../../core/shared/modules/users/domain/interfaces/user.interface';
+import { ChangeBalances } from '../../../core/shared/modules/auth/domain/change-balances.interface';
 
 export const AuthActions = {
   loginRequest: createAction(
@@ -42,4 +43,16 @@ export const AuthActions = {
   ),
 
   logoutRequest: createAction(AuthActionTypes.LOGOUT_REQUEST),
+  addBalancesRequest: createAction(
+    AuthActionTypes.ADD_BALANCES_REQUEST,
+    props<{ amount: number }>()
+  ),
+  addBalancesSuccess: createAction(
+    AuthActionTypes.ADD_BALANCES_SUCCESS,
+    props<{ balances: ChangeBalances }>()
+  ),
+  addBalancesFailure: createAction(
+    AuthActionTypes.ADD_BALANCES_FAILURE,
+    props<{ error: string }>()
+  ),
 };
