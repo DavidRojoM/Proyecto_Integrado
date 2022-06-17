@@ -9,6 +9,7 @@ import { environment } from '../../../../../../environments/environment';
 import { User } from '../../users/domain/interfaces/user.interface';
 import { LocalStorageService } from '../../../services/local-storage.service';
 import { map } from 'rxjs/operators';
+import { ChangeBalances } from '../domain/change-balances.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -68,6 +69,13 @@ export class AuthService {
           },
         }))
       );
+  }
+
+  addBalances(balances: ChangeBalances): Observable<ChangeBalances> {
+    return this.http.post<ChangeBalances>(
+      `${environment.GATEWAY_URL}/users/balances`,
+      balances
+    );
   }
 
   private buildFormData(user: any) {

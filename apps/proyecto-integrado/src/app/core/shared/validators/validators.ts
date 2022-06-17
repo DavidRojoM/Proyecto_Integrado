@@ -1,10 +1,10 @@
 import { AbstractControl } from '@angular/forms';
-import { Country } from './country.interface';
+import { Country } from '../modules/country/domain/country.interface';
 import {
   Destination,
   Hotel,
   Transport,
-} from '../../trips/domain/trips.interface';
+} from '../modules/trips/domain/trips.interface';
 
 export function CountryValidator(countries: Country[]) {
   return (control: AbstractControl) => {
