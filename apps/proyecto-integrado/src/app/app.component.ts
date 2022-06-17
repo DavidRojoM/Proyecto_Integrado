@@ -10,6 +10,8 @@ import {
   selectIsAuthenticated,
 } from './state/selectors/auth/auth.selectors';
 import { selectBalances } from './state/selectors/balances/balances.selectors';
+import { MatDialog } from '@angular/material/dialog';
+import { AddBalancesDialogComponent } from './core/dialogs/add-balances-dialog/add-balances-dialog.component';
 
 @Component({
   selector: 'proyecto-integrado-root',
@@ -28,7 +30,8 @@ export class AppComponent implements OnDestroy {
   constructor(
     private readonly store$: Store<AppState>,
     changeDetectorRef: ChangeDetectorRef,
-    media: MediaMatcher
+    media: MediaMatcher,
+    private readonly dialog: MatDialog
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -45,5 +48,9 @@ export class AppComponent implements OnDestroy {
   logout(snav: MatSidenav) {
     this.store$.dispatch(AuthActions.logoutRequest());
     snav.toggle();
+  }
+
+  addBalances() {
+    this.dialog.open(AddBalancesDialogComponent);
   }
 }

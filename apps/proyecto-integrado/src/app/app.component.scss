@@ -18,11 +18,17 @@
     //align-items: center;
 
     .balance {
+      cursor: pointer;
       margin-left: auto;
       background-color: var(--first-color);
       padding: 5px 10px;
       border-radius: 10px;
       width: fit-content;
+
+      &:hover {
+        background-color: var(--third-color);
+        color: black;
+      }
     }
   }
 }

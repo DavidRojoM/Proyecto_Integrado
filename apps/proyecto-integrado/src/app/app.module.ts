@@ -12,9 +12,11 @@ import { StateModule } from './state/state.module';
 import { MaterialModule } from './core/shared/modules/material/material.module';
 import { GraphQLModule } from './graphql.module';
 import { ApolloModule } from 'apollo-angular';
+import { AddBalancesDialogComponent } from './core/dialogs/add-balances-dialog/add-balances-dialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, AddBalancesDialogComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -30,6 +32,7 @@ import { ApolloModule } from 'apollo-angular';
     MaterialModule,
     ApolloModule,
     GraphQLModule,
+    ReactiveFormsModule,
   ],
   providers: [
     {

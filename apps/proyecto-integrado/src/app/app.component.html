@@ -5,7 +5,12 @@
     </button>
     <h1 class="app-name">Meet n Trip</h1>
     <!--    TODO: CURRENCY OBSERVABLE-->
-    <span *ngIf="isAuhenticated | async" class="balance">
+    <span
+      *ngIf="isAuhenticated | async"
+      class="balance"
+      (click)="addBalances()"
+      matTooltip="Add balances"
+    >
       {{ userBalances | async | currency: 'EUR' }}</span
     >
   </mat-toolbar>
