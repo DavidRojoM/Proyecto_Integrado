@@ -1,11 +1,14 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { catchError, map, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { AuthActionTypes } from '../../actions/auth/auth-action.types.enum';
 import { AuthService } from '../../../core/shared/modules/auth/services/auth.service';
 import { SnackbarService } from '../../../core/shared/services/snackbar.service';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '../../../core/shared/services/local-storage.service';
 import { Injectable } from '@angular/core';
+import { selectUser } from '../../selectors/auth/auth.selectors';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../interfaces/app.state.interface';
 
 @Injectable()
 export class AuthEffects {
@@ -14,7 +17,8 @@ export class AuthEffects {
     private readonly authService: AuthService,
     private readonly snackbarService: SnackbarService,
     private readonly router: Router,
-    private readonly localStorageService: LocalStorageService
+    private readonly localStorageService: LocalStorageService,
+    private readonly store$: Store<AppState>
   ) {}
 
   login$ = createEffect(() =>
@@ -187,6 +191,45 @@ export class AuthEffects {
         ofType(AuthActionTypes.SIGNUP_FAILURE),
         tap(() => {
           this.snackbarService.open('User already exists', 'DISMISS', 2000);
+        })
+      ),
+    {
+      dispatch: false,
+    }
+  );
+
+  addBalances$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActionTypes.ADD_BALANCES_REQUEST),
+      withLatestFrom(this.store$.select(selectUser)),
+      switchMap(([{ amount }, user]) =>
+        this.authService
+          .addBalances({
+            amount: Number(amount) + Number(user.balance),
+            userId: user.id,
+          })
+          .pipe(
+            map((balances) => ({
+              type: AuthActionTypes.ADD_BALANCES_SUCCESS,
+              balances,
+            })),
+            catchError((error) => {
+              return of({
+                type: AuthActionTypes.ADD_BALANCES_FAILURE,
+                error,
+              });
+            })
+          )
+      )
+    )
+  );
+
+  addBalancesFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActionTypes.ADD_BALANCES_FAILURE),
+        tap(() => {
+          this.snackbarService.open('Could not add balances', 'DISMISS', 2000);
         })
       ),
     {
