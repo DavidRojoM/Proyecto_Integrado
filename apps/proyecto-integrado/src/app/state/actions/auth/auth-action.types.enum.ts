@@ -11,5 +11,9 @@ export enum AuthActionTypes {
   CHECK_AUTH_SUCCESS = '[Auth] Check Auth Success',
   CHECK_AUTH_FAILURE = '[Auth] Check Auth Failure',
 
+  ADD_BALANCES_REQUEST = '[Auth] Add Balances Request',
+  ADD_BALANCES_SUCCESS = '[Auth] Add Balances Success',
+  ADD_BALANCES_FAILURE = '[Auth] Add Balances Failure',
+
   LOGOUT_REQUEST = '[Auth] Logout Request',
 }
