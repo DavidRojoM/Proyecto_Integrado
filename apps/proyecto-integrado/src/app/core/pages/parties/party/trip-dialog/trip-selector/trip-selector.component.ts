@@ -19,7 +19,7 @@ import {
   DestinationValidator,
   HotelValidator,
   TransportValidator,
-} from '../../../../../shared/modules/country/domain/validators';
+} from '../../../../../shared/validators/validators';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
