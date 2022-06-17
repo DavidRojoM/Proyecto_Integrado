@@ -9,7 +9,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UserDto } from '@proyecto-integrado/shared';
+import { ChangeBalancesDto, UserDto } from '@proyecto-integrado/shared';
 import { AuthInterceptor } from '../auth/interceptors/auth.interceptor';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { LoggingInterceptor } from '../../shared/interceptors/logging.interceptor';
@@ -20,11 +20,13 @@ import { Multer } from 'multer';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @UseInterceptors(AuthInterceptor)
   @Get()
   findAll(): Promise<UserDto[]> {
     return this.usersService.findAll();
   }
 
+  @UseInterceptors(AuthInterceptor)
   @Get(':id')
   findOne(@Param('id') id: string): Promise<UserDto> {
     return this.usersService.findOne(id);
@@ -43,7 +45,6 @@ export class UsersController {
     @Body()
     user: UserDto
   ): Promise<Partial<UserDto>> {
-    console.log(user);
     return this.usersService.signup(user, image);
   }
 
@@ -51,5 +52,13 @@ export class UsersController {
   @Put()
   update(@Body() updatedUser: UserDto): Promise<Partial<UserDto>> {
     return this.usersService.update(updatedUser);
+  }
+
+  @UseInterceptors(AuthInterceptor)
+  @Post('balances')
+  increaseBalances(
+    @Body() increaseConfig: ChangeBalancesDto
+  ): Promise<ChangeBalancesDto> {
+    return this.usersService.increaseBalances(increaseConfig);
   }
 }
