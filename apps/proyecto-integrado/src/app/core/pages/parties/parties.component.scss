@@ -24,7 +24,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: flex-start;
     row-gap: 40px;
   }
 
@@ -36,10 +36,7 @@
 @media screen and (max-width: 1230px) {
   .cards {
     .party-cards {
-      flex-direction: column;
-      justify-content: center !important;
-      align-items: center !important;
-      gap: 40px;
+      justify-content: center;
     }
     h2 {
       text-align: center;

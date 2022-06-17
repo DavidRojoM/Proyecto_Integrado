@@ -31,7 +31,10 @@ export class PartiesComponent implements OnInit, OnDestroy {
     const partiesSubscription = this.store$
       .select(selectUser)
       .subscribe((user) => {
-        const userId = user.id;
+        const userId = user?.id;
+        if (!userId) {
+          return;
+        }
         forkJoin([
           (this.myParties$ = this.store$
             .select(selectParties)
