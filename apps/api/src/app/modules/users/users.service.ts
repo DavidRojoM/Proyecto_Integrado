@@ -3,8 +3,10 @@ import {
   AddUserResponse,
   ImageInput,
   ImageUploadResponse,
+  ChangeBalancesDto,
   PayloadActions,
   UserDto,
+  ChangeBalancesResponse,
 } from '@proyecto-integrado/shared';
 import { firstValueFrom } from 'rxjs';
 import { ClientProxy } from '@nestjs/microservices';
@@ -130,5 +132,23 @@ export class UsersService {
     }
 
     return uploadResponse.value.url;
+  }
+
+  async increaseBalances(
+    config: ChangeBalancesDto
+  ): Promise<ChangeBalancesDto> {
+    const response = await firstValueFrom(
+      this.usersProxy.send<ChangeBalancesResponse, ChangeBalancesDto>(
+        PayloadActions.USERS.UPDATE_BALANCES,
+        config
+      )
+    );
+    if (response.ok === false) {
+      throw new BadRequestException({
+        statusText: response.error.statusText,
+        statusCode: response.error.statusCode,
+      });
+    }
+    return response.value;
   }
 }
