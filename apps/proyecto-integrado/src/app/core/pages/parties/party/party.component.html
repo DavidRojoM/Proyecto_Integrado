@@ -81,6 +81,11 @@
           {{ party.trip?.transport?.name }}</mat-card-subtitle
         >
 
+        <mat-card-subtitle>
+          <b>Price per person: </b>:
+          {{ this.price | currency: 'EUR' }}</mat-card-subtitle
+        >
+
         <img
           mat-card-xl-image
           src="{{ party.trip?.hotel?.image }}"

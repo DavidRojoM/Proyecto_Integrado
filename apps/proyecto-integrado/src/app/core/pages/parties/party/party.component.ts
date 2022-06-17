@@ -25,7 +25,7 @@ export class PartyComponent implements OnInit, OnDestroy {
   partyStatus = false;
   hasOrganizer!: boolean;
   me!: User;
-  price!: Observable<number>;
+  price!: number;
 
   subscriptions: Subscription[] = [];
 
@@ -67,6 +67,17 @@ export class PartyComponent implements OnInit, OnDestroy {
       this.hasOrganizer = party?.users.some(
         (user) => user.status === 'ORGANIZER'
       );
+
+      if (party?.trip) {
+        const timeDifferenceInDays =
+          (new Date(party?.trip?.to).getTime() -
+            new Date(party?.trip?.from).getTime()) /
+          (1000 * 3600 * 24);
+        const hotelPrice =
+          timeDifferenceInDays * Number(party?.trip?.hotel?.nightPrice || 0);
+        const transportPrice = Number(party.trip.transport?.price || 0);
+        this.price = hotelPrice + transportPrice;
+      }
     });
 
     this.subscriptions = [
