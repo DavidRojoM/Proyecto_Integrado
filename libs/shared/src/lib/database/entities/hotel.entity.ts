@@ -17,6 +17,8 @@ export class HotelEntity {
 
   @Column({
     type: 'decimal',
+    precision: 10,
+    scale: 2,
   })
   nightPrice: number;
 
