@@ -9,6 +9,7 @@ import { Injectable } from '@angular/core';
 import { selectUser } from '../../selectors/auth/auth.selectors';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../interfaces/app.state.interface';
+import { PartiesActionTypes } from '../../actions/parties/parties-action.types.enum';
 
 @Injectable()
 export class AuthEffects {
@@ -128,7 +129,6 @@ export class AuthEffects {
             'username',
             loginResponse.user.username
           );
-          // this.router.navigate(['/home']);
         })
       ),
     {
@@ -235,5 +235,17 @@ export class AuthEffects {
     {
       dispatch: false,
     }
+  );
+
+  checkoutPartySuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PartiesActionTypes.CHECKOUT_PARTY_SUCCESS),
+      map(({ balances }) => ({
+        type: AuthActionTypes.ADD_BALANCES_SUCCESS,
+        balances: {
+          amount: balances,
+        },
+      }))
+    )
   );
 }
