@@ -1,1 +1,17 @@
-<p>wishlists works!</p>
+<section class="wishlists">
+  <header class="wishlists-header">
+    <h2>Wishlists</h2>
+    <button (click)="createWishlist()" mat-button class="add-buton">
+      <mat-icon>add</mat-icon>
+    </button>
+  </header>
+  <article class="wishlists-body">
+    <proyecto-integrado-wishlist
+      class="wishlist"
+      *ngFor="let wishlist of wishlists$ | async"
+      [wishlist]="wishlist"
+      [parties]="parties$ | async"
+      (addToPartyEmitter)="addToParty($event)"
+    ></proyecto-integrado-wishlist>
+  </article>
+</section>
