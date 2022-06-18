@@ -47,6 +47,9 @@ export class MessagesRepository extends Repository<MessageEntity> {
       .leftJoinAndSelect('message.party', 'party')
       .leftJoinAndSelect('message.user', 'user')
       .where('party.id = :id', { id })
+      .orderBy({
+        createdAt: 'ASC',
+      })
       .getMany();
     return {
       ok: true,
