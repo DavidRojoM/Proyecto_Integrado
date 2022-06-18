@@ -9,6 +9,7 @@ import {
 import { MessageEntity } from './message.entity';
 import { TripEntity } from './trip.entity';
 import { UserPartiesEntity } from './user-parties.entity';
+import { PartyStatusEnum } from '../../domain/enums/party-status.enum';
 
 @Entity('parties')
 export class PartyEntity {
@@ -17,6 +18,13 @@ export class PartyEntity {
 
   @Column()
   name: string;
+
+  @Column({
+    type: 'enum',
+    enum: PartyStatusEnum,
+    default: PartyStatusEnum.PENDING,
+  })
+  status: PartyStatusEnum;
 
   @OneToMany(() => MessageEntity, (message) => message.party)
   messages: MessageEntity[];
