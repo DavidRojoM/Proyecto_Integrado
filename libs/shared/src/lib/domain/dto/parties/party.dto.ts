@@ -1,10 +1,17 @@
 import { TripDto } from '../trips/trip.dto';
 import { MessageDto } from '../comms/message.dto';
 import { UserPartyDto } from '../users/user-party.dto';
-import { IsArray, IsOptional, IsString, ValidateNested } from 'class-validator';
+import {
+  IsArray,
+  IsEnum,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { UserDto } from '../users/user.dto';
 import { Trip } from '../../models/trips/trip.model';
+import { PartyStatusEnum } from '../../enums/party-status.enum';
 
 export class PartyDto {
   @IsString()
@@ -33,4 +40,7 @@ export class PartyDto {
   })
   @Type(() => UserPartyDto)
   users: UserDto[];
+
+  @IsEnum(PartyStatusEnum)
+  status: PartyStatusEnum;
 }
