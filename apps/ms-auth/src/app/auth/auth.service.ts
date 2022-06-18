@@ -95,7 +95,6 @@ export class AuthService {
         },
       };
     }
-    console.log(response.value.parties);
 
     if (response.value.banned) {
       return {
