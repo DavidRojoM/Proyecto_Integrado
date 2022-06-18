@@ -65,6 +65,18 @@ export const PartiesActions = {
     PartiesActionTypes.JOIN_PARTY_FAILURE,
     props<{ error: string }>()
   ),
+  addToPartyRequest: createAction(
+    PartiesActionTypes.ADD_TO_PARTY_REQUEST,
+    props<{ userId: string; partyId: string }>()
+  ),
+  addToPartySuccess: createAction(
+    PartiesActionTypes.ADD_TO_PARTY_SUCCESS,
+    props<{ user: User; party: PartyOutput }>()
+  ),
+  addToPartyFailure: createAction(
+    PartiesActionTypes.ADD_TO_PARTY_FAILURE,
+    props<{ error: string }>()
+  ),
   leavePartyRequest: createAction(
     PartiesActionTypes.LEAVE_PARTY_REQUEST,
     props<{ userId: string; partyId: string }>()
@@ -96,5 +108,29 @@ export const PartiesActions = {
   addTripSuccess: createAction(
     PartiesActionTypes.ADD_TRIP_SUCCESS,
     props<{ partyId: string; trip: Trip }>()
+  ),
+  checkoutRequest: createAction(
+    PartiesActionTypes.CHECKOUT_PARTY_REQUEST,
+    props<{ partyId: string }>()
+  ),
+  checkoutSuccess: createAction(
+    PartiesActionTypes.CHECKOUT_PARTY_SUCCESS,
+    props<{ partyId: string; userId: string }>()
+  ),
+  checkoutFailure: createAction(
+    PartiesActionTypes.CHECKOUT_PARTY_FAILURE,
+    props<{ error: string }>()
+  ),
+  cancelCheckoutRequest: createAction(
+    PartiesActionTypes.CANCEL_CHECKOUT_PARTY_REQUEST,
+    props<{ partyId: string }>()
+  ),
+  cancelCheckoutSuccess: createAction(
+    PartiesActionTypes.CANCEL_CHECKOUT_PARTY_SUCCESS,
+    props<{ partyId: string }>()
+  ),
+  cancelCheckoutFailure: createAction(
+    PartiesActionTypes.CANCEL_CHECKOUT_PARTY_FAILURE,
+    props<{ error: string }>()
   ),
 };
