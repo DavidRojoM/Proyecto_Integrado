@@ -90,4 +90,15 @@ export const RMQCONFIG: ClientsModuleOptions = [
       },
     },
   },
+  {
+    name: 'WISHLISTS_SERVICE',
+    transport: Transport.RMQ,
+    options: {
+      queue: QUEUES.WISHLISTS,
+      urls: [ENVIRONMENT.RMQ_URL],
+      queueOptions: {
+        durable: true,
+      },
+    },
+  },
 ];
