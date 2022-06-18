@@ -26,6 +26,7 @@
         *ngFor="let country of filteredDestinations$ | async"
         [value]="country.name"
         matTooltip="{{ country.description }}"
+        matTooltipPosition="right"
       >
         <span>{{ country.name }}</span>
       </mat-option>
@@ -45,6 +46,7 @@
         *ngFor="let hotel of filteredHotels$ | async"
         [value]="hotel.name"
         matTooltip="Night price: {{ hotel.nightPrice }}"
+        matTooltipPosition="right"
       >
         <span>{{ hotel.name }}</span>
       </mat-option>
@@ -64,6 +66,7 @@
         *ngFor="let transport of filteredTransports$ | async"
         [value]="transport.name"
         matTooltip="Price: {{ transport.price | currency: 'EUR' }}"
+        matTooltipPosition="right"
       >
         <span
           >{{ transport.type }} {{ transport.name }} |

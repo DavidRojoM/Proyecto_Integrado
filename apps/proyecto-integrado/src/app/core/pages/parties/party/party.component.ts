@@ -50,7 +50,6 @@ export class PartyComponent implements OnInit, OnDestroy {
   }
 
   private initParty(): void {
-    //TODO: SHOW PRICE
     this.initChat(this.partyId);
 
     const meSubscription = this.store$.select(selectUser).subscribe((user) => {
@@ -155,14 +154,23 @@ export class PartyComponent implements OnInit, OnDestroy {
   }
 
   checkout() {
+    //TODO:UPDATES MY BALANCES AND USER IN PARTY STATUS
     console.log('TODO PartyComponent#checkout');
+    this.store$.dispatch(
+      PartiesActions.checkoutRequest({ partyId: this.partyId })
+    );
   }
 
   cancelCheckout() {
+    //TODO:UPDATES MY BALANCES AND USER IN PARTY STATUS
     console.log('TODO PartyComponent#cancelCheckout');
+    this.store$.dispatch(
+      PartiesActions.cancelCheckoutRequest({ partyId: this.partyId })
+    );
   }
 
   confirmParty() {
+    //TODO:UPDATES ORGANIZER BALANCES AND  UPDATES PARTY STATUS
     console.log('TODO PartyComponent#confirmParty');
   }
 }
