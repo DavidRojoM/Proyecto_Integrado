@@ -35,3 +35,5 @@ export type FindTrip = Result<Trip, ErrorPayload>;
 export type InsertTransport = Result<Transport, ErrorPayload>;
 export type InsertHotel = Result<Hotel, ErrorPayload>;
 export type InsertDestination = Result<Destination, ErrorPayload>;
+
+export type FindDestination = Result<Destination, ErrorPayload>;
