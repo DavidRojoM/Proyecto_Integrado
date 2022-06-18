@@ -1,0 +1,29 @@
+.wishlists {
+  .wishlists-header {
+    h2 {
+      font-size: 2em;
+      color: #aaaaaa;
+    }
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .add-buton {
+      aspect-ratio: 1/1;
+      border-radius: 50%;
+    }
+  }
+  .wishlists-body {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+    .wishlist {
+      width: 100%;
+    }
+  }
+}
