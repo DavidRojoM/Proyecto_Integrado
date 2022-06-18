@@ -11,6 +11,7 @@
     "ms-parties": "apps/ms-parties",
     "ms-trips": "apps/ms-trips",
     "ms-users": "apps/ms-users",
+    "ms-wishlists": "apps/ms-wishlists",
     "proyecto-integrado": "apps/proyecto-integrado",
     "proyecto-integrado-e2e": "apps/proyecto-integrado-e2e",
     "shared": "libs/shared"
