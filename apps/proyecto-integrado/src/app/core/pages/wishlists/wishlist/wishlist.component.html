@@ -1,0 +1,86 @@
+<div class="wishlist">
+  <div class="user-image-container">
+    <img
+      src="{{ wishlist.user.image }}"
+      alt="Avatar of {{ wishlist.user.username }}"
+      class="user-avatar"
+    />
+  </div>
+  <div class="user-content-container">
+    <div class="user-content-left-panel">
+      <h4 class="user-caption">
+        <span class="highlighted-text">{{
+          wishlist.user.username | titlecase
+        }}</span>
+        wants to travel to
+        <span class="highlighted-text">{{ wishlist.destination.name }}</span
+        >, reach him out inviting him to a party!
+      </h4>
+      <div class="user-filters">
+        <span class="user-filter-container">
+          <mat-icon>flag</mat-icon>
+          <span
+            class="user-filter"
+            *ngIf="wishlist.user.nationality; else noFilter"
+            >From {{ wishlist.user.nationality }}</span
+          >
+        </span>
+        <span class="user-filter-container">
+          <mat-icon>person</mat-icon>
+          <span class="user-filter" *ngIf="wishlist.ageFilter; else noFilter"
+            >{{ wishlist.ageFilter }} Y/o</span
+          >
+        </span>
+        <span class="user-filter-container">
+          <mat-icon>date_range</mat-icon>
+          <span
+            class="user-filter"
+            *ngIf="wishlist.departureFilter; else noFilter"
+            >{{ wishlist.departureFilter | date: 'mediumDate':'GMT' }}</span
+          >
+        </span>
+        <span class="user-filter-container">
+          <mat-icon>how_to_reg</mat-icon>
+          <span
+            class="user-filter"
+            *ngIf="wishlist.genderFilter; else noFilter"
+            >{{ wishlist.genderFilter | GenderPipe }}</span
+          >
+        </span>
+      </div>
+    </div>
+    <div class="user-content-right-panel">
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="Example icon-button with a menu"
+        class="card-menu-button"
+        matTooltip="Menu"
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+<ng-template #noFilter>
+  <span> - - - </span>
+</ng-template>
+
+<mat-menu #menu="matMenu" yPosition="below">
+  <button
+    mat-menu-item
+    [matMenuTriggerFor]="partiesMenu"
+    [disabled]="!parties?.length"
+  >
+    <mat-icon>add_circle</mat-icon>
+    <span>Add to party</span>
+  </button>
+</mat-menu>
+
+<mat-menu #partiesMenu="matMenu" yPosition="below">
+  <button mat-menu-item *ngFor="let party of parties">
+    <span (click)="addToParty(wishlist.user.id, party.id)">{{
+      party.name
+    }}</span>
+  </button>
+</mat-menu>
