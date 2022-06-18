@@ -22,6 +22,8 @@ import { CommsService } from './modules/comms/comms.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import { PartiesController } from './modules/parties/parties.controller';
+import { WishlistsService } from './modules/wishlists/wishlists.service';
+import { WishlistsController } from './modules/wishlists/wishlists.controller';
 
 @Module({
   imports: [
@@ -42,6 +44,7 @@ import { PartiesController } from './modules/parties/parties.controller';
     HotelsController,
     DestinationsController,
     PartiesController,
+    WishlistsController,
   ],
   providers: [
     AuthService,
@@ -54,6 +57,7 @@ import { PartiesController } from './modules/parties/parties.controller';
     PartiesService,
     CommsService,
     CommsResolver,
+    WishlistsService,
   ],
 })
 export class AppModule {}
