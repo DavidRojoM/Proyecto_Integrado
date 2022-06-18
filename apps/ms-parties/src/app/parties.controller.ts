@@ -4,6 +4,8 @@ import { PartiesService } from './parties.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import {
   AddTripToPartyDto,
+  CheckoutDto,
+  CheckoutResponse,
   FindAllPartiesResponse,
   FindPartyResponse,
   InsertPartyResponse,
@@ -52,5 +54,15 @@ export class PartiesController {
   @MessagePattern(PayloadActions.PARTIES.ADD_TRIP)
   addTripToParty(config: AddTripToPartyDto): Promise<InsertTripResponse> {
     return this.partiesService.addTripToParty(config);
+  }
+
+  @MessagePattern(PayloadActions.PARTIES.CHECKOUT_TRIP)
+  checkout(config: CheckoutDto): Promise<CheckoutResponse> {
+    return this.partiesService.checkout(config);
+  }
+
+  @MessagePattern(PayloadActions.PARTIES.CANCEL_CHECKOUT_TRIP)
+  cancelCheckout(config: CheckoutDto): Promise<CheckoutResponse> {
+    return this.partiesService.cancelCheckout(config);
   }
 }
