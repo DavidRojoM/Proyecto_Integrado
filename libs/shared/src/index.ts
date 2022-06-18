@@ -9,10 +9,13 @@ export * from './lib/payloads/images/images.payloads';
 export * from './lib/payloads/trips/trips.payloads';
 export * from './lib/payloads/parties/parties.payloads';
 export * from './lib/payloads/comms/comms.payloads';
+export * from './lib/payloads/wishlists/wishlists.payloads';
 
 export * from './lib/domain/enums/roles.enum';
 export * from './lib/domain/enums/transports.enum';
 export * from './lib/domain/enums/user-party-status.enum';
+export * from './lib/domain/enums/gender.enum';
+export * from './lib/domain/enums/party-status.enum';
 
 export * from './lib/domain/models/users/user.model';
 export * from './lib/domain/models/parties/party.model';
@@ -22,6 +25,7 @@ export * from './lib/domain/models/trips/destination.model';
 export * from './lib/domain/models/trips/hotel.model';
 export * from './lib/domain/models/trips/transport.model';
 export * from './lib/domain/models/users/user-party.model';
+export * from './lib/domain/models/wishlists/wishlist.model';
 
 export * from './lib/domain/dto/trips/trip.dto';
 export * from './lib/domain/dto/parties/party.dto';
@@ -31,13 +35,14 @@ export * from './lib/domain/dto/comms/message.output';
 export * from './lib/domain/dto/parties/add-trip-party.dto';
 export * from './lib/domain/dto/parties/add-trip-party-response.dto';
 export * from './lib/domain/dto/users/balances.dto';
-
+export * from './lib/domain/dto/wishlists/wishlist.dto';
 export * from './lib/domain/dto/trips/hotel.dto';
 export * from './lib/domain/dto/trips/destination.dto';
 export * from './lib/domain/dto/trips/transport.dto';
 export * from './lib/domain/dto/users/user.dto';
 export * from './lib/domain/dto/users/user-party.dto';
 export * from './lib/domain/dto/parties/join-party.dto';
+export * from './lib/domain/dto/parties/checkout.dto';
 
 export * from './lib/domain/types/result.type';
 
@@ -52,7 +57,6 @@ export * from './lib/database/entities/destination.entity';
 export * from './lib/database/entities/trip.entity';
 export * from './lib/database/entities/user-parties.entity';
 export * from './lib/database/entities/balances.entity';
-export * from './lib/database/entities/user-wishlist.entity';
 export * from './lib/database/entities/wishlist.entity';
 
 export * from './lib/database/entities';
@@ -66,3 +70,4 @@ export * from './lib/database/repositories/parties.repository';
 export * from './lib/database/repositories/user-parties.repository';
 export * from './lib/database/repositories/messages.repository';
 export * from './lib/database/repositories/balances.repository';
+export * from './lib/database/repositories/wishlists.repository';
