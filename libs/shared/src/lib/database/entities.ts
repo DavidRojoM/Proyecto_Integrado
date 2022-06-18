@@ -8,7 +8,6 @@ import { TripEntity } from './entities/trip.entity';
 import { UserEntity } from './entities/user.entity';
 import { UserPartiesEntity } from './entities/user-parties.entity';
 import { WishlistEntity } from './entities/wishlist.entity';
-import { UserWishlistEntity } from './entities/user-wishlist.entity';
 import { BalanceEntity } from './entities/balances.entity';
 
 export const entities = [
@@ -22,6 +21,5 @@ export const entities = [
   UserEntity,
   UserPartiesEntity,
   WishlistEntity,
-  UserWishlistEntity,
   BalanceEntity,
 ];
