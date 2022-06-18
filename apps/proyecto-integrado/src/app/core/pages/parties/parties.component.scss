@@ -26,6 +26,10 @@
     align-items: center;
     justify-content: flex-start;
     row-gap: 40px;
+
+    .party-card {
+      max-width: 300px;
+    }
   }
 
   mat-divider {
