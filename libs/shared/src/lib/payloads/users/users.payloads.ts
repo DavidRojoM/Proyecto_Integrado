@@ -30,5 +30,5 @@ export type RemoveUserPartyResponse = Result<
   ErrorPayload
 >;
 
-export type FindUserPartyById = Result<UserParty, ErrorPayload>;
+export type FindUserParty = Result<UserParty, ErrorPayload>;
 export type InsertUserParty = Result<UserParty, ErrorPayload>;
