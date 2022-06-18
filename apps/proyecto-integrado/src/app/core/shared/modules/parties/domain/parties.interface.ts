@@ -4,6 +4,7 @@ import { Trip } from '../../trips/domain/trips.interface';
 export interface PartyInput {
   id: string;
   name: string;
+  status: string;
 }
 
 export interface PartyOutput {
