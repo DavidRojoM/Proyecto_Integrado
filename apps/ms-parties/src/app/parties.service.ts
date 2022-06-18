@@ -1,6 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
   AddTripToPartyDto,
+  ChangeBalancesResponse,
+  CheckoutDto,
+  CheckoutResponse,
   FindAllPartiesResponse,
   FindPartyResponse,
   FindTripByIdPayload,
@@ -19,6 +22,7 @@ import {
   User,
   UserPartiesRepository,
   UserParty,
+  UserPartyStatus,
 } from '@proyecto-integrado/shared';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
@@ -173,6 +177,97 @@ export class PartiesService {
     return this.partiesRepository.addTripToParty(
       config.partyId,
       findTripResult.value
+    );
+  }
+
+  async checkout(config: CheckoutDto): Promise<CheckoutResponse> {
+    const userParty = await this.userPartiesRepository.findByUserIdAndPartyId(
+      config.userId,
+      config.partyId
+    );
+
+    if (userParty.ok === false) {
+      return userParty;
+    }
+    const trip = userParty.value.party.trip;
+    const user = userParty.value.user;
+
+    const userBalances = user.balance;
+    const tripPrice = this.calculateTripPrice(
+      trip.hotel.nightPrice,
+      trip.transport.price,
+      this.calculateTimeDifferenceInDays(trip.from, trip.to)
+    );
+
+    const balancesResult = Number(userBalances) - tripPrice;
+    if (balancesResult < 0) {
+      return {
+        ok: false,
+        error: {
+          statusCode: 400,
+          statusText: 'Not enough balance',
+        },
+      };
+    }
+    //TODO: MAKE THIS TRANSACTIONAL
+    try {
+      await this.userPartiesRepository.updateStatus(
+        config.userId,
+        config.partyId,
+        UserPartyStatus.READY
+      );
+    } catch (e) {
+      return {
+        ok: false,
+        error: {
+          statusCode: 400,
+          statusText: 'Could not update UserParty Status',
+        },
+      };
+    }
+
+    const updateBalancesResult = await firstValueFrom(
+      this.usersProxy.send<
+        ChangeBalancesResponse,
+        { userId: string; amount: number }
+      >(PayloadActions.USERS.UPDATE_BALANCES, {
+        userId: config.userId,
+        amount: balancesResult,
+      })
+    );
+
+    if (updateBalancesResult.ok === false) {
+      return updateBalancesResult;
+    }
+    return {
+      ok: true,
+      value: {
+        partyId: config.partyId,
+        userId: config.userId,
+        balances: balancesResult,
+      },
+    };
+  }
+
+  cancelCheckout(config: CheckoutDto): Promise<CheckoutResponse> {
+    return Promise.resolve(undefined);
+  }
+
+  private calculateTripPrice(
+    hotelNightPrice: number,
+    transportPrice: number,
+    days: number
+  ): number {
+    const hotelPrice = Number(hotelNightPrice) * Number(days);
+    return hotelPrice + Number(transportPrice);
+  }
+
+  private calculateTimeDifferenceInDays(
+    from: Date | string,
+    to: Date | string
+  ): number {
+    return Math.round(
+      (new Date(to).getTime() - new Date(from).getTime()) / (1000 * 3600 * 24)
     );
   }
 }
