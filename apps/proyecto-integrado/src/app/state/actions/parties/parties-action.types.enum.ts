@@ -19,6 +19,10 @@ export enum PartiesActionTypes {
   JOIN_PARTY_SUCCESS = '[Parties] Join Party Success',
   JOIN_PARTY_FAILURE = '[Parties] Join Party Failure',
 
+  ADD_TO_PARTY_REQUEST = '[Parties] Add To Party Request',
+  ADD_TO_PARTY_SUCCESS = '[Parties] Add To Party Success',
+  ADD_TO_PARTY_FAILURE = '[Parties] Add To Party Failure',
+
   LEAVE_PARTY_REQUEST = '[Parties] Leave Party Request',
   LEAVE_PARTY_SUCCESS = '[Parties] Leave Party Success',
   LEAVE_PARTY_FAILURE = '[Parties] Leave Party Failure',
@@ -35,9 +39,9 @@ export enum PartiesActionTypes {
   CANCEL_CHECKOUT_PARTY_SUCCESS = '[Parties] Cancel Checkout Party Success',
   CANCEL_CHECKOUT_PARTY_FAILURE = '[Parties] Cancel Checkout Party Failure',
 
-  CONFIRM_CHECKOUT_PARTY_REQUEST = '[Parties] Confirm Checkout Party Request',
-  CONFIRM_CHECKOUT_PARTY_SUCCESS = '[Parties] Confirm Checkout Party Success',
-  CONFIRM_CHECKOUT_PARTY_FAILURE = '[Parties] Confirm Checkout Party Failure',
+  CONFIRM_PARTY_REQUEST = '[Parties] Confirm Checkout Party Request',
+  CONFIRM_PARTY_SUCCESS = '[Parties] Confirm Checkout Party Success',
+  CONFIRM_PARTY_FAILURE = '[Parties] Confirm Checkout Party Failure',
 
   ADD_TRIP_REQUEST = '[Parties] Add Trip Request',
   ADD_TRIP_SUCCESS = '[Parties] Add Trip Success',
