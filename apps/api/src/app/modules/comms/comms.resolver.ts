@@ -18,9 +18,7 @@ export class CommsResolver {
   })
   async findAllByPartyId(@Args('partyId') partyId: string) {
     const messages = await this.commsService.findMessagesByPartyId(partyId);
-    const result = messages.map(Message.modelToOutput);
-    console.log(result);
-    return result;
+    return messages.map(Message.modelToOutput);
   }
 
   @Mutation((returns) => MessageOutput)
