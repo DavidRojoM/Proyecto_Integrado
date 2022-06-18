@@ -2,13 +2,18 @@ import { EntityRepository, Repository } from 'typeorm';
 import {
   Destination,
   DestinationEntity,
+  FindDestination,
   InsertDestination,
 } from '@proyecto-integrado/shared';
 
 @EntityRepository(DestinationEntity)
 export class DestinationsRepository extends Repository<DestinationEntity> {
   async findAllDestinations(): Promise<Destination[]> {
-    const result = await this.createQueryBuilder().getMany();
+    const result = await this.createQueryBuilder()
+      .orderBy({
+        name: 'ASC',
+      })
+      .getMany();
 
     return result.map((destination) => Destination.entityToModel(destination));
   }
@@ -36,14 +41,25 @@ export class DestinationsRepository extends Repository<DestinationEntity> {
     };
   }
 
-  async findById(id: number) {
-    const result = await this.createQueryBuilder('destination')
-      .select()
-      .where('destination.id = :id', { id })
-      .getOne();
-    if (!result) {
-      return null;
+  async findById(id: number): Promise<FindDestination> {
+    let result;
+    try {
+      result = await this.createQueryBuilder('destination')
+        .select()
+        .where('destination.id = :id', { id })
+        .getOneOrFail();
+    } catch (e) {
+      return {
+        ok: false,
+        error: {
+          statusCode: e.errno,
+          statusText: e.sqlMessage,
+        },
+      };
     }
-    return Destination.entityToModel(result);
+    return {
+      ok: true,
+      value: Destination.entityToModel(result),
+    };
   }
 }
