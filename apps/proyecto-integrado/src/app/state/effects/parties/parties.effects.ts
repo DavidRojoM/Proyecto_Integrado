@@ -9,6 +9,7 @@ import { AppState } from '../../interfaces/app.state.interface';
 import { selectUser } from '../../selectors/auth/auth.selectors';
 import { PartyInput } from '../../../core/shared/modules/parties/domain/parties.interface';
 import { TripsActionTypes } from '../../actions/trips/trips-action.types.enum';
+import { User } from '../../../core/shared/modules/users/domain/interfaces/user.interface';
 
 @Injectable()
 export class PartiesEffects {
@@ -83,6 +84,44 @@ export class PartiesEffects {
         tap(() => {
           this.snackbarService.open(
             'Could not join the party',
+            'DISMISS',
+            2000
+          );
+        })
+      ),
+    {
+      dispatch: false,
+    }
+  );
+
+  addToPartyRequest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PartiesActionTypes.ADD_TO_PARTY_REQUEST),
+      switchMap(({ userId, partyId }) =>
+        this.partiesService.joinParty(userId, partyId).pipe(
+          map(({ user, party }) => ({
+            type: PartiesActionTypes.ADD_TO_PARTY_SUCCESS,
+            user,
+            party,
+          })),
+          catchError((error) => {
+            return of({
+              type: PartiesActionTypes.ADD_TO_PARTY_FAILURE,
+              error,
+            });
+          })
+        )
+      )
+    )
+  );
+
+  addToPartyFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(PartiesActionTypes.ADD_TO_PARTY_FAILURE),
+        tap(() => {
+          this.snackbarService.open(
+            'Could not add to the party',
             'DISMISS',
             2000
           );
@@ -236,6 +275,46 @@ export class PartiesEffects {
         tap(() => {
           this.snackbarService.open(
             'Could add the trip to the party',
+            'DISMISS',
+            2000
+          );
+        })
+      ),
+    {
+      dispatch: false,
+    }
+  );
+
+  checkoutRequest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PartiesActionTypes.CHECKOUT_PARTY_REQUEST),
+      withLatestFrom(this.store$.select(selectUser)),
+      switchMap(([{ partyId }, user]: [{ partyId: string }, User]) =>
+        this.partiesService.checkout(partyId, user.id).pipe(
+          map((response) => ({
+            type: PartiesActionTypes.CHECKOUT_PARTY_SUCCESS,
+            partyId: response.partyId,
+            userId: response.userId,
+            balances: response.balances,
+          })),
+          catchError((error) => {
+            return of({
+              type: PartiesActionTypes.CHECKOUT_PARTY_FAILURE,
+              error,
+            });
+          })
+        )
+      )
+    )
+  );
+
+  checkoutFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(PartiesActionTypes.CHECKOUT_PARTY_FAILURE),
+        tap(() => {
+          this.snackbarService.open(
+            'Could not checkout the party',
             'DISMISS',
             2000
           );
