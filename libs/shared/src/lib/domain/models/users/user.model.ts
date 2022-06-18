@@ -4,6 +4,7 @@ import { UserDto } from '../../dto/users/user.dto';
 import { UserEntity } from '../../../database/entities/user.entity';
 import { UserParty } from './user-party.model';
 import { UserOutput } from '../../dto/users/user.output';
+import { Wishlist } from '../wishlists/wishlist.model';
 
 export class User {
   id: string;
@@ -17,6 +18,7 @@ export class User {
   bankAccount: string;
   userParties?: UserParty[];
   messages?: Message[];
+  wishlists?: Wishlist[];
   balance?: number;
 
   static modelToEntity(user: User): UserEntity {
@@ -35,6 +37,9 @@ export class User {
     );
     entity.messages = user?.messages?.map((message) =>
       Message.modelToEntity(message)
+    );
+    entity.wishlists = user?.wishlists?.map((wishlist) =>
+      Wishlist.modelToEntity(wishlist)
     );
 
     return entity;
@@ -58,6 +63,11 @@ export class User {
     model.messages = user?.messages?.map((message) =>
       Message.entityToModel(message)
     );
+
+    model.wishlists = user?.wishlists?.map((wishlist) => {
+      return Wishlist.entityToModel(wishlist);
+    });
+
     return model;
   }
 
