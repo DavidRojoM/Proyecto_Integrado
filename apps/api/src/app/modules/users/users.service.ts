@@ -10,7 +10,6 @@ import {
 } from '@proyecto-integrado/shared';
 import { firstValueFrom } from 'rxjs';
 import { ClientProxy } from '@nestjs/microservices';
-import { validate } from 'class-validator';
 
 @Injectable()
 export class UsersService {
@@ -75,33 +74,6 @@ export class UsersService {
     }
 
     return response.value;
-  }
-
-  private async plainToUserDto(user: any): Promise<UserDto> {
-    //TODO: Fix parsing
-    const newUser = Object.assign(new UserDto(), {
-      ...user,
-      banned:
-        typeof user.banned === 'string' ? JSON.parse(user.banned) : user.banned,
-      parties: user.parties
-        ? typeof user.parties === 'string'
-          ? JSON.parse(user.parties)
-          : user.parties
-        : [],
-      messages: user.messages
-        ? typeof user.messages === 'string'
-          ? JSON.parse(user.messages)
-          : user.messages
-        : [],
-    });
-    const validationErrors = await validate(newUser);
-    if (validationErrors.length) {
-      const validationsToString = validationErrors
-        .map((e) => Object.values(e.constraints).join(', '))
-        .join(', ');
-      throw new Error(validationsToString);
-    }
-    return newUser;
   }
 
   private async uploadUserImage(image: ImageInput): Promise<string> {
