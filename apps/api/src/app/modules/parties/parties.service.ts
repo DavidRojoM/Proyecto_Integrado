@@ -2,6 +2,8 @@ import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import {
   AddTripToParty,
   AddTripToPartyDto,
+  CheckoutResponse,
+  CheckoutResponseDto,
   FindAllPartiesResponse,
   InsertPartyResponse,
   JoinPartyDto,
@@ -15,6 +17,7 @@ import {
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { UserPartyStatus } from '@proyecto-integrado/shared';
+import { CheckoutDto } from '@proyecto-integrado/shared';
 
 @Injectable()
 export class PartiesService {
@@ -128,5 +131,56 @@ export class PartiesService {
       partyId: addTripToPartyConfig.partyId,
       trip: addTripResponse.value,
     };
+  }
+
+  async checkout(config: CheckoutDto): Promise<CheckoutResponseDto> {
+    const response = await firstValueFrom(
+      this.partiesProxy.send<CheckoutResponse, CheckoutDto>(
+        PayloadActions.PARTIES.CHECKOUT_TRIP,
+        config
+      )
+    );
+
+    if (response.ok === false) {
+      throw new BadRequestException({
+        statusText: response.error.statusText,
+        statusCode: response.error.statusCode,
+      });
+    }
+    return response.value;
+  }
+
+  async cancelCheckout(config: CheckoutDto): Promise<CheckoutResponseDto> {
+    const response = await firstValueFrom(
+      this.partiesProxy.send<CheckoutResponse, CheckoutDto>(
+        PayloadActions.PARTIES.CANCEL_CHECKOUT_TRIP,
+        config
+      )
+    );
+
+    if (response.ok === false) {
+      throw new BadRequestException({
+        statusText: response.error.statusText,
+        statusCode: response.error.statusCode,
+      });
+    }
+    return response.value;
+  }
+
+  async confirm(partyId: string): Promise<any> {
+    const response = await firstValueFrom(
+      this.partiesProxy.send<any, { partyId: string }>(
+        PayloadActions.PARTIES.CHECKOUT_TRIP,
+        { partyId }
+      )
+    );
+
+    if (response.ok === false) {
+      throw new BadRequestException({
+        statusText: response.error.statusText,
+        statusCode: response.error.statusCode,
+      });
+    }
+    return response.value;
   }
 }
