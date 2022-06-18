@@ -1,0 +1,53 @@
+<form [formGroup]="form">
+  <mat-form-field appearance="fill">
+    <mat-label>Destination</mat-label>
+    <mat-select formControlName="destination">
+      <mat-option
+        *ngFor="let destination of destinations$ | async"
+        [value]="destination"
+      >
+        {{ destination.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Age filter</mat-label>
+    <input
+      autocomplete="off"
+      type="number"
+      min="0"
+      matInput
+      formControlName="ageFilter"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Gender Filter</mat-label>
+    <mat-select formControlName="genderFilter">
+      <mat-option [value]="'M'"> Male </mat-option>
+      <mat-option [value]="'F'"> Female </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Departure date filter</mat-label>
+    <input
+      autocomplete="off"
+      matInput
+      [matDatepicker]="picker"
+      formControlName="departureFilter"
+    />
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</form>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close="close">Cancel</button>
+  <button
+    [disabled]="!this.form.valid"
+    mat-button
+    mat-dialog-close="close"
+    (click)="createWishlist()"
+  >
+    Add Wishlist
+  </button>
+</mat-dialog-actions>
