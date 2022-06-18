@@ -27,6 +27,7 @@ export class PartiesService {
     return this.http.post<PartyInput>(`${environment.GATEWAY_URL}/parties`, {
       name,
       id: uuidV4(),
+      status: 'PENDING',
     });
   }
 
@@ -99,5 +100,19 @@ export class PartiesService {
           console.log('response', response);
         })
       );
+  }
+
+  checkout(
+    partyId: string,
+    userId: string
+  ): Observable<{ partyId: string; userId: string; balances: number }> {
+    return this.http.post<{
+      partyId: string;
+      userId: string;
+      balances: number;
+    }>(`${environment.GATEWAY_URL}/parties/checkout`, {
+      partyId,
+      userId,
+    });
   }
 }
