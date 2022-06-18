@@ -33,7 +33,6 @@ export const partiesReducer = createReducer(
     parties: [
       {
         id: party.id,
-        status: 'PENDING',
         users: [],
         name: party.name,
       },
@@ -63,6 +62,28 @@ export const partiesReducer = createReducer(
     }),
   })),
   on(PartiesActions.joinPartyFailure, (state, { error }: any) => ({
+    ...state,
+    loading: false,
+    error: error.error.statusText,
+  })),
+  on(PartiesActions.addToPartyRequest, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(PartiesActions.addToPartySuccess, (state, { party, user }) => ({
+    ...state,
+    loading: false,
+    parties: state.parties.map((p) => {
+      if (p.id !== party.id) {
+        return p;
+      }
+      return {
+        ...p,
+        users: [...p.users, user],
+      };
+    }),
+  })),
+  on(PartiesActions.addToPartyFailure, (state, { error }: any) => ({
     ...state,
     loading: false,
     error: error.error.statusText,
@@ -120,6 +141,31 @@ export const partiesReducer = createReducer(
       return {
         ...party,
         trip,
+      };
+    }),
+  })),
+  on(PartiesActions.checkoutRequest, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(PartiesActions.checkoutSuccess, (state, { partyId, userId }) => ({
+    ...state,
+    loading: false,
+    parties: state.parties.map((party) => {
+      if (party.id !== partyId) {
+        return party;
+      }
+      return {
+        ...party,
+        users: party.users.map((user) => {
+          if (user.id !== userId) {
+            return user;
+          }
+          return {
+            ...user,
+            status: 'READY',
+          };
+        }),
       };
     }),
   }))
