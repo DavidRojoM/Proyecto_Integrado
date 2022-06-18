@@ -41,9 +41,15 @@ export class TripsService {
   async create(trip: TripDto): Promise<InsertTripResponse> {
     const tripModel = Trip.dtoToModel(trip);
     if (trip.destinationId) {
-      tripModel.destination = await this.destinationRepository.findById(
+      const findResult = await this.destinationRepository.findById(
         trip.destinationId
       );
+
+      if (findResult.ok === false) {
+        return findResult;
+      }
+
+      tripModel.destination = findResult.value;
     }
 
     if (trip.hotelId) {
