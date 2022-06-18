@@ -5,6 +5,7 @@ import {
   DestinationDto,
   InsertDestinationResponse,
   DestinationsRepository,
+  FindDestination,
 } from '@proyecto-integrado/shared';
 import { Payload } from '@nestjs/microservices';
 
@@ -50,5 +51,9 @@ export class DestinationsService {
       ok: true,
       value: Destination.modelToDto(insertResult.value),
     };
+  }
+
+  async findById(id: number): Promise<FindDestination> {
+    return this.destinationsRepository.findById(id);
   }
 }
