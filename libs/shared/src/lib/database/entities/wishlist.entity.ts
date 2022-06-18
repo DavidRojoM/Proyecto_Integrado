@@ -1,13 +1,16 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { DestinationEntity } from '@proyecto-integrado/shared';
-import { UserWishlistEntity } from './user-wishlist.entity';
+import {
+  DestinationEntity,
+  GenderEnum,
+  UserEntity,
+} from '@proyecto-integrado/shared';
 
 @Entity('wishlist')
 export class WishlistEntity {
@@ -21,23 +24,26 @@ export class WishlistEntity {
 
   @Column({
     type: 'enum',
-    enum: ['F', 'M'],
+    enum: GenderEnum,
     nullable: true,
   })
-  genderFilter?: string;
+  genderFilter?: GenderEnum;
 
   @Column({
     nullable: true,
   })
   departureFilter?: Date;
 
-  @OneToMany(
-    (type) => UserWishlistEntity,
-    (userWishlist) => userWishlist.wishList
-  )
-  userWishlists: UserWishlistEntity[];
+  @ManyToOne((type) => UserEntity, (user) => user.wishlists, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  user: UserEntity;
 
   @ManyToOne((type) => DestinationEntity, (destination) => destination.wishList)
   @JoinColumn()
   destination: DestinationEntity;
+
+  @CreateDateColumn()
+  createdAt: Date;
 }

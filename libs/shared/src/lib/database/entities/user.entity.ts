@@ -14,7 +14,7 @@ import * as bcrypt from 'bcrypt';
 import { MessageEntity } from './message.entity';
 import { UserPartiesEntity } from './user-parties.entity';
 import { BalanceEntity } from './balances.entity';
-import { UserWishlistEntity } from './user-wishlist.entity';
+import { WishlistEntity } from './wishlist.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -70,8 +70,8 @@ export class UserEntity {
   })
   balance: BalanceEntity;
 
-  @OneToMany((type) => UserWishlistEntity, (userWishlist) => userWishlist.user)
-  userWishlists: UserWishlistEntity[];
+  @OneToMany((type) => WishlistEntity, (wishlistEntity) => wishlistEntity.user)
+  wishlists: WishlistEntity[];
 
   @BeforeInsert()
   @BeforeUpdate()
