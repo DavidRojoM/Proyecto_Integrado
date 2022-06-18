@@ -1,8 +1,10 @@
 import {
+  FindUserParty,
   InsertUserParty,
   RemoveUserPartyResponse,
   UserPartiesEntity,
   UserParty,
+  UserPartyStatus,
 } from '@proyecto-integrado/shared';
 import { EntityRepository, Repository } from 'typeorm';
 
@@ -61,5 +63,49 @@ export class UserPartiesRepository extends Repository<UserPartiesEntity> {
         partyId,
       },
     };
+  }
+
+  async findByUserIdAndPartyId(
+    userId: string,
+    partyId: string
+  ): Promise<FindUserParty> {
+    let findResult;
+    try {
+      findResult = await this.createQueryBuilder('userParty')
+        .select()
+        .leftJoinAndSelect('userParty.user', 'user')
+        .leftJoinAndSelect('user.balance', 'balance')
+        .leftJoinAndSelect('userParty.party', 'party')
+        .leftJoinAndSelect('party.trip', 'trip')
+        .leftJoinAndSelect('trip.hotel', 'hotel')
+        .leftJoinAndSelect('trip.transport', 'transport')
+        .where('user.id = :userId', { userId })
+        .andWhere('party.id = :partyId', { partyId })
+        .getOneOrFail();
+    } catch (e) {
+      return {
+        ok: false,
+        error: {
+          statusCode: e.errno,
+          statusText: e.sqlMessage,
+        },
+      };
+    }
+    return {
+      ok: true,
+      value: UserParty.entityToModel(findResult),
+    };
+  }
+  async updateStatus(
+    userId: string,
+    partyId: string,
+    status: UserPartyStatus
+  ): Promise<void> {
+    await this.createQueryBuilder()
+      .update(UserPartiesEntity)
+      .set({ status: status })
+      .where('userId = :userId', { userId })
+      .andWhere('partyId = :partyId', { partyId })
+      .execute();
   }
 }
