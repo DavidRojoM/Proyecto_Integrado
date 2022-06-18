@@ -11,6 +11,7 @@ import { PartiesEffects } from './effects/parties/parties.effects';
 import { CommsEffects } from './effects/comms/comms.effects';
 import { TripsEffects } from './effects/trips/trips.effects';
 import { AppState } from './interfaces/app.state.interface';
+import { WishlistsEffects } from './effects/wishlists/wishlists.effects';
 
 @NgModule({
   declarations: [],
@@ -23,6 +24,7 @@ import { AppState } from './interfaces/app.state.interface';
       PartiesEffects,
       CommsEffects,
       TripsEffects,
+      WishlistsEffects,
     ]),
     StoreDevtoolsModule.instrument(),
   ],
