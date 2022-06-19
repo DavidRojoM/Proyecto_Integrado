@@ -59,8 +59,9 @@ export class PartiesEffects {
   joinPartyRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PartiesActionTypes.JOIN_PARTY_REQUEST),
-      switchMap(({ userId, partyId }) =>
-        this.partiesService.joinParty(userId, partyId).pipe(
+      withLatestFrom(this.store$.select(selectUser)),
+      switchMap(([{ partyId }, user]) =>
+        this.partiesService.joinParty(user.id, partyId).pipe(
           map(({ user, party }) => ({
             type: PartiesActionTypes.JOIN_PARTY_SUCCESS,
             user,
@@ -135,8 +136,9 @@ export class PartiesEffects {
   leavePartyRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PartiesActionTypes.LEAVE_PARTY_REQUEST),
-      switchMap(({ userId, partyId }) =>
-        this.partiesService.leaveParty(userId, partyId).pipe(
+      withLatestFrom(this.store$.select(selectUser)),
+      switchMap(([{ partyId }, user]) =>
+        this.partiesService.leaveParty(user.id, partyId).pipe(
           map(({ userId, partyId }) => ({
             type: PartiesActionTypes.LEAVE_PARTY_SUCCESS,
             userId,
@@ -315,6 +317,86 @@ export class PartiesEffects {
         tap(() => {
           this.snackbarService.open(
             'Could not checkout the party',
+            'DISMISS',
+            2000
+          );
+        })
+      ),
+    {
+      dispatch: false,
+    }
+  );
+
+  cancelCheckoutRequest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PartiesActionTypes.CANCEL_CHECKOUT_PARTY_REQUEST),
+      withLatestFrom(this.store$.select(selectUser)),
+      switchMap(([{ partyId }, user]: [{ partyId: string }, User]) =>
+        this.partiesService.cancelCheckout(partyId, user.id).pipe(
+          map((response) => ({
+            type: PartiesActionTypes.CANCEL_CHECKOUT_PARTY_SUCCESS,
+            partyId: response.partyId,
+            userId: response.userId,
+            balances: response.balances,
+          })),
+          catchError((error) => {
+            return of({
+              type: PartiesActionTypes.CANCEL_CHECKOUT_PARTY_FAILURE,
+              error,
+            });
+          })
+        )
+      )
+    )
+  );
+
+  cancelCheckoutFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(PartiesActionTypes.CANCEL_CHECKOUT_PARTY_FAILURE),
+        tap(() => {
+          this.snackbarService.open(
+            'Could not cancel the checkout',
+            'DISMISS',
+            2000
+          );
+        })
+      ),
+    {
+      dispatch: false,
+    }
+  );
+
+  confirmPartyRequest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PartiesActionTypes.CONFIRM_PARTY_REQUEST),
+      withLatestFrom(this.store$.select(selectUser)),
+      switchMap(([{ partyId }, user]: [{ partyId: string }, User]) =>
+        this.partiesService.confirmParty(partyId, user.id).pipe(
+          map((response) => ({
+            type: PartiesActionTypes.CONFIRM_PARTY_SUCCESS,
+            partyId: response.partyId,
+            userId: response.userId,
+            balances: response.balances,
+          })),
+          catchError((error) => {
+            return of({
+              type: PartiesActionTypes.CONFIRM_PARTY_FAILURE,
+              error,
+            });
+          })
+        )
+      )
+    )
+  );
+
+  confirmPartyFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(PartiesActionTypes.CONFIRM_PARTY_FAILURE),
+        tap(() => {
+          this.snackbarService.open(
+            'Could not confirm the party',
             'DISMISS',
             2000
           );
