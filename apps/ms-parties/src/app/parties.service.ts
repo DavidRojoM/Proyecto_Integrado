@@ -36,7 +36,8 @@ export class PartiesService {
     private readonly userPartiesRepository: UserPartiesRepository,
     private readonly partiesRepository: PartiesRepository,
     @Inject('USERS_SERVICE') private readonly usersProxy: ClientProxy,
-    @Inject('TRIPS_SERVICE') private readonly tripsProxy: ClientProxy
+    @Inject('TRIPS_SERVICE') private readonly tripsProxy: ClientProxy,
+    @Inject('MAILER_SERVICE') private readonly mailerProxy: ClientProxy
   ) {}
 
   async joinParty(
@@ -373,11 +374,11 @@ export class PartiesService {
       this.calculateTimeDifferenceInDays(trip.from, trip.to)
     );
 
-    const usersInParty = findPartyResponse.value.users.filter(
+    const readyUsers = findPartyResponse.value.users.filter(
       (userParty) => userParty.status === UserPartyStatus.READY
-    ).length;
+    );
 
-    const amountToGain = (tripPrice * usersInParty) / 100;
+    const amountToGain = (tripPrice * readyUsers.length) / 100;
 
     const balancesResult = Number(userBalances) + amountToGain;
 
@@ -394,6 +395,11 @@ export class PartiesService {
     if (updateBalancesResult.ok === false) {
       return updateBalancesResult;
     }
+
+    this.mailerProxy.emit(PayloadActions.MAIL.SEND_PARTY_CONFIRMATION, {
+      users: readyUsers.map((userParty) => userParty.user),
+      party: findPartyResponse.value,
+    });
     return {
       ok: true,
       value: {
