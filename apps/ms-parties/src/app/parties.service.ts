@@ -226,7 +226,10 @@ export class PartiesService {
     );
   }
 
-  async checkout(config: CheckoutDto): Promise<CheckoutResponse> {
+  async checkout(
+    config: CheckoutDto,
+    status: UserPartyStatus
+  ): Promise<CheckoutResponse> {
     const userParty = await this.userPartiesRepository.findByUserIdAndPartyId(
       config.userId,
       config.partyId
@@ -234,6 +237,15 @@ export class PartiesService {
 
     if (userParty.ok === false) {
       return userParty;
+    }
+    if (userParty.value.party.status === PartyStatusEnum.READY) {
+      return {
+        ok: false,
+        error: {
+          statusCode: 400,
+          statusText: 'Party is already confirmed',
+        },
+      };
     }
     const trip = userParty.value.party.trip;
     const user = userParty.value.user;
@@ -245,22 +257,27 @@ export class PartiesService {
       this.calculateTimeDifferenceInDays(trip.from, trip.to)
     );
 
-    const balancesResult = Number(userBalances) - tripPrice;
-    if (balancesResult < 0) {
-      return {
-        ok: false,
-        error: {
-          statusCode: 400,
-          statusText: 'Not enough balance',
-        },
-      };
+    let balancesResult;
+    if (status === UserPartyStatus.READY) {
+      balancesResult = Number(userBalances) - tripPrice;
+      if (balancesResult < 0) {
+        return {
+          ok: false,
+          error: {
+            statusCode: 400,
+            statusText: 'Not enough balance',
+          },
+        };
+      }
+    } else {
+      balancesResult = Number(userBalances) + tripPrice;
     }
     //TODO: MAKE THIS TRANSACTIONAL
     try {
       await this.userPartiesRepository.updateStatus(
         config.userId,
         config.partyId,
-        UserPartyStatus.READY
+        status
       );
     } catch (e) {
       return {
