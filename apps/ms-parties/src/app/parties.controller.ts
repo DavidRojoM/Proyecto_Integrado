@@ -6,6 +6,8 @@ import {
   AddTripToPartyDto,
   CheckoutDto,
   CheckoutResponse,
+  ConfirmPartyDto,
+  ConfirmPartyResponse,
   FindAllPartiesResponse,
   FindPartyResponse,
   InsertPartyResponse,
@@ -15,8 +17,8 @@ import {
   PartyDto,
   PayloadActions,
   RemoveUserPartyResponse,
+  UserPartyStatus,
 } from '@proyecto-integrado/shared';
-import { UserPartyStatus } from '@proyecto-integrado/shared';
 
 @Controller()
 export class PartiesController {
@@ -58,11 +60,16 @@ export class PartiesController {
 
   @MessagePattern(PayloadActions.PARTIES.CHECKOUT_TRIP)
   checkout(config: CheckoutDto): Promise<CheckoutResponse> {
-    return this.partiesService.checkout(config);
+    return this.partiesService.checkout(config, UserPartyStatus.READY);
   }
 
   @MessagePattern(PayloadActions.PARTIES.CANCEL_CHECKOUT_TRIP)
   cancelCheckout(config: CheckoutDto): Promise<CheckoutResponse> {
-    return this.partiesService.cancelCheckout(config);
+    return this.partiesService.checkout(config, UserPartyStatus.PENDING);
+  }
+
+  @MessagePattern(PayloadActions.PARTIES.CONFIRM_PARTY)
+  confirmParty(config: ConfirmPartyDto): Promise<ConfirmPartyResponse> {
+    return this.partiesService.confirm(config);
   }
 }
