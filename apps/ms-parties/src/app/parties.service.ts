@@ -108,39 +108,36 @@ export class PartiesService {
     };
   }
 
-  async leaveParty(
-    joinPartyDto: JoinPartyDto
-  ): Promise<RemoveUserPartyResponse> {
-    const findUserResult = await firstValueFrom(
-      this.usersProxy.send<FindUserResponse, FindUserByIdPayload>(
-        PayloadActions.USERS.FIND_BY_ID,
-        { id: joinPartyDto.userId }
-      )
-    );
-
-    if (findUserResult.ok === false) {
-      return findUserResult;
+  async leaveParty(config: JoinPartyDto): Promise<RemoveUserPartyResponse> {
+    const findUserPartyResponse =
+      await this.userPartiesRepository.findByUserIdAndPartyId(
+        config.userId,
+        config.partyId
+      );
+    if (findUserPartyResponse.ok === false) {
+      return findUserPartyResponse;
     }
 
     if (
-      !findUserResult.value.parties.some(
-        (party) => party.party.id === joinPartyDto.partyId
-      )
+      findUserPartyResponse.value.status === UserPartyStatus.READY &&
+      findUserPartyResponse.value.party.status !== 'READY'
     ) {
-      return {
-        ok: false,
-        error: {
-          statusCode: 400,
-          statusText: 'User not in party',
+      const checkoutResponse = await this.checkout(
+        {
+          partyId: config.partyId,
+          userId: config.userId,
         },
-      };
+        UserPartyStatus.PENDING
+      );
+
+      if (checkoutResponse.ok === false) {
+        return checkoutResponse;
+      }
     }
 
-    //TODO: RETURN BALANCES TO PLAYER IF ALREADY PAID
-    //TODO ADD BALANCES TO RETURNED VALUE
     return await this.userPartiesRepository.deleteUserParty(
-      joinPartyDto.userId,
-      joinPartyDto.partyId
+      config.userId,
+      config.partyId
     );
   }
 
