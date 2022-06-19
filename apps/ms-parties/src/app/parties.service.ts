@@ -177,6 +177,38 @@ export class PartiesService {
   }
 
   async addTripToParty(config: AddTripToPartyDto): Promise<InsertTripResponse> {
+    const findPartyResponse = await this.partiesRepository.findById(
+      config.partyId
+    );
+
+    if (findPartyResponse.ok === false) {
+      return findPartyResponse;
+    }
+
+    if (findPartyResponse.value.status === PartyStatusEnum.READY) {
+      return {
+        ok: false,
+        error: {
+          statusCode: 400,
+          statusText: 'Cannot add a trip to an ended party',
+        },
+      };
+    }
+
+    if (
+      findPartyResponse.value.users.some(
+        (userParty) => userParty.status === UserPartyStatus.READY
+      )
+    ) {
+      return {
+        ok: false,
+        error: {
+          statusCode: 400,
+          statusText: 'Cannot add a trip to a party with a ready user',
+        },
+      };
+    }
+
     const findTripResult = await firstValueFrom(
       this.tripsProxy.send<FindTripResponse, FindTripByIdPayload>(
         PayloadActions.TRIPS.TRIPS.FIND_BY_ID,
