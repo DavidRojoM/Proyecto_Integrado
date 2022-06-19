@@ -1,5 +1,6 @@
 import {
   CheckoutResponseDto,
+  ConfirmPartyResponseDto,
   ErrorPayload,
   Party,
   PartyDto,
@@ -8,7 +9,6 @@ import {
   UserParty,
   UserPartyDto,
 } from '@proyecto-integrado/shared';
-import { CheckoutDto } from '../../domain/dto/parties/checkout.dto';
 
 export type FindAllPartiesResponse = Result<PartyDto[], ErrorPayload>;
 export type FindPartyResponse = Result<PartyDto, ErrorPayload>;
@@ -22,7 +22,6 @@ export type AddTripToPartyResponse = Result<
 >;
 export type CheckoutResponse = Result<CheckoutResponseDto, ErrorPayload>;
 
-export type ConfirmPartyResponse = Result<UserPartyDto, ErrorPayload>;
 export type FindAllParties = Result<Party[], ErrorPayload>;
 export type FindPartyById = Result<Party, ErrorPayload>;
 export type InsertParty = Result<Party, ErrorPayload>;
@@ -30,7 +29,10 @@ export type UpdateParty = Result<Party, ErrorPayload>;
 export type DeleteParty = Result<Party, ErrorPayload>;
 export type JoinParty = Result<UserParty, ErrorPayload>;
 export type AddTripToParty = Result<Trip, ErrorPayload>;
-export type ConfirmParty = Result<UserParty, ErrorPayload>;
+export type ConfirmPartyResponse = Result<
+  ConfirmPartyResponseDto,
+  ErrorPayload
+>;
 
 export interface FindPartyByIdPayload {
   id: string;
