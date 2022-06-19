@@ -11,9 +11,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 import { TripSelectorComponent } from './party/trip-dialog/trip-selector/trip-selector.component';
 import { AddPartyDialogComponent } from './add-party-dialog/add-party-dialog.component';
+import { UserStatusPipe } from '../../shared/pipes/user-status.pipe';
 
 @NgModule({
   declarations: [
+    UserStatusPipe,
     PartiesComponent,
     PartyCardComponent,
     PartyComponent,

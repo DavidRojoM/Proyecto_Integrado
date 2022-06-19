@@ -51,6 +51,9 @@ export class PartyCardComponent implements OnInit, OnDestroy {
   }
 
   joinParty() {
+    if (this.party.status === 'READY') {
+      return;
+    }
     this.joinPartyEvent.emit(this.party.id);
   }
 
