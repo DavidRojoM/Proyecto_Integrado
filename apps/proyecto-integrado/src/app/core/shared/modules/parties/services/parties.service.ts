@@ -115,4 +115,31 @@ export class PartiesService {
       userId,
     });
   }
+
+  cancelCheckout(
+    partyId: string,
+    userId: string
+  ): Observable<{ partyId: string; userId: string; balances: number }> {
+    return this.http.delete<{
+      partyId: string;
+      userId: string;
+      balances: number;
+    }>(`${environment.GATEWAY_URL}/parties/checkout`, {
+      body: {
+        partyId,
+        userId,
+      },
+    });
+  }
+
+  confirmParty(
+    partyId: string,
+    userId: string
+  ): Observable<{ partyId: string; userId: string; balances: number }> {
+    return this.http.post<{
+      partyId: string;
+      userId: string;
+      balances: number;
+    }>(`${environment.GATEWAY_URL}/parties/confirm`, { userId, partyId });
+  }
 }
