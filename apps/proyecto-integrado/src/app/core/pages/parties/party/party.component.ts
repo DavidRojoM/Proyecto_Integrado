@@ -22,18 +22,13 @@ export class PartyComponent implements OnInit, OnDestroy {
   party$ = this.store$.select(selectPartyById(this.partyId));
   message$!: Observable<MessageOutput[]>;
   myStatus: string | undefined;
-  partyStatus = false;
+  canConfirmParty = false;
+  partyStatus: string | undefined;
   hasOrganizer!: boolean;
   me!: User;
   price!: number;
 
   subscriptions: Subscription[] = [];
-
-  userStatusMap: { [index: string]: string } = {
-    PENDING: '⏳',
-    READY: '✅',
-    ORGANIZER: '📆',
-  };
 
   constructor(
     private readonly store$: Store<AppState>,
@@ -49,6 +44,76 @@ export class PartyComponent implements OnInit, OnDestroy {
     this.initParty();
   }
 
+  sendMessage(message: string) {
+    const msg = {
+      message,
+      partyId: this.partyId,
+      userId: this.me.id,
+    };
+    this.chatService.createOne(msg);
+  }
+
+  ngOnDestroy(): void {
+    for (const subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
+  }
+  leaveParty() {
+    this.store$.dispatch(
+      PartiesActions.leavePartyRequest({
+        partyId: this.partyId,
+      })
+    );
+    setTimeout(() => {
+      this.router.navigate(['/parties']);
+    }, 300);
+  }
+
+  joinParty() {
+    this.store$.dispatch(
+      PartiesActions.joinPartyRequest({
+        partyId: this.partyId,
+      })
+    );
+  }
+
+  organizeParty() {
+    this.store$.dispatch(
+      PartiesActions.becomeOrganizerRequest({
+        partyId: this.partyId,
+        userId: this.me.id,
+      })
+    );
+  }
+
+  selectTrip() {
+    this.dialog.open(TripSelectorComponent, {
+      data: {
+        partyId: this.partyId,
+      },
+    });
+  }
+
+  checkout() {
+    this.store$.dispatch(
+      PartiesActions.checkoutRequest({ partyId: this.partyId })
+    );
+  }
+
+  cancelCheckout() {
+    this.store$.dispatch(
+      PartiesActions.cancelCheckoutRequest({ partyId: this.partyId })
+    );
+  }
+
+  confirmParty() {
+    //TODO:UPDATES ORGANIZER BALANCES AND  UPDATES PARTY STATUS
+    console.log('TODO PartyComponent#confirmParty');
+    this.store$.dispatch(
+      PartiesActions.confirmPartyRequest({ partyId: this.partyId })
+    );
+  }
+
   private initParty(): void {
     this.initChat(this.partyId);
 
@@ -60,9 +125,33 @@ export class PartyComponent implements OnInit, OnDestroy {
       this.myStatus = party?.users.find(
         (user) => user.id === this.me?.id
       )?.status;
-      this.partyStatus =
-        !!party?.users.length &&
-        !party?.users.some((user) => user.status === 'PENDING');
+      this.partyStatus = party?.status;
+
+      const stats = party?.users.reduce(
+        (acc, user) => {
+          if (user.status === 'PENDING' || user.status === 'ORGANIZER') {
+            return {
+              ...acc,
+              total: acc.total + 1,
+            };
+          }
+          return {
+            ...acc,
+            total: acc.total + 1,
+            confirmed: acc.confirmed + 1,
+          };
+        },
+        {
+          total: 0,
+          confirmed: 0,
+        }
+      );
+
+      this.canConfirmParty =
+        this.partyStatus !== 'READY' &&
+        stats?.total > 3 &&
+        stats?.confirmed > stats.total / 2;
+
       this.hasOrganizer = party?.users.some(
         (user) => user.status === 'ORGANIZER'
       );
@@ -99,78 +188,5 @@ export class PartyComponent implements OnInit, OnDestroy {
       ...this.subscriptions,
       this.chatService.messageAdded(partyId),
     ];
-  }
-
-  sendMessage(message: string) {
-    const msg = {
-      message,
-      partyId: this.partyId,
-      userId: this.me.id,
-    };
-    this.chatService.createOne(msg);
-  }
-
-  ngOnDestroy(): void {
-    for (const subscription of this.subscriptions) {
-      subscription.unsubscribe();
-    }
-  }
-  leaveParty() {
-    this.store$.dispatch(
-      PartiesActions.leavePartyRequest({
-        partyId: this.partyId,
-        userId: this.me.id,
-      })
-    );
-    setTimeout(() => {
-      this.router.navigate(['/parties']);
-    }, 300);
-  }
-
-  joinParty() {
-    this.store$.dispatch(
-      PartiesActions.joinPartyRequest({
-        partyId: this.partyId,
-        userId: this.me.id,
-      })
-    );
-  }
-
-  organizeParty() {
-    this.store$.dispatch(
-      PartiesActions.becomeOrganizerRequest({
-        partyId: this.partyId,
-        userId: this.me.id,
-      })
-    );
-  }
-
-  selectTrip() {
-    this.dialog.open(TripSelectorComponent, {
-      data: {
-        partyId: this.partyId,
-      },
-    });
-  }
-
-  checkout() {
-    //TODO:UPDATES MY BALANCES AND USER IN PARTY STATUS
-    console.log('TODO PartyComponent#checkout');
-    this.store$.dispatch(
-      PartiesActions.checkoutRequest({ partyId: this.partyId })
-    );
-  }
-
-  cancelCheckout() {
-    //TODO:UPDATES MY BALANCES AND USER IN PARTY STATUS
-    console.log('TODO PartyComponent#cancelCheckout');
-    this.store$.dispatch(
-      PartiesActions.cancelCheckoutRequest({ partyId: this.partyId })
-    );
-  }
-
-  confirmParty() {
-    //TODO:UPDATES ORGANIZER BALANCES AND  UPDATES PARTY STATUS
-    console.log('TODO PartyComponent#confirmParty');
   }
 }

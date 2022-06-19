@@ -5,7 +5,7 @@
       <li *ngFor="let user of party.users" class="party-user">
         <div
           [style.background-image]="'url(' + user.image + ')'"
-          [matBadge]="userStatusMap[user.status || 'PENDING']"
+          [matBadge]="user.status | UserStatusPipe"
           matBadgeColor="primary"
           matTooltip="{{ user.username }}"
         ></div>
@@ -14,7 +14,7 @@
     <div class="party-actions">
       <button
         mat-button
-        *ngIf="myStatus === 'ORGANIZER' && partyStatus"
+        *ngIf="myStatus === 'ORGANIZER' && canConfirmParty"
         (click)="confirmParty()"
       >
         Confirm trip
@@ -22,23 +22,31 @@
       <button mat-button *ngIf="myStatus" (click)="leaveParty()">
         Leave Party
       </button>
-      <button mat-button *ngIf="!myStatus" (click)="joinParty()">
+      <button
+        mat-button
+        *ngIf="!myStatus && partyStatus !== 'READY'"
+        (click)="joinParty()"
+      >
         <mat-icon>start</mat-icon>
         <span>Join Party</span>
       </button>
       <button
         mat-button
-        *ngIf="!myStatus && !hasOrganizer"
+        *ngIf="!myStatus && !hasOrganizer && partyStatus !== 'READY'"
         (click)="organizeParty()"
       >
         Become organizer
       </button>
-      <button mat-button *ngIf="myStatus === 'PENDING'" (click)="checkout()">
+      <button
+        mat-button
+        *ngIf="myStatus === 'PENDING' && partyStatus !== 'READY'"
+        (click)="checkout()"
+      >
         Checkout
       </button>
       <button
         mat-button
-        *ngIf="myStatus === 'READY'"
+        *ngIf="myStatus === 'READY' && partyStatus !== 'READY'"
         (click)="cancelCheckout()"
       >
         Cancel checkout
@@ -99,7 +107,7 @@
         <mat-card-actions>
           <button
             mat-button
-            *ngIf="myStatus === 'ORGANIZER'"
+            *ngIf="myStatus === 'ORGANIZER' && partyStatus !== 'READY'"
             (click)="selectTrip()"
           >
             <mat-icon>edit</mat-icon>
@@ -121,7 +129,11 @@
 <ng-template #noTrip>
   <section class="error no-trip-selected">
     <p>There's no trip selected 😢</p>
-    <button *ngIf="myStatus === 'ORGANIZER'" mat-button (click)="selectTrip()">
+    <button
+      *ngIf="myStatus === 'ORGANIZER' && partyStatus !== 'READY'"
+      mat-button
+      (click)="selectTrip()"
+    >
       Select a trip!
     </button>
   </section>
