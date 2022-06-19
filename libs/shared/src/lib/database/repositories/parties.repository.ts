@@ -18,21 +18,30 @@ export class PartiesRepository extends Repository<PartyEntity> {
   }
 
   async findById(id: string): Promise<FindPartyById> {
-    const entity = await this.findOne(id);
-
-    if (!entity) {
+    let result;
+    try {
+      result = await this.createQueryBuilder('party')
+        .leftJoinAndSelect('party.trip', 'trip')
+        .leftJoinAndSelect('trip.destination', 'destination')
+        .leftJoinAndSelect('trip.hotel', 'hotel')
+        .leftJoinAndSelect('trip.transport', 'transport')
+        .leftJoinAndSelect('party.userParties', 'userParties')
+        .leftJoinAndSelect('userParties.user', 'user')
+        .where('party.id = :id', { id })
+        .getOneOrFail();
+    } catch (e) {
       return {
         ok: false,
         error: {
-          statusCode: 404,
-          statusText: 'Not Found',
+          statusCode: e.errno,
+          statusText: e.sqlMessage,
         },
       };
     }
 
     return {
       ok: true,
-      value: Party.entityToModel(entity),
+      value: Party.entityToModel(result),
     };
   }
 
