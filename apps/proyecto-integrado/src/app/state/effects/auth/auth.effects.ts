@@ -248,4 +248,28 @@ export class AuthEffects {
       }))
     )
   );
+
+  cancelCheckoutPartySuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PartiesActionTypes.CANCEL_CHECKOUT_PARTY_SUCCESS),
+      map(({ balances }) => ({
+        type: AuthActionTypes.ADD_BALANCES_SUCCESS,
+        balances: {
+          amount: balances,
+        },
+      }))
+    )
+  );
+
+  confirmPartySuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PartiesActionTypes.CONFIRM_PARTY_SUCCESS),
+      map(({ balances }) => ({
+        type: AuthActionTypes.ADD_BALANCES_SUCCESS,
+        balances: {
+          amount: balances,
+        },
+      }))
+    )
+  );
 }
