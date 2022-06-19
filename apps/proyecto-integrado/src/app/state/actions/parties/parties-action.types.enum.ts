@@ -39,9 +39,9 @@ export enum PartiesActionTypes {
   CANCEL_CHECKOUT_PARTY_SUCCESS = '[Parties] Cancel Checkout Party Success',
   CANCEL_CHECKOUT_PARTY_FAILURE = '[Parties] Cancel Checkout Party Failure',
 
-  CONFIRM_PARTY_REQUEST = '[Parties] Confirm Checkout Party Request',
-  CONFIRM_PARTY_SUCCESS = '[Parties] Confirm Checkout Party Success',
-  CONFIRM_PARTY_FAILURE = '[Parties] Confirm Checkout Party Failure',
+  CONFIRM_PARTY_REQUEST = '[Parties] Confirm Party Request',
+  CONFIRM_PARTY_SUCCESS = '[Parties] Confirm Party Success',
+  CONFIRM_PARTY_FAILURE = '[Parties] Confirm Party Failure',
 
   ADD_TRIP_REQUEST = '[Parties] Add Trip Request',
   ADD_TRIP_SUCCESS = '[Parties] Add Trip Success',

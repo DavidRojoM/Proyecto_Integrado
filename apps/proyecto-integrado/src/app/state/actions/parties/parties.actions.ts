@@ -55,7 +55,7 @@ export const PartiesActions = {
   ),
   joinPartyRequest: createAction(
     PartiesActionTypes.JOIN_PARTY_REQUEST,
-    props<{ userId: string; partyId: string }>()
+    props<{ partyId: string }>()
   ),
   joinPartySuccess: createAction(
     PartiesActionTypes.JOIN_PARTY_SUCCESS,
@@ -79,7 +79,7 @@ export const PartiesActions = {
   ),
   leavePartyRequest: createAction(
     PartiesActionTypes.LEAVE_PARTY_REQUEST,
-    props<{ userId: string; partyId: string }>()
+    props<{ partyId: string }>()
   ),
   leavePartySuccess: createAction(
     PartiesActionTypes.LEAVE_PARTY_SUCCESS,
@@ -127,10 +127,22 @@ export const PartiesActions = {
   ),
   cancelCheckoutSuccess: createAction(
     PartiesActionTypes.CANCEL_CHECKOUT_PARTY_SUCCESS,
-    props<{ partyId: string }>()
+    props<{ partyId: string; userId: string }>()
   ),
   cancelCheckoutFailure: createAction(
     PartiesActionTypes.CANCEL_CHECKOUT_PARTY_FAILURE,
+    props<{ error: string }>()
+  ),
+  confirmPartyRequest: createAction(
+    PartiesActionTypes.CONFIRM_PARTY_REQUEST,
+    props<{ partyId: string }>()
+  ),
+  confirmPartySuccess: createAction(
+    PartiesActionTypes.CONFIRM_PARTY_SUCCESS,
+    props<{ partyId: string; userId: string; balances: number }>()
+  ),
+  confirmPartyFailure: createAction(
+    PartiesActionTypes.CONFIRM_PARTY_FAILURE,
     props<{ error: string }>()
   ),
 };
