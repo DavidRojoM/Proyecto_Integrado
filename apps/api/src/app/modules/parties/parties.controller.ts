@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  Param,
   Post,
   UseInterceptors,
 } from '@nestjs/common';
@@ -12,6 +11,7 @@ import {
   AddTripPartyResponseDto,
   AddTripToPartyDto,
   CheckoutResponseDto,
+  ConfirmPartyResponseDto,
   JoinPartyDto,
   PartyDto,
   UserPartyDto,
@@ -64,15 +64,15 @@ export class PartiesController {
     return this.partiesService.checkout(checkoutConfig);
   }
 
-  @Delete()
+  @Delete('checkout')
   cancelCheckout(
     @Body() cancelCheckoutConfig: CheckoutDto
   ): Promise<CheckoutResponseDto> {
     return this.partiesService.cancelCheckout(cancelCheckoutConfig);
   }
 
-  @Post('confirm/:partyId')
-  confirm(@Param('partyId') partyId: string): Promise<UserPartyDto> {
-    return this.partiesService.confirm(partyId);
+  @Post('confirm')
+  confirm(@Body() config: any): Promise<ConfirmPartyResponseDto> {
+    return this.partiesService.confirm(config);
   }
 }
