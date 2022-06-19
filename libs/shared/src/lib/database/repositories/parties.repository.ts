@@ -6,6 +6,7 @@ import {
   FindAllParties,
   Trip,
   AddTripToParty,
+  PartyStatusEnum,
 } from '@proyecto-integrado/shared';
 import { EntityRepository, Repository } from 'typeorm';
 
@@ -110,6 +111,30 @@ export class PartiesRepository extends Repository<PartyEntity> {
     return {
       ok: true,
       value: trip,
+    };
+  }
+
+  async confirmParty(partyId): Promise<any> {
+    let result;
+    try {
+      result = await this.createQueryBuilder()
+        .update({
+          status: PartyStatusEnum.READY,
+        })
+        .where('id = :partyId', { partyId })
+        .execute();
+    } catch (e) {
+      return {
+        ok: false,
+        error: {
+          statusCode: e.errno,
+          statusText: e.sqlMessage,
+        },
+      };
+    }
+    return {
+      ok: true,
+      value: result,
     };
   }
 }
