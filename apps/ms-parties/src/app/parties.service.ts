@@ -4,6 +4,8 @@ import {
   ChangeBalancesResponse,
   CheckoutDto,
   CheckoutResponse,
+  ConfirmPartyResponse,
+  ConfirmPartyDto,
   FindAllPartiesResponse,
   FindPartyResponse,
   FindTripByIdPayload,
@@ -17,6 +19,7 @@ import {
   PartiesRepository,
   Party,
   PartyDto,
+  PartyStatusEnum,
   PayloadActions,
   RemoveUserPartyResponse,
   User,
@@ -312,8 +315,93 @@ export class PartiesService {
     };
   }
 
-  cancelCheckout(config: CheckoutDto): Promise<CheckoutResponse> {
-    return Promise.resolve(undefined);
+  async confirm(config: ConfirmPartyDto): Promise<ConfirmPartyResponse> {
+    const findUserPartyResponse =
+      await this.userPartiesRepository.findByUserIdAndPartyId(
+        config.userId,
+        config.partyId
+      );
+    if (findUserPartyResponse.ok === false) {
+      return findUserPartyResponse;
+    }
+    if (findUserPartyResponse.value.status === UserPartyStatus.READY) {
+      return {
+        ok: false,
+        error: {
+          statusCode: 400,
+          statusText: 'Party is already confirmed',
+        },
+      };
+    }
+
+    const findPartyResponse = await this.partiesRepository.findById(
+      config.partyId
+    );
+
+    if (findPartyResponse.ok === false) {
+      return findPartyResponse;
+    }
+
+    const isUserOrganizer =
+      findPartyResponse.value.users.find(
+        (userParty) => userParty.user.id === config.userId
+      ) && findUserPartyResponse.value.status === UserPartyStatus.ORGANIZER;
+
+    if (!isUserOrganizer) {
+      return {
+        ok: false,
+        error: {
+          statusCode: 400,
+          statusText: 'User is not organizer',
+        },
+      };
+    }
+    const updatePartyResult = await this.partiesRepository.confirmParty(
+      config.partyId
+    );
+    if (updatePartyResult.ok === false) {
+      return updatePartyResult;
+    }
+
+    const trip = findUserPartyResponse.value.party.trip;
+    const user = findUserPartyResponse.value.user;
+
+    const userBalances = user.balance;
+    const tripPrice = this.calculateTripPrice(
+      trip.hotel.nightPrice,
+      trip.transport.price,
+      this.calculateTimeDifferenceInDays(trip.from, trip.to)
+    );
+
+    const usersInParty = findPartyResponse.value.users.filter(
+      (userParty) => userParty.status === UserPartyStatus.READY
+    ).length;
+
+    const amountToGain = (tripPrice * usersInParty) / 100;
+
+    const balancesResult = Number(userBalances) + amountToGain;
+
+    const updateBalancesResult = await firstValueFrom(
+      this.usersProxy.send<
+        ChangeBalancesResponse,
+        { userId: string; amount: number }
+      >(PayloadActions.USERS.UPDATE_BALANCES, {
+        userId: config.userId,
+        amount: balancesResult,
+      })
+    );
+
+    if (updateBalancesResult.ok === false) {
+      return updateBalancesResult;
+    }
+    return {
+      ok: true,
+      value: {
+        partyId: config.partyId,
+        userId: config.userId,
+        balances: balancesResult,
+      },
+    };
   }
 
   private calculateTripPrice(
