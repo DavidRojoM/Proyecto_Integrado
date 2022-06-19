@@ -39,6 +39,23 @@ export class PartiesService {
   async joinParty(
     joinPartyDto: JoinPartyDto
   ): Promise<InsertUserPartyResponse> {
+    const findPartyResponse = await this.partiesRepository.findById(
+      joinPartyDto.partyId
+    );
+    if (findPartyResponse.ok === false) {
+      return findPartyResponse;
+    }
+
+    if (findPartyResponse.value.status === PartyStatusEnum.READY) {
+      return {
+        ok: false,
+        error: {
+          statusCode: 400,
+          statusText: 'Cannot join an ended party',
+        },
+      };
+    }
+
     const userParty = new UserParty();
     userParty.status = joinPartyDto.status;
     const findUserResult = await firstValueFrom(
