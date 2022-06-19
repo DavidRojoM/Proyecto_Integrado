@@ -4,6 +4,9 @@ import {
   AddTripToPartyDto,
   CheckoutResponse,
   CheckoutResponseDto,
+  ConfirmPartyDto,
+  ConfirmPartyResponse,
+  ConfirmPartyResponseDto,
   FindAllPartiesResponse,
   InsertPartyResponse,
   JoinPartyDto,
@@ -167,11 +170,11 @@ export class PartiesService {
     return response.value;
   }
 
-  async confirm(partyId: string): Promise<any> {
+  async confirm(config: ConfirmPartyDto): Promise<ConfirmPartyResponseDto> {
     const response = await firstValueFrom(
-      this.partiesProxy.send<any, { partyId: string }>(
-        PayloadActions.PARTIES.CHECKOUT_TRIP,
-        { partyId }
+      this.partiesProxy.send<ConfirmPartyResponse, ConfirmPartyDto>(
+        PayloadActions.PARTIES.CONFIRM_PARTY,
+        config
       )
     );
 
