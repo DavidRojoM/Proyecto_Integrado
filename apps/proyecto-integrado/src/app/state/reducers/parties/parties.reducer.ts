@@ -168,5 +168,52 @@ export const partiesReducer = createReducer(
         }),
       };
     }),
+  })),
+  on(PartiesActions.cancelCheckoutRequest, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(PartiesActions.cancelCheckoutSuccess, (state, { partyId, userId }) => ({
+    ...state,
+    loading: false,
+    parties: state.parties.map((party) => {
+      if (party.id !== partyId) {
+        return party;
+      }
+      return {
+        ...party,
+        users: party.users.map((user) => {
+          if (user.id !== userId) {
+            return user;
+          }
+          return {
+            ...user,
+            status: 'PENDING',
+          };
+        }),
+      };
+    }),
+  })),
+  on(PartiesActions.confirmPartyRequest, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(PartiesActions.confirmPartySuccess, (state, { partyId, userId }) => ({
+    ...state,
+    loading: false,
+    parties: state.parties.map((party) => {
+      if (party.id !== partyId) {
+        return party;
+      }
+      return {
+        ...party,
+        status: 'READY',
+      };
+    }),
+  })),
+  on(PartiesActions.confirmPartyFailure, (state, { error }: any) => ({
+    ...state,
+    loading: false,
+    error: error.error.statusText,
   }))
 );
