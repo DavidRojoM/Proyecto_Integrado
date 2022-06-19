@@ -43,6 +43,7 @@ export * from './lib/domain/dto/users/user.dto';
 export * from './lib/domain/dto/users/user-party.dto';
 export * from './lib/domain/dto/parties/join-party.dto';
 export * from './lib/domain/dto/parties/checkout.dto';
+export * from './lib/domain/dto/parties/confirm-party.dto';
 
 export * from './lib/domain/types/result.type';
 
