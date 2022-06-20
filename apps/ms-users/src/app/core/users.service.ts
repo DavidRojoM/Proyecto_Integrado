@@ -4,6 +4,7 @@ import {
   BalancesRepository,
   ChangeBalancesDto,
   FindUserResponse,
+  FindUsersResponse,
   User,
   UserDto,
   UsersRepository,
@@ -15,6 +16,17 @@ export class UsersService {
     private readonly usersRepository: UsersRepository,
     private readonly balancesRepository: BalancesRepository
   ) {}
+
+  async findAll(): Promise<FindUsersResponse> {
+    const findResult = await this.usersRepository.findAllUsers();
+    if (findResult.ok === false) {
+      return findResult;
+    }
+    return {
+      ok: true,
+      value: findResult.value.map(User.modelToDto),
+    };
+  }
 
   async addOne(user: UserDto): Promise<AddUserResponse> {
     const insertResult = await this.usersRepository.addOne(
@@ -63,5 +75,9 @@ export class UsersService {
       user: userResponse.value,
       amount: config.amount,
     });
+  }
+
+  deleteOne(id: string) {
+    return this.usersRepository.deleteUserById(id);
   }
 }
