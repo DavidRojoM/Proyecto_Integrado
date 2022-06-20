@@ -81,16 +81,18 @@ export class UsersRepository extends Repository<UserEntity> {
       const hashedPassword = await bcrypt.hash(entity?.password || '', salt);
 
       await this.update(entity.id, {
-        ...(entity.username && { username: entity.username }),
-        ...(entity.email && { email: entity.email }),
-        ...(entity.image && { image: entity.image }),
-        ...(entity.email && { email: entity.email }),
+        ...(entity.username && { username: entity.username || user.username }),
+        ...(entity.email && { email: entity.email || user.email }),
+        ...(entity.image && { image: entity.image || user.image }),
         ...(entity.password && { password: user.password || hashedPassword }),
-        ...(entity.role && { role: entity.role }),
-        ...(entity.nationality && { nationality: entity.nationality }),
-        ...(entity.bankAccount && { bankAccount: entity.bankAccount }),
+        ...(entity.role && { role: entity.role || user.role }),
+        ...(entity.nationality && {
+          nationality: entity.nationality || user.nationality,
+        }),
+        ...(entity.bankAccount && {
+          bankAccount: entity.bankAccount || user.bankAccount,
+        }),
       });
-      result = await this.findOneOrFail(entity.id);
     } catch (e) {
       return {
         ok: false,
@@ -100,9 +102,16 @@ export class UsersRepository extends Repository<UserEntity> {
         },
       };
     }
+
+    const newUser = await this.findOneById(entity.id);
+
+    if (newUser.ok === false) {
+      return newUser;
+    }
+
     return {
       ok: true,
-      value: User.entityToModel(result),
+      value: newUser.value,
     };
   }
 
@@ -135,6 +144,7 @@ export class UsersRepository extends Repository<UserEntity> {
     const result = await this.createQueryBuilder('user')
       .select()
       .leftJoinAndSelect('user.userParties', 'userParties')
+      .leftJoinAndSelect('user.balance', 'balance')
       .leftJoinAndSelect('userParties.party', 'party')
       .leftJoinAndSelect('user.messages', 'messages')
       .where('user.id = :id', { id })
