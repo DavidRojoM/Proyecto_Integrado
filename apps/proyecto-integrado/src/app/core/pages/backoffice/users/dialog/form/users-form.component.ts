@@ -40,7 +40,10 @@ export class UsersFormComponent extends FormComponent implements OnInit {
       role: new FormControl('', [Validators.required]),
       nationality: new FormControl('', [Validators.required]),
       bankAccount: new FormControl('', [Validators.required]),
-      image: new FormControl('', [FileValidators.maxFileCount(1)]),
+      image: new FormControl('', [
+        FileValidators.maxFileCount(1),
+        Validators.required,
+      ]),
     });
   }
 
