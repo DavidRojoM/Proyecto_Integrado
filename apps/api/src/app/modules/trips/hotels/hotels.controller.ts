@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseInterceptors,
+} from '@nestjs/common';
 import { HotelsService } from './hotels.service';
 import { LoggingInterceptor } from '../../../shared/interceptors/logging.interceptor';
 import { HotelDto } from '@proyecto-integrado/shared';
@@ -17,5 +26,15 @@ export class HotelsController {
   @Post()
   createHotel(@Body() trip: HotelDto): Promise<HotelDto> {
     return this.hotelsService.createHotel(trip);
+  }
+
+  // @Put()
+  // updateHotel(hotel: HotelDto): Promise<HotelDto> {
+  //   //  TODO
+  // }
+  //
+  @Delete(':id')
+  deleteHotel(@Param('id') id: number): Promise<{ hotelId: number }> {
+    return this.hotelsService.deleteHotel(id);
   }
 }

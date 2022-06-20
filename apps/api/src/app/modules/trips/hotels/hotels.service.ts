@@ -4,6 +4,7 @@ import {
   InsertHotelResponse,
   PayloadActions,
   HotelDto,
+  DeleteTripAggregateResponse,
 } from '@proyecto-integrado/shared';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
@@ -42,5 +43,24 @@ export class HotelsService {
     }
 
     return response.value;
+  }
+
+  async deleteHotel(id: number): Promise<{ hotelId: number }> {
+    const response = await firstValueFrom(
+      this.tripsProxy.send<DeleteTripAggregateResponse, { hotelId: number }>(
+        PayloadActions.TRIPS.HOTELS.DELETE,
+        { hotelId: id }
+      )
+    );
+    if (response.ok === false) {
+      throw new BadRequestException({
+        statusText: response.error.statusText,
+        statusCode: response.error.statusCode,
+      });
+    }
+
+    return {
+      hotelId: response.value.id,
+    };
   }
 }
