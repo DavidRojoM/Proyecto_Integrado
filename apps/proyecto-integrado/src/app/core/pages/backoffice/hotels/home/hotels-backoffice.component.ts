@@ -4,6 +4,9 @@ import { Hotel } from '../../../../shared/modules/trips/domain/trips.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { HotelsDialogComponent } from '../dialog/hotels-dialog.component';
 import { FormModes } from '../../../../../common/components/form/interfaces/form-modes.enum';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../../../state/interfaces/app.state.interface';
+import { BackofficeActions } from '../../../../../state/actions/backoffice/backoffice.actions';
 
 @Component({
   selector: 'proyecto-integrado-hotels-backoffice',
@@ -12,7 +15,10 @@ import { FormModes } from '../../../../../common/components/form/interfaces/form
 })
 export class HotelsBackofficeComponent {
   @Input() hotels!: Observable<Hotel[]>;
-  constructor(private readonly dialog: MatDialog) {}
+  constructor(
+    private readonly dialog: MatDialog,
+    private readonly store$: Store<AppState>
+  ) {}
 
   openAddDialog() {
     this.dialog.open(HotelsDialogComponent, {
@@ -40,5 +46,9 @@ export class HotelsBackofficeComponent {
     });
   }
 
-  delete($event: string | number) {}
+  delete(id: string | number) {
+    this.store$.dispatch(
+      BackofficeActions.deleteHotelRequest({ hotelId: id as number })
+    );
+  }
 }
