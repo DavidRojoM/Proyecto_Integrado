@@ -6,6 +6,7 @@ import {
   Transport,
   TransportDto,
   TransportsRepository,
+  UpdateTransportResponse,
 } from '@proyecto-integrado/shared';
 import { Payload } from '@nestjs/microservices';
 
@@ -38,7 +39,7 @@ export class TransportsService {
       Transport.dtoToModel(transport)
     );
 
-    if (!insertResult.ok) {
+    if (insertResult.ok === false) {
       return insertResult;
     }
 
@@ -50,5 +51,17 @@ export class TransportsService {
 
   delete(id: number): Promise<DeleteTripAggregateResponse> {
     return this.transportsRepository.deleteTransportById(id);
+  }
+
+  async update(transport: TransportDto): Promise<UpdateTransportResponse> {
+    const model = Transport.dtoToModel(transport);
+    const res = await this.transportsRepository.updateTransport(model);
+    if (res.ok === false) {
+      return res;
+    }
+    return {
+      ok: true,
+      value: Transport.modelToDto(res.value),
+    };
   }
 }

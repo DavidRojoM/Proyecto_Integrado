@@ -7,6 +7,7 @@ import {
   InsertTransportResponse,
   PayloadActions,
   TransportDto,
+  UpdateTransportResponse,
 } from '@proyecto-integrado/shared';
 
 @Controller()
@@ -21,6 +22,11 @@ export class TransportsController {
   @MessagePattern(PayloadActions.TRIPS.TRANSPORTS.CREATE)
   create(transport: TransportDto): Promise<InsertTransportResponse> {
     return this.transportsService.create(transport);
+  }
+
+  @MessagePattern(PayloadActions.TRIPS.TRANSPORTS.UPDATE)
+  update(@Payload() transport: TransportDto): Promise<UpdateTransportResponse> {
+    return this.transportsService.update(transport);
   }
 
   @MessagePattern(PayloadActions.TRIPS.TRANSPORTS.DELETE)
