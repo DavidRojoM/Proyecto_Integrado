@@ -1,0 +1,9 @@
+<button mat-button (click)="openAddDialog()">Add</button>
+
+<proyecto-integrado-parties-backoffice-table
+  class="content-table"
+  [data]="parties"
+  (deleteEvent)="delete($event)"
+  (updateEvent)="openEditDialog($event)"
+  (viewEvent)="openViewDialog($event)"
+></proyecto-integrado-parties-backoffice-table>
