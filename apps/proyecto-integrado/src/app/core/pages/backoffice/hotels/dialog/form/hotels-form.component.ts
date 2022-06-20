@@ -13,6 +13,7 @@ export class HotelsFormComponent extends FormComponent implements OnInit {
 
   constructor(override fb: FormBuilder) {
     super(fb, {
+      id: new FormControl(''),
       name: new FormControl('', [Validators.minLength(3), Validators.required]),
       address: new FormControl('', [
         Validators.required,
@@ -30,6 +31,8 @@ export class HotelsFormComponent extends FormComponent implements OnInit {
   ngOnInit(): void {
     this.disabled = this.options.mode === FormModes.VIEW;
     if (this.options.mode !== FormModes.ADD) {
+      this.form.controls['id'].setValue(this.options.data['hotel'].id);
+
       this.form.controls['name'].setValue(this.options.data['hotel'].name);
       this.form.controls['address'].setValue(
         this.options.data['hotel'].address

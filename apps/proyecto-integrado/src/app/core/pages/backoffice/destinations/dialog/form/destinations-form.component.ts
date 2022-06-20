@@ -13,6 +13,7 @@ export class DestinationsFormComponent extends FormComponent implements OnInit {
 
   constructor(override fb: FormBuilder) {
     super(fb, {
+      id: new FormControl(''),
       name: new FormControl('', [
         Validators.minLength(3),
         Validators.maxLength(80),
@@ -29,6 +30,7 @@ export class DestinationsFormComponent extends FormComponent implements OnInit {
   ngOnInit(): void {
     this.disabled = this.options.mode === FormModes.VIEW;
     if (this.options.mode !== FormModes.ADD) {
+      this.form.controls['id'].setValue(this.options.data['destination'].id);
       this.form.controls['name'].setValue(
         this.options.data['destination'].name
       );

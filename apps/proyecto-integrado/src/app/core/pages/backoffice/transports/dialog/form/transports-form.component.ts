@@ -14,6 +14,7 @@ export class TransportsFormComponent extends FormComponent implements OnInit {
 
   constructor(override fb: FormBuilder) {
     super(fb, {
+      id: new FormControl(''),
       name: new FormControl('', [Validators.minLength(3), Validators.required]),
       type: new FormControl('', [Validators.minLength(3), Validators.required]),
       brand: new FormControl('', [
@@ -27,6 +28,7 @@ export class TransportsFormComponent extends FormComponent implements OnInit {
   ngOnInit(): void {
     this.disabled = this.options.mode === FormModes.VIEW;
     if (this.options.mode !== FormModes.ADD) {
+      this.form.controls['id'].setValue(this.options.data['transport'].id);
       this.form.controls['name'].setValue(this.options.data['transport'].name);
       this.form.controls['type'].setValue(this.options.data['transport'].type);
       this.form.controls['brand'].setValue(
