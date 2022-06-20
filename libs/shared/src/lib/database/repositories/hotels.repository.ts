@@ -4,6 +4,9 @@ import {
   Hotel,
   HotelEntity,
   InsertHotel,
+  Transport,
+  UpdateHotel,
+  UpdateTransport,
 } from '@proyecto-integrado/shared';
 
 @EntityRepository(HotelEntity)
@@ -66,6 +69,26 @@ export class HotelsRepository extends Repository<HotelEntity> {
       value: {
         id: id,
       },
+    };
+  }
+
+  async updateHotel(model: Hotel): Promise<UpdateHotel> {
+    const entity = Hotel.modelToEntity(model);
+    let result;
+    try {
+      result = await this.save(entity);
+    } catch (e) {
+      return {
+        ok: false,
+        error: {
+          statusCode: e.errno,
+          statusText: e.sqlMessage,
+        },
+      };
+    }
+    return {
+      ok: true,
+      value: Hotel.entityToModel(result),
     };
   }
 }
