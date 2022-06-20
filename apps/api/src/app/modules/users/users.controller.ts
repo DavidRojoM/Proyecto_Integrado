@@ -49,11 +49,21 @@ export class UsersController {
     return this.usersService.signup(user, image);
   }
 
-  @UseInterceptors(AuthInterceptor)
+  @UseInterceptors(
+    AuthInterceptor,
+    FileInterceptor('image', {
+      limits: {
+        fileSize: 1000000,
+      },
+    })
+  )
   @Put()
-  update(@Body() updatedUser: UserDto): Promise<Partial<UserDto>> {
-    //TODO
-    return this.usersService.update(updatedUser);
+  async update(
+    @UploadedFile() image: Express.Multer.File,
+    @Body()
+    user: UserDto
+  ): Promise<Partial<UserDto>> {
+    return this.usersService.update(user, image);
   }
 
   @UseInterceptors(AuthInterceptor)
