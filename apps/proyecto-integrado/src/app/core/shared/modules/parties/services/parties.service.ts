@@ -133,15 +133,13 @@ export class PartiesService {
     partyId: string,
     userId: string
   ): Observable<{ partyId: string; userId: string; balances: number }> {
-    return this.http.delete<{
+    return this.http.post<{
       partyId: string;
       userId: string;
       balances: number;
-    }>(`${environment.GATEWAY_URL}/parties/checkout`, {
-      body: {
-        partyId,
-        userId,
-      },
+    }>(`${environment.GATEWAY_URL}/parties/checkout/cancel`, {
+      partyId,
+      userId,
     });
   }
 

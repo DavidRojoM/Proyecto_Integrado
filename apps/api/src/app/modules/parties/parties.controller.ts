@@ -76,7 +76,7 @@ export class PartiesController {
     return this.partiesService.checkout(checkoutConfig);
   }
 
-  @Delete('checkout')
+  @Post('checkout/cancel')
   cancelCheckout(
     @Body() cancelCheckoutConfig: CheckoutDto
   ): Promise<CheckoutResponseDto> {
