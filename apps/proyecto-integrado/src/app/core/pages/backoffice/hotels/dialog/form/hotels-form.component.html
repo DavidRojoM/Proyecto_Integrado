@@ -1,0 +1,113 @@
+<form class="form" [formGroup]="form" (ngSubmit)="sendAction()">
+  <div class="container">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input
+        [readonly]="disabled"
+        type="text"
+        matInput
+        [errorStateMatcher]="matcher"
+        formControlName="name"
+      />
+      <mat-error
+        *ngIf="form.controls['name'].touched && form.controls['name'].invalid"
+      >
+        Must insert a valid name
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Address</mat-label>
+      <input
+        [readonly]="disabled"
+        type="text"
+        matInput
+        [errorStateMatcher]="matcher"
+        formControlName="address"
+      />
+      <mat-error
+        *ngIf="
+          form.controls['address'].touched && form.controls['address'].invalid
+        "
+      >
+        Must insert a valid address
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Image url</mat-label>
+      <input
+        [readonly]="disabled"
+        type="text"
+        matInput
+        [errorStateMatcher]="matcher"
+        formControlName="image"
+      />
+      <mat-error
+        *ngIf="form.controls['image'].touched && form.controls['image'].invalid"
+      >
+        Must insert a valid image
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Phone</mat-label>
+      <input
+        [readonly]="disabled"
+        type="text"
+        matInput
+        [errorStateMatcher]="matcher"
+        formControlName="phone"
+      />
+      <mat-error
+        *ngIf="form.controls['phone'].touched && form.controls['phone'].invalid"
+      >
+        Must insert a valid phone
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Night price</mat-label>
+      <input
+        [readonly]="disabled"
+        type="number"
+        min="0"
+        matInput
+        [errorStateMatcher]="matcher"
+        formControlName="nightPrice"
+      />
+      <mat-error
+        *ngIf="
+          form.controls['nightPrice'].touched &&
+          form.controls['nightPrice'].invalid
+        "
+      >
+        Must insert a valid night price
+      </mat-error>
+    </mat-form-field>
+    <mat-dialog-actions>
+      <button mat-button mat-dialog-close="close" mat-raised-button>
+        Back
+      </button>
+      <button
+        type="submit"
+        *ngIf="!disabled"
+        [disabled]="!this.form.valid"
+        mat-button
+        mat-dialog-close="close"
+        color="accent"
+        mat-raised-button
+      >
+        Ok
+      </button>
+      <button
+        type="reset"
+        *ngIf="!disabled"
+        mat-button
+        mat-raised-button
+        color="primary"
+      >
+        Reset
+      </button>
+    </mat-dialog-actions>
+  </div>
+</form>
