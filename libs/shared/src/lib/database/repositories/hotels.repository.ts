@@ -1,5 +1,10 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { Hotel, HotelEntity, InsertHotel } from '@proyecto-integrado/shared';
+import {
+  DeleteTripAggregateResponse,
+  Hotel,
+  HotelEntity,
+  InsertHotel,
+} from '@proyecto-integrado/shared';
 
 @EntityRepository(HotelEntity)
 export class HotelsRepository extends Repository<HotelEntity> {
@@ -39,5 +44,28 @@ export class HotelsRepository extends Repository<HotelEntity> {
       return null;
     }
     return Hotel.entityToModel(result);
+  }
+
+  async deleteById(id: number): Promise<DeleteTripAggregateResponse> {
+    try {
+      await this.createQueryBuilder()
+        .delete()
+        .where('id = :id', { id })
+        .execute();
+    } catch (e) {
+      return {
+        ok: false,
+        error: {
+          statusCode: e.errno,
+          statusText: e.sqlMessage,
+        },
+      };
+    }
+    return {
+      ok: true,
+      value: {
+        id: id,
+      },
+    };
   }
 }
