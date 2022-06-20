@@ -15,7 +15,6 @@ import { UserStatusPipe } from '../../shared/pipes/user-status.pipe';
 
 @NgModule({
   declarations: [
-    UserStatusPipe,
     PartiesComponent,
     PartyCardComponent,
     PartyComponent,
@@ -31,5 +30,6 @@ import { UserStatusPipe } from '../../shared/pipes/user-status.pipe';
     SharedModule,
   ],
   providers: [],
+  exports: [UserStatusPipe],
 })
 export class PartiesModule {}
