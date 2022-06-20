@@ -1,1 +1,42 @@
-<p>backoffice works!</p>
+<div class="wrapper">
+  <section class="mat-elevation-z0">
+    <div class="form-image"></div>
+    <mat-tab-group dynamicHeight mat-align-tabs="center" #tabs>
+      <mat-tab label="Users">
+        <div class="mat-elevation-z0">
+          <proyecto-integrado-users-backoffice
+            [users]="users$"
+          ></proyecto-integrado-users-backoffice>
+        </div>
+      </mat-tab>
+      <mat-tab label="Parties">
+        <div class="mat-elevation-z0">
+          <proyecto-integrado-parties-backoffice
+            [parties]="parties$"
+          ></proyecto-integrado-parties-backoffice>
+        </div>
+      </mat-tab>
+      <mat-tab label="Transports">
+        <div class="mat-elevation-z0">
+          <proyecto-integrado-transports-backoffice
+            [transports]="transports$"
+          ></proyecto-integrado-transports-backoffice>
+        </div>
+      </mat-tab>
+      <mat-tab label="Hotels">
+        <div class="mat-elevation-z0">
+          <proyecto-integrado-hotels-backoffice
+            [hotels]="hotels$"
+          ></proyecto-integrado-hotels-backoffice>
+        </div>
+      </mat-tab>
+      <mat-tab label="Destinations">
+        <div class="mat-elevation-z0">
+          <proyecto-integrado-destinations-backoffice
+            [destinations]="destinations$"
+          ></proyecto-integrado-destinations-backoffice>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </section>
+</div>
