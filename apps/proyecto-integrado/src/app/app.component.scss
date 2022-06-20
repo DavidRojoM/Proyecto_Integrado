@@ -108,6 +108,22 @@ mat-nav-list {
     justify-content: center;
     gap: 10px;
 
+    .user-info {
+      margin-bottom: 30px;
+      .user-avatar {
+        cursor: pointer;
+        aspect-ratio: 1/1;
+        width: 100px;
+        margin: 0 auto;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+
+      .user-name {
+        font-size: 1.5em;
+      }
+    }
+
     .menu-button {
       padding: 5px;
       width: 100%;
@@ -142,6 +158,26 @@ mat-nav-list {
     mat-sidenav {
       margin: 0;
       border-radius: 0;
+
+      mat-nav-list {
+        div {
+          .user-info {
+            margin-bottom: 10px;
+            .user-avatar {
+              cursor: pointer;
+              aspect-ratio: 1/1;
+              width: 70px;
+              margin: 0 auto;
+              object-fit: cover;
+              border-radius: 50%;
+            }
+
+            .user-name {
+              font-size: 1.5em;
+            }
+          }
+        }
+      }
     }
 
     .content {

@@ -6,7 +6,7 @@
     <h1 class="app-name">Meet n Trip</h1>
     <!--    TODO: CURRENCY OBSERVABLE-->
     <span
-      *ngIf="isAuhenticated | async"
+      *ngIf="isAuthenticated | async"
       class="balance"
       (click)="addBalances()"
       matTooltip="Add balances"
@@ -28,7 +28,17 @@
       fixedTopGap="58"
     >
       <mat-nav-list>
-        <div *ngIf="isAuhenticated | async">
+        <div *ngIf="me | async as me">
+          <div class="user-info">
+            <img
+              class="user-avatar"
+              src="{{ me.image }}"
+              alt="My avatar"
+              routerLink="/profile"
+              (click)="snav.toggle()"
+            />
+            <span class="user-name">{{ me.username }}</span>
+          </div>
           <a
             mat-button
             class="menu-button"
@@ -76,7 +86,7 @@
         </div>
         <div>
           <a
-            *ngIf="(isAuhenticated | async) && (isAdmin | async)"
+            *ngIf="(isAuthenticated | async) && (isAdmin | async)"
             mat-button
             class="menu-button"
             routerLink="/backoffice"
@@ -113,7 +123,7 @@
           </a>
           <mat-divider></mat-divider>
           <a
-            *ngIf="(isAuhenticated | async) === false"
+            *ngIf="(isAuthenticated | async) === false"
             mat-button
             class="menu-button login"
             routerLink="/"
@@ -128,7 +138,7 @@
             mat-button
             class="menu-button logout"
             (click)="logout(snav)"
-            *ngIf="isAuhenticated | async"
+            *ngIf="isAuthenticated | async"
           >
             <mat-icon>logout</mat-icon>
             <span>Logout</span>
