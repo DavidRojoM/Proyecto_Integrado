@@ -41,7 +41,7 @@
       </button>
       <button
         mat-button
-        *ngIf="myStatus === 'PENDING' && partyStatus !== 'READY'"
+        *ngIf="myStatus === 'PENDING' && partyStatus !== 'READY' && party.trip"
         (click)="checkout()"
       >
         Checkout
