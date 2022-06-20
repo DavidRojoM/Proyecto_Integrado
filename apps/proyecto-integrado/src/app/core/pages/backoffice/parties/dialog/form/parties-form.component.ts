@@ -13,6 +13,9 @@ export class PartiesFormComponent extends FormComponent implements OnInit {
 
   constructor(override fb: FormBuilder) {
     super(fb, {
+      id: new FormControl(''),
+      status: new FormControl(''),
+
       name: new FormControl('', [Validators.minLength(3), Validators.required]),
     });
   }
@@ -21,6 +24,8 @@ export class PartiesFormComponent extends FormComponent implements OnInit {
     this.disabled = this.options.mode === FormModes.VIEW;
     if (this.options.mode !== FormModes.ADD) {
       this.form.controls['name'].setValue(this.options.data['party'].name);
+      this.form.controls['status'].setValue(this.options.data['party'].status);
+      this.form.controls['id'].setValue(this.options.data['party'].id);
     }
   }
 }

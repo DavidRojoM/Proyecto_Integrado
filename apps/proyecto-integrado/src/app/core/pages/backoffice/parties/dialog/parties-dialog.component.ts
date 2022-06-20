@@ -30,7 +30,6 @@ export class PartiesDialogComponent {
   ) {}
 
   handle(data: { name: string } | PartyOutput) {
-    console.log('data', data);
     if (this.data.mode === FormModes.ADD) {
       this.store$.dispatch(
         BackofficeActions.addPartyRequest({
