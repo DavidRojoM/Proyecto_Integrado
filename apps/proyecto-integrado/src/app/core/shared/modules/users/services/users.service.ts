@@ -3,6 +3,7 @@ import { environment } from '../../../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../domain/interfaces/user.interface';
 import { Observable } from 'rxjs';
+import { buildFormData } from '../../../../../common/utils/build-form-data';
 @Injectable({
   providedIn: 'root',
 })
@@ -16,7 +17,10 @@ export class UsersService {
   }
 
   updateUser(user: User): Observable<User> {
-    return this.http.put<User>(this.url, user);
+    const formdata = buildFormData({
+      ...user,
+    });
+    return this.http.put<User>(this.url, formdata);
   }
 
   deleteUser(userId: string): Observable<{ userId: string }> {

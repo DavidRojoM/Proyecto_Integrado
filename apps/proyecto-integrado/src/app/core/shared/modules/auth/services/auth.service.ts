@@ -10,6 +10,7 @@ import { User } from '../../users/domain/interfaces/user.interface';
 import { LocalStorageService } from '../../../services/local-storage.service';
 import { map } from 'rxjs/operators';
 import { ChangeBalances } from '../domain/change-balances.interface';
+import { buildFormData } from '../../../../../common/utils/build-form-data';
 
 @Injectable({
   providedIn: 'root',
@@ -22,8 +23,7 @@ export class AuthService {
   ) {}
 
   signup(user: User): Observable<User> {
-    console.log(user);
-    const formdata = this.buildFormData({
+    const formdata = buildFormData({
       ...user,
       id: uuidV4(),
     });
@@ -76,17 +76,5 @@ export class AuthService {
       `${environment.GATEWAY_URL}/users/balances`,
       balances
     );
-  }
-
-  private buildFormData(user: any) {
-    const formdata = new FormData();
-    for (const key in user) {
-      if (key === 'image') {
-        formdata.append(key, user[key][0]);
-      } else {
-        formdata.append(key, user[key]);
-      }
-    }
-    return formdata;
   }
 }
