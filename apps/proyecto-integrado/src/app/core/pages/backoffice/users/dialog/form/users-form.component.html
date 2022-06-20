@@ -27,7 +27,8 @@
         [type]="hidePassword ? 'password' : 'text'"
         formControlName="password"
       />
-      <button
+      <span
+        class="hide"
         mat-icon-button
         matSuffix
         (click)="hidePassword = !hidePassword"
@@ -37,7 +38,7 @@
         <mat-icon>{{
           hidePassword ? 'visibility_off' : 'visibility'
         }}</mat-icon>
-      </button>
+      </span>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Role</mat-label>
