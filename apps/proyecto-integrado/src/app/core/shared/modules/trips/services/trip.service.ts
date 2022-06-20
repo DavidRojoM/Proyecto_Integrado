@@ -50,15 +50,29 @@ export class TripService {
   }
 
   createTransport(transport: Transport): Observable<Transport> {
-    return this.http.post<Transport>(this.transports_url, transport);
+    return this.http.post<Transport>(this.transports_url, {
+      brand: transport.brand,
+      name: transport.name,
+      price: transport.price,
+      type: transport.type,
+    });
   }
 
   createHotel(hotel: Hotel): Observable<Hotel> {
-    return this.http.post<Hotel>(this.hotels_url, hotel);
+    return this.http.post<Hotel>(this.hotels_url, {
+      address: hotel.address,
+      name: hotel.name,
+      image: hotel.image,
+      nightPrice: hotel.nightPrice,
+      phone: hotel.phone,
+    });
   }
 
   createDestination(destination: Destination): Observable<Destination> {
-    return this.http.post<Destination>(this.destinations_url, destination);
+    return this.http.post<Destination>(this.destinations_url, {
+      name: destination.name,
+      description: destination.description,
+    });
   }
 
   deleteTransport(transportId: string): Observable<{ transportId: number }> {
@@ -102,14 +116,35 @@ export class TripService {
   }
 
   updateTransport(transport: Transport): Observable<Transport> {
-    return this.http.put<Transport>(this.transports_url, transport);
+    return this.http.put<Transport>(this.transports_url, transport).pipe(
+      map((response) => {
+        return {
+          ...response,
+          id: Number(response.id),
+        };
+      })
+    );
   }
 
   updateHotel(hotel: Hotel): Observable<Hotel> {
-    return this.http.put<Hotel>(this.hotels_url, hotel);
+    return this.http.put<Hotel>(this.hotels_url, hotel).pipe(
+      map((response) => {
+        return {
+          ...response,
+          id: Number(response.id),
+        };
+      })
+    );
   }
 
   updateDestination(destination: Destination): Observable<Destination> {
-    return this.http.put<Destination>(this.destinations_url, destination);
+    return this.http.put<Destination>(this.destinations_url, destination).pipe(
+      map((response) => {
+        return {
+          ...response,
+          id: Number(response.id),
+        };
+      })
+    );
   }
 }
