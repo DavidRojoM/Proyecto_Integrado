@@ -1,5 +1,6 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import {
+  DeleteTripAggregateResponse,
   FindAllTransportsResponse,
   InsertTransportResponse,
   PayloadActions,
@@ -42,5 +43,24 @@ export class TransportsService {
     }
 
     return response.value;
+  }
+
+  async deleteTransport(id: number) {
+    const response = await firstValueFrom(
+      this.tripsProxy.send<
+        DeleteTripAggregateResponse,
+        { transportId: number }
+      >(PayloadActions.TRIPS.TRANSPORTS.DELETE, { transportId: id })
+    );
+    if (response.ok === false) {
+      throw new BadRequestException({
+        statusText: response.error.statusText,
+        statusCode: response.error.statusCode,
+      });
+    }
+
+    return {
+      transportId: response.value.id,
+    };
   }
 }

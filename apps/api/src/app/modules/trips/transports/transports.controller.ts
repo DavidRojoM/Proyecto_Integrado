@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseInterceptors,
+} from '@nestjs/common';
 import { TransportsService } from './transports.service';
 import { LoggingInterceptor } from '../../../shared/interceptors/logging.interceptor';
 import { TransportDto } from '@proyecto-integrado/shared';
@@ -17,5 +26,15 @@ export class TransportsController {
   @Post()
   createTransport(@Body() trip: TransportDto): Promise<TransportDto> {
     return this.transportsService.createTransport(trip);
+  }
+
+  // @Put()
+  // updateTransport(transport: TransportDto): Promise<TransportDto> {
+  //   //  TODO
+  // }
+  //
+  @Delete(':id')
+  deleteTransport(@Param('id') id: number): Promise<{ transportId: number }> {
+    return this.transportsService.deleteTransport(id);
   }
 }
