@@ -186,4 +186,20 @@ export class PartiesService {
     }
     return response.value;
   }
+
+  async delete(partyId: string): Promise<{ partyId: string }> {
+    const response = await firstValueFrom(
+      this.partiesProxy.send<DeletePartyResponse, { partyId: string }>(
+        PayloadActions.PARTIES.DELETE,
+        { partyId }
+      )
+    );
+    if (response.ok === false) {
+      throw new BadRequestException({
+        statusText: response.error.statusText,
+        statusCode: response.error.statusCode,
+      });
+    }
+    return response.value;
+  }
 }

@@ -8,6 +8,7 @@ import {
   CheckoutResponse,
   ConfirmPartyDto,
   ConfirmPartyResponse,
+  DeletePartyResponse,
   FindAllPartiesResponse,
   FindPartyResponse,
   InsertPartyResponse,
@@ -39,6 +40,11 @@ export class PartiesController {
   @MessagePattern(PayloadActions.PARTIES.CREATE)
   async create(@Payload() party: PartyDto): Promise<InsertPartyResponse> {
     return this.partiesService.create(party);
+  }
+
+  @MessagePattern(PayloadActions.PARTIES.DELETE)
+  async delete(@Payload('partyId') id: string): Promise<DeletePartyResponse> {
+    return this.partiesService.delete(id);
   }
 
   @MessagePattern(PayloadActions.PARTIES.FIND_ALL)

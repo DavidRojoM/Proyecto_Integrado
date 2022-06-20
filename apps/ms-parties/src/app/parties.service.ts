@@ -26,6 +26,7 @@ import {
   UserPartiesRepository,
   UserParty,
   UserPartyStatus,
+  DeletePartyResponse,
 } from '@proyecto-integrado/shared';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
@@ -167,6 +168,10 @@ export class PartiesService {
       ok: true,
       value: Party.modelToDto(insertResult.value),
     };
+  }
+
+  delete(id: string): Promise<DeletePartyResponse> {
+    return this.partiesRepository.deletePartyById(id);
   }
 
   async findAll(): Promise<FindAllPartiesResponse> {

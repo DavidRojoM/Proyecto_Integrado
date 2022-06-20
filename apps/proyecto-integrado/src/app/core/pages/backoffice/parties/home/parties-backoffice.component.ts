@@ -4,6 +4,9 @@ import { PartyOutput } from '../../../../shared/modules/parties/domain/parties.i
 import { MatDialog } from '@angular/material/dialog';
 import { FormModes } from '../../../../../common/components/form/interfaces/form-modes.enum';
 import { PartiesDialogComponent } from '../dialog/parties-dialog.component';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../../../state/interfaces/app.state.interface';
+import { BackofficeActions } from '../../../../../state/actions/backoffice/backoffice.actions';
 
 @Component({
   selector: 'proyecto-integrado-parties-backoffice',
@@ -13,7 +16,10 @@ import { PartiesDialogComponent } from '../dialog/parties-dialog.component';
 export class PartiesBackofficeComponent {
   @Input() parties!: Observable<PartyOutput[]>;
 
-  constructor(private readonly dialog: MatDialog) {}
+  constructor(
+    private readonly dialog: MatDialog,
+    private readonly store$: Store<AppState>
+  ) {}
 
   openAddDialog() {
     this.dialog.open(PartiesDialogComponent, {
@@ -41,5 +47,9 @@ export class PartiesBackofficeComponent {
     });
   }
 
-  delete($event: string | number) {}
+  delete(partyId: string | number) {
+    this.store$.dispatch(
+      BackofficeActions.deletePartyRequest({ partyId: partyId as string })
+    );
+  }
 }
