@@ -10,9 +10,10 @@ import { PartiesService } from './modules/parties/services/parties.service';
 import { ChatService } from './modules/comms/services/chat.service';
 import { ChatGqlRepository } from './modules/comms/services/gql-repository/chat-gql.repository';
 import { TripService } from './modules/trips/services/trip.service';
+import { UserStatusPipe } from './pipes/user-status.pipe';
 
 @NgModule({
-  declarations: [],
+  declarations: [UserStatusPipe],
   imports: [CommonModule],
   providers: [
     MatSnackBar,
@@ -26,5 +27,6 @@ import { TripService } from './modules/trips/services/trip.service';
     ChatGqlRepository,
     TripService,
   ],
+  exports: [UserStatusPipe],
 })
 export class SharedModule {}
