@@ -31,7 +31,6 @@ export class UserDto {
   role?: Roles;
 
   @IsString()
-  @IsNotEmpty()
   password: string;
 
   @IsOptional()
@@ -40,7 +39,6 @@ export class UserDto {
 
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   image?: string;
 
   @IsString()
