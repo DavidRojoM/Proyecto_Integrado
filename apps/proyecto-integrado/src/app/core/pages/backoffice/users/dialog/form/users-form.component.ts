@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormComponent } from 'apps/proyecto-integrado/src/app/common/components/form/form.component';
 import {
   AbstractControl,
   FormBuilder,
@@ -12,6 +11,7 @@ import { Country } from '../../../../../shared/modules/country/domain/country.in
 import { CountryService } from '../../../../../shared/modules/country/services/country.service';
 import { FileValidators } from 'ngx-file-drag-drop';
 import { FormModes } from '../../../../../../common/components/form/interfaces/form-modes.enum';
+import { FormComponent } from '../../../../../../common/components/form/form.component';
 
 @Component({
   selector: 'proyecto-integrado-users-form',
@@ -30,15 +30,13 @@ export class UsersFormComponent extends FormComponent implements OnInit {
     private readonly countryService: CountryService
   ) {
     super(fb, {
+      id: new FormControl(''),
       username: new FormControl('', [
         Validators.minLength(3),
         Validators.required,
       ]),
       email: new FormControl('', [Validators.email, Validators.required]),
-      password: new FormControl('', [
-        Validators.minLength(4),
-        Validators.required,
-      ]),
+      password: new FormControl('', [Validators.minLength(4)]),
       role: new FormControl('', [Validators.required]),
       nationality: new FormControl('', [Validators.required]),
       bankAccount: new FormControl('', [Validators.required]),
@@ -50,6 +48,7 @@ export class UsersFormComponent extends FormComponent implements OnInit {
     this.disabled = this.options.mode === FormModes.VIEW;
 
     if (this.options.mode !== FormModes.ADD) {
+      this.form.controls['id'].setValue(this.options.data['user'].id);
       this.form.controls['username'].setValue(
         this.options.data['user'].username
       );

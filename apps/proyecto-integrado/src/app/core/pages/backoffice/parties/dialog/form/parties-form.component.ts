@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormComponent } from 'apps/proyecto-integrado/src/app/common/components/form/form.component';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FormModes } from '../../../../../../common/components/form/interfaces/form-modes.enum';
+import { FormComponent } from '../../../../../../common/components/form/form.component';
 
 @Component({
   selector: 'proyecto-integrado-parties-form',
