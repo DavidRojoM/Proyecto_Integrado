@@ -1,0 +1,9 @@
+<button mat-button (click)="this.openAddDialog()">Add</button>
+
+<proyecto-integrado-transports-backoffice-table
+  class="content-table"
+  [data]="transports"
+  (viewEvent)="openViewDialog($event)"
+  (updateEvent)="openEditDialog($event)"
+  (deleteEvent)="delete($event)"
+></proyecto-integrado-transports-backoffice-table>
