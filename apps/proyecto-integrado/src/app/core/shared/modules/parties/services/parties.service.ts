@@ -31,6 +31,19 @@ export class PartiesService {
     });
   }
 
+  updateParty(party: PartyInput): Observable<PartyInput> {
+    return this.http.put<PartyInput>(
+      `${environment.GATEWAY_URL}/parties`,
+      party
+    );
+  }
+
+  deleteParty(partyId: string): Observable<{ partyId: string }> {
+    return this.http.delete<{ partyId: string }>(
+      `${environment.GATEWAY_URL}/parties/${partyId}`
+    );
+  }
+
   joinParty(
     userId: string,
     partyId: string
