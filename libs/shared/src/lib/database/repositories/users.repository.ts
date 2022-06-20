@@ -62,7 +62,6 @@ export class UsersRepository extends Repository<UserEntity> {
 
   async updateOne(userToUpdate: User): Promise<InsertUser> {
     const entity = User.modelToEntity(userToUpdate);
-    let result;
     try {
       const user = await this.findByUsernameOrEmail(
         entity.username,

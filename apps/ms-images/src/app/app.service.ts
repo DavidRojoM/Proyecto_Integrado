@@ -31,9 +31,16 @@ export class AppService {
 
     const fileExtension = image.mimeType.split('/')[1];
 
+    //TODO: THIS WILL DO FOR NOW, BUT SHOULD BE REPLACED FOR THE NEW PICTURE
+    const date = new Date().getTime();
     try {
       fs.writeFileSync(
-        join(__filename, '..', 'public', `${image.userId}.${fileExtension}`),
+        join(
+          __filename,
+          '..',
+          'public',
+          `${date}${image.userId}.${fileExtension}`
+        ),
         Buffer.from(image.buffer),
         {
           encoding: 'binary',
@@ -53,7 +60,7 @@ export class AppService {
     return {
       ok: true,
       value: {
-        url: `http://localhost:3001/public/${image.userId}.${fileExtension}`,
+        url: `http://localhost:3001/public/${date}${image.userId}.${fileExtension}`,
       },
     };
   }

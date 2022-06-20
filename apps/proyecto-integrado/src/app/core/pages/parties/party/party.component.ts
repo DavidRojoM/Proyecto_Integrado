@@ -23,6 +23,7 @@ export class PartyComponent implements OnInit, OnDestroy {
   message$!: Observable<MessageOutput[]>;
   myStatus: string | undefined;
   canConfirmParty = false;
+  canChangeTrip!: boolean;
   partyStatus: string | undefined;
   hasOrganizer!: boolean;
   me!: User;
@@ -122,6 +123,10 @@ export class PartyComponent implements OnInit, OnDestroy {
     });
 
     const statusSubscription = this.party$.subscribe((party) => {
+      this.canChangeTrip = !party?.users.some((user) => {
+        console.log(user);
+        return user.status === 'READY';
+      });
       this.myStatus = party?.users.find(
         (user) => user.id === this.me?.id
       )?.status;

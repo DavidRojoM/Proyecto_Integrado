@@ -109,7 +109,11 @@
         <mat-card-actions>
           <button
             mat-button
-            *ngIf="myStatus === 'ORGANIZER' && partyStatus !== 'READY'"
+            *ngIf="
+              myStatus === 'ORGANIZER' &&
+              partyStatus !== 'READY' &&
+              canChangeTrip
+            "
             (click)="selectTrip()"
           >
             <mat-icon>edit</mat-icon>
