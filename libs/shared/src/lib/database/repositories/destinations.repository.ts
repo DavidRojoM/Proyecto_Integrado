@@ -5,6 +5,7 @@ import {
   DestinationEntity,
   FindDestination,
   InsertDestination,
+  UpdateDestination,
 } from '@proyecto-integrado/shared';
 
 @EntityRepository(DestinationEntity)
@@ -86,6 +87,26 @@ export class DestinationsRepository extends Repository<DestinationEntity> {
       value: {
         id: destinationId,
       },
+    };
+  }
+
+  async updateDestination(model: Destination): Promise<UpdateDestination> {
+    const entity = Destination.modelToEntity(model);
+    let result;
+    try {
+      result = await this.save(entity);
+    } catch (e) {
+      return {
+        ok: false,
+        error: {
+          statusCode: e.errno,
+          statusText: e.sqlMessage,
+        },
+      };
+    }
+    return {
+      ok: true,
+      value: Destination.entityToModel(result),
     };
   }
 }
