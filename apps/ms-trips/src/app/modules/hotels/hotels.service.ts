@@ -6,6 +6,8 @@ import {
   HotelDto,
   HotelsRepository,
   InsertHotelResponse,
+  Transport,
+  UpdateHotelResponse,
 } from '@proyecto-integrado/shared';
 import { Payload } from '@nestjs/microservices';
 
@@ -48,5 +50,17 @@ export class HotelsService {
 
   async delete(id: number): Promise<DeleteTripAggregateResponse> {
     return this.hotelsRepository.deleteById(id);
+  }
+
+  async update(hotel: HotelDto): Promise<UpdateHotelResponse> {
+    const model = Hotel.dtoToModel(hotel);
+    const res = await this.hotelsRepository.updateHotel(model);
+    if (res.ok === false) {
+      return res;
+    }
+    return {
+      ok: true,
+      value: Hotel.modelToDto(res.value),
+    };
   }
 }

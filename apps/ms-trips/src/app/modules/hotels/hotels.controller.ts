@@ -7,6 +7,7 @@ import {
   HotelDto,
   InsertHotelResponse,
   PayloadActions,
+  UpdateHotelResponse,
 } from '@proyecto-integrado/shared';
 
 @Controller()
@@ -21,6 +22,11 @@ export class HotelsController {
   @MessagePattern(PayloadActions.TRIPS.HOTELS.CREATE)
   create(hotel: HotelDto): Promise<InsertHotelResponse> {
     return this.hotelsService.create(hotel);
+  }
+
+  @MessagePattern(PayloadActions.TRIPS.HOTELS.UPDATE)
+  update(@Payload() hotel: HotelDto): Promise<UpdateHotelResponse> {
+    return this.hotelsService.update(hotel);
   }
 
   @MessagePattern(PayloadActions.TRIPS.HOTELS.DELETE)
