@@ -1,0 +1,9 @@
+<button mat-button (click)="openAddDialog()">Add</button>
+
+<proyecto-integrado-hotels-backoffice-table
+  class="content-table"
+  [data]="hotels"
+  (viewEvent)="openViewDialog($event)"
+  (updateEvent)="openEditDialog($event)"
+  (deleteEvent)="delete($event)"
+></proyecto-integrado-hotels-backoffice-table>
