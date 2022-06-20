@@ -28,11 +28,11 @@ export class HotelsController {
     return this.hotelsService.createHotel(trip);
   }
 
-  // @Put()
-  // updateHotel(hotel: HotelDto): Promise<HotelDto> {
-  //   //  TODO
-  // }
-  //
+  @Put()
+  updateHotel(@Body() hotel: HotelDto): Promise<HotelDto> {
+    return this.hotelsService.updateHotel(hotel);
+  }
+
   @Delete(':id')
   deleteHotel(@Param('id') id: number): Promise<{ hotelId: number }> {
     return this.hotelsService.deleteHotel(id);
