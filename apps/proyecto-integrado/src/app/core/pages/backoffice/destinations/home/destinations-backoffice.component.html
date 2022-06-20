@@ -1,0 +1,10 @@
+<section class="wrapper">
+  <button mat-button (click)="openAddDialog()">Add</button>
+  <proyecto-integrado-destinations-backoffice-table
+    class="content-table"
+    [data]="destinations"
+    (deleteEvent)="delete($event)"
+    (updateEvent)="openEditDialog($event)"
+    (viewEvent)="openViewDialog($event)"
+  ></proyecto-integrado-destinations-backoffice-table>
+</section>
