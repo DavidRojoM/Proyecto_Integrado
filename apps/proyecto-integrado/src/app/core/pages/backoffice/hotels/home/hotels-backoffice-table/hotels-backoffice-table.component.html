@@ -1,0 +1,84 @@
+<div class="container">
+  <table mat-table [dataSource]="dataSource" matSort>
+    <!--    id column-->
+    <ng-container matColumnDef="id">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by id"
+      >
+        {{ 'id' | titlecase }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+    </ng-container>
+    <!--name column-->
+    <ng-container matColumnDef="name">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by name"
+      >
+        {{ 'name' | titlecase }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    </ng-container>
+    <!--address column-->
+    <ng-container matColumnDef="address">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by address"
+      >
+        {{ 'address' | titlecase }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.address }}</td>
+    </ng-container>
+
+    <!--phone column-->
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef>
+        {{ 'phone' | titlecase }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.phone }}</td>
+    </ng-container>
+
+    <!--nightPrice column-->
+    <ng-container matColumnDef="nightPrice">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by nightPrice"
+      >
+        {{ 'nightPrice' | titlecase }}
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.nightPrice | currency: 'EUR' }}
+      </td>
+    </ng-container>
+
+    <!--      Actions Column-->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button color="primary" (click)="view(element)">
+          Details
+        </button>
+        <button mat-raised-button color="accent" (click)="update(element)">
+          Edit
+        </button>
+        <button mat-raised-button color="warn" (click)="delete(element.id)">
+          delete
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons>
+  </mat-paginator>
+</div>
