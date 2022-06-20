@@ -7,6 +7,8 @@ import {
   PayloadActions,
   UserDto,
   ChangeBalancesResponse,
+  FindUsersResponse,
+  DeleteUserResponse,
 } from '@proyecto-integrado/shared';
 import { firstValueFrom } from 'rxjs';
 import { ClientProxy } from '@nestjs/microservices';
@@ -19,10 +21,18 @@ export class UsersService {
     @Inject('IMAGES_SERVICE') private readonly imagesProxy: ClientProxy
   ) {}
 
-  findAll() {
-    return firstValueFrom(
-      this.usersProxy.send(PayloadActions.USERS.FIND_ALL, {})
+  async findAll() {
+    const findResult = await firstValueFrom(
+      this.usersProxy.send<FindUsersResponse>(PayloadActions.USERS.FIND_ALL, {})
     );
+
+    if (findResult.ok === false) {
+      throw new BadRequestException({
+        statusText: findResult.error.statusText,
+        statusCode: findResult.error.statusCode,
+      });
+    }
+    return findResult.value;
   }
 
   findOne(id: string): Promise<UserDto> {
@@ -34,7 +44,6 @@ export class UsersService {
     );
   }
 
-  //TODO: Add Typing
   async signup(user: UserDto, image?: any): Promise<Partial<UserDto>> {
     user.image = await this.uploadUserImage(
       !image
@@ -55,6 +64,23 @@ export class UsersService {
     return firstValueFrom(
       this.usersProxy.send(PayloadActions.USERS.UPDATE, updatedUser)
     );
+  }
+
+  async delete(id: string) {
+    const deleteResponse = await firstValueFrom(
+      this.usersProxy.send<DeleteUserResponse, { id: string }>(
+        PayloadActions.USERS.DELETE,
+        { id }
+      )
+    );
+
+    if (deleteResponse.ok === false) {
+      throw new BadRequestException({
+        statusText: deleteResponse.error.statusText,
+        statusCode: deleteResponse.error.statusCode,
+      });
+    }
+    return deleteResponse.value;
   }
 
   private async createUser(user: UserDto): Promise<UserDto> {
