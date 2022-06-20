@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseInterceptors,
+} from '@nestjs/common';
 import { DestinationsService } from './destinations.service';
 import { LoggingInterceptor } from '../../../shared/interceptors/logging.interceptor';
 import { DestinationDto } from '@proyecto-integrado/shared';
@@ -19,5 +28,18 @@ export class DestinationsController {
     @Body() destination: DestinationDto
   ): Promise<DestinationDto> {
     return this.destinationsService.createDestination(destination);
+  }
+
+  // @Put()
+  // updateDestination(destination: DestinationDto): Promise<DestinationDto> {
+  //   //TODO
+  //   return this.destinationsService.updateDestination(destination);
+  // }
+  //
+  @Delete(':id')
+  deleteDestination(
+    @Param('id') id: number
+  ): Promise<{ destinationId: number }> {
+    return this.destinationsService.delete(id);
   }
 }

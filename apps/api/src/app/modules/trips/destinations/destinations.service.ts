@@ -4,6 +4,7 @@ import {
   InsertDestinationResponse,
   PayloadActions,
   DestinationDto,
+  DeleteTripAggregateResponse,
 } from '@proyecto-integrado/shared';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
@@ -44,5 +45,24 @@ export class DestinationsService {
     }
 
     return response.value;
+  }
+
+  async delete(id: number): Promise<{ destinationId: number }> {
+    const response = await firstValueFrom(
+      this.tripsProxy.send<
+        DeleteTripAggregateResponse,
+        { destinationId: number }
+      >(PayloadActions.TRIPS.DESTINATIONS.DELETE, { destinationId: id })
+    );
+    if (response.ok === false) {
+      throw new BadRequestException({
+        statusText: response.error.statusText,
+        statusCode: response.error.statusCode,
+      });
+    }
+
+    return {
+      destinationId: response.value.id,
+    };
   }
 }
