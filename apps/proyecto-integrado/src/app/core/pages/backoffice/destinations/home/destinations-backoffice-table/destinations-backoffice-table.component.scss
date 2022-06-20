@@ -1,0 +1,35 @@
+.container {
+  height: fit-content;
+  overflow: auto;
+
+  table {
+    width: 100%;
+    height: 650px;
+    table-layout: fixed;
+
+    td {
+      word-wrap: break-word;
+    }
+
+    .mat-column-actions span {
+      margin-right: 40px;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--dark-color);
+    }
+
+    .actions-wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-evenly;
+    }
+
+    mat-paginator {
+      width: 100%;
+    }
+    th.mat-sort-header-sorted {
+      color: black;
+    }
+  }
+}
