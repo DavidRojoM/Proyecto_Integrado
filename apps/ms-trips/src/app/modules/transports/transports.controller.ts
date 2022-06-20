@@ -1,7 +1,8 @@
 import { Controller } from '@nestjs/common';
 import { TransportsService } from './transports.service';
-import { MessagePattern } from '@nestjs/microservices';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import {
+  DeleteTripAggregateResponse,
   FindAllTransportsResponse,
   InsertTransportResponse,
   PayloadActions,
@@ -20,5 +21,12 @@ export class TransportsController {
   @MessagePattern(PayloadActions.TRIPS.TRANSPORTS.CREATE)
   create(transport: TransportDto): Promise<InsertTransportResponse> {
     return this.transportsService.create(transport);
+  }
+
+  @MessagePattern(PayloadActions.TRIPS.TRANSPORTS.DELETE)
+  delete(
+    @Payload('transportId') id: number
+  ): Promise<DeleteTripAggregateResponse> {
+    return this.transportsService.delete(id);
   }
 }

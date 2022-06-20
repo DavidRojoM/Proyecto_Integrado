@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import {
+  DeleteTripAggregateResponse,
   FindAllTransportsResponse,
   InsertTransportResponse,
   Transport,
@@ -45,5 +46,9 @@ export class TransportsService {
       ok: true,
       value: Transport.modelToDto(insertResult.value),
     };
+  }
+
+  delete(id: number): Promise<DeleteTripAggregateResponse> {
+    return this.transportsRepository.deleteTransportById(id);
   }
 }
