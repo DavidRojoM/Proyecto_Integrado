@@ -1,6 +1,8 @@
 <section *ngIf="party$ | async as party">
   <header class="party-header">
-    <h1>{{ party.name | titlecase }}</h1>
+    <h1 [matBadge]="partyStatus | UserStatusPipe">
+      {{ party.name | titlecase }}
+    </h1>
     <ul class="party-users">
       <li *ngFor="let user of party.users" class="party-user">
         <div
