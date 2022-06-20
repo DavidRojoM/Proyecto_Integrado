@@ -1,0 +1,114 @@
+<form class="form" [formGroup]="form" (ngSubmit)="sendAction()">
+  <div class="container">
+    <mat-form-field appearance="fill">
+      <mat-label>Username</mat-label>
+      <input
+        [readonly]="disabled"
+        type="text"
+        matInput
+        formControlName="username"
+        required
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>email</mat-label>
+      <input
+        [readonly]="disabled"
+        type="email"
+        matInput
+        formControlName="email"
+        required
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill" *ngIf="!disabled">
+      <mat-label>password</mat-label>
+      <input
+        matInput
+        [type]="hidePassword ? 'password' : 'text'"
+        formControlName="password"
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="hidePassword = !hidePassword"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hidePassword"
+      >
+        <mat-icon>{{
+          hidePassword ? 'visibility_off' : 'visibility'
+        }}</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Role</mat-label>
+      <mat-select [disabled]="disabled" formControlName="role">
+        <mat-option *ngFor="let role of roles" [value]="role">
+          {{ role }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Country</mat-label>
+      <input
+        [readonly]="disabled"
+        matInput
+        aria-label="Nationality"
+        [matAutocomplete]="auto"
+        formControlName="nationality"
+      />
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option
+          [disabled]="disabled"
+          *ngFor="let country of filteredCountries | async"
+          [value]="country.name.common"
+        >
+          <span>{{ country.flag }}</span> |
+          <span>{{ country.name.common }}</span>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Bank Account</mat-label>
+      <input
+        [readonly]="disabled"
+        matInput
+        formControlName="bankAccount"
+        required
+      />
+    </mat-form-field>
+    <ngx-file-drag-drop
+      *ngIf="!disabled"
+      formControlName="image"
+      activeBorderColor="#3F51B5"
+      (valueChanged)="onValueChange($event)"
+    >
+    </ngx-file-drag-drop>
+    <span *ngIf="!disabled">{{ fileSize | byte }} / 10Mb</span>
+
+    <mat-dialog-actions>
+      <button mat-button mat-dialog-close="close" mat-raised-button>
+        Back
+      </button>
+      <button
+        *ngIf="!disabled"
+        type="submit"
+        [disabled]="!this.form.valid"
+        mat-button
+        mat-dialog-close="close"
+        mat-raised-button
+        color="accent"
+      >
+        Ok
+      </button>
+      <button
+        type="reset"
+        *ngIf="!disabled"
+        mat-button
+        mat-raised-button
+        color="primary"
+      >
+        Reset
+      </button>
+    </mat-dialog-actions>
+  </div>
+</form>
