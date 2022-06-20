@@ -3,7 +3,9 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Post,
+  Put,
   UseInterceptors,
 } from '@nestjs/common';
 import { PartiesService } from './parties.service';
@@ -35,12 +37,11 @@ export class PartiesController {
     return this.partiesService.create(party);
   }
 
-  // @Put()
-  // update(@Body() party: PartyDto): Promise<PartyDto> {
-  //   //TODO
-  //   // return this.partiesService.update(party);
-  // }
-  //
+  @Put()
+  update(@Body() party: PartyDto): Promise<PartyDto> {
+    return this.partiesService.update(party);
+  }
+
   @Delete(':id')
   delete(@Param('id') id: string): Promise<{ partyId: string }> {
     return this.partiesService.delete(id);

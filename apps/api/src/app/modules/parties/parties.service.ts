@@ -7,6 +7,7 @@ import {
   ConfirmPartyDto,
   ConfirmPartyResponse,
   ConfirmPartyResponseDto,
+  DeletePartyResponse,
   FindAllPartiesResponse,
   InsertPartyResponse,
   JoinPartyDto,
@@ -15,6 +16,7 @@ import {
   PayloadActions,
   RemoveUserPartyResponse,
   Trip,
+  UpdatePartyResponse,
   UserPartyDto,
 } from '@proyecto-integrado/shared';
 import { ClientProxy } from '@nestjs/microservices';
@@ -192,6 +194,22 @@ export class PartiesService {
       this.partiesProxy.send<DeletePartyResponse, { partyId: string }>(
         PayloadActions.PARTIES.DELETE,
         { partyId }
+      )
+    );
+    if (response.ok === false) {
+      throw new BadRequestException({
+        statusText: response.error.statusText,
+        statusCode: response.error.statusCode,
+      });
+    }
+    return response.value;
+  }
+
+  async update(party: PartyDto) {
+    const response = await firstValueFrom(
+      this.partiesProxy.send<UpdatePartyResponse, PartyDto>(
+        PayloadActions.PARTIES.UPDATE,
+        party
       )
     );
     if (response.ok === false) {
