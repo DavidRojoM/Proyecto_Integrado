@@ -10,6 +10,7 @@ import { selectUser } from '../../selectors/auth/auth.selectors';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../interfaces/app.state.interface';
 import { PartiesActionTypes } from '../../actions/parties/parties-action.types.enum';
+import { UsersService } from '../../../core/shared/modules/users/services/users.service';
 
 @Injectable()
 export class AuthEffects {
@@ -19,7 +20,8 @@ export class AuthEffects {
     private readonly snackbarService: SnackbarService,
     private readonly router: Router,
     private readonly localStorageService: LocalStorageService,
-    private readonly store$: Store<AppState>
+    private readonly store$: Store<AppState>,
+    private readonly usersService: UsersService
   ) {}
 
   login$ = createEffect(() =>
@@ -271,5 +273,42 @@ export class AuthEffects {
         },
       }))
     )
+  );
+
+  updateUserRequests$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActionTypes.UPDATE_USER_REQUEST),
+      switchMap(({ user }) =>
+        this.usersService.updateUser(user).pipe(
+          map((user) => ({
+            type: AuthActionTypes.UPDATE_USER_SUCCESS,
+            user,
+          })),
+          catchError((error) => {
+            return of({
+              type: AuthActionTypes.UPDATE_USER_FAILURE,
+              error,
+            });
+          })
+        )
+      )
+    )
+  );
+
+  updateUserFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActionTypes.UPDATE_USER_FAILURE),
+        tap(() => {
+          this.snackbarService.open(
+            'Could not update your profile',
+            'DISMISS',
+            2000
+          );
+        })
+      ),
+    {
+      dispatch: false,
+    }
   );
 }
