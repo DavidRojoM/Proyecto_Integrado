@@ -4,6 +4,7 @@ import {
   InsertTransport,
   Transport,
   TransportEntity,
+  UpdateTransport,
 } from '@proyecto-integrado/shared';
 
 @EntityRepository(TransportEntity)
@@ -66,6 +67,26 @@ export class TransportsRepository extends Repository<TransportEntity> {
       value: {
         id: id,
       },
+    };
+  }
+
+  async updateTransport(model: Transport): Promise<UpdateTransport> {
+    const entity = Transport.modelToEntity(model);
+    let result;
+    try {
+      result = await this.save(entity);
+    } catch (e) {
+      return {
+        ok: false,
+        error: {
+          statusCode: e.errno,
+          statusText: e.sqlMessage,
+        },
+      };
+    }
+    return {
+      ok: true,
+      value: Transport.entityToModel(result),
     };
   }
 }
