@@ -24,18 +24,18 @@ export class DestinationsController {
   }
 
   @Post()
-  createDestination(
-    @Body() destination: DestinationDto
-  ): Promise<DestinationDto> {
+  createDestination(@Body() destination: any): Promise<DestinationDto> {
     return this.destinationsService.createDestination(destination);
   }
 
-  // @Put()
-  // updateDestination(destination: DestinationDto): Promise<DestinationDto> {
-  //   //TODO
-  //   return this.destinationsService.updateDestination(destination);
-  // }
-  //
+  @Put()
+  updateDestination(
+    @Body() destination: DestinationDto
+  ): Promise<DestinationDto> {
+    //TODO
+    return this.destinationsService.updateDestination(destination);
+  }
+
   @Delete(':id')
   deleteDestination(
     @Param('id') id: number

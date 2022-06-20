@@ -5,6 +5,9 @@ import {
   PayloadActions,
   DestinationDto,
   DeleteTripAggregateResponse,
+  UpdateHotelResponse,
+  HotelDto,
+  UpdateDestinationResponse,
 } from '@proyecto-integrado/shared';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
@@ -64,5 +67,23 @@ export class DestinationsService {
     return {
       destinationId: response.value.id,
     };
+  }
+
+  async updateDestination(
+    destination: DestinationDto
+  ): Promise<DestinationDto> {
+    const response = await firstValueFrom(
+      this.tripsProxy.send<UpdateDestinationResponse, DestinationDto>(
+        PayloadActions.TRIPS.DESTINATIONS.UPDATE,
+        destination
+      )
+    );
+    if (response.ok === false) {
+      throw new BadRequestException({
+        statusText: response.error.statusText,
+        statusCode: response.error.statusCode,
+      });
+    }
+    return response.value;
   }
 }
