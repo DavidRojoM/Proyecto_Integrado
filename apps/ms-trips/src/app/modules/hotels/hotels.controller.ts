@@ -1,7 +1,8 @@
 import { Controller } from '@nestjs/common';
 import { HotelsService } from './hotels.service';
-import { MessagePattern } from '@nestjs/microservices';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import {
+  DeleteTripAggregateResponse,
   FindAllHotelsResponse,
   HotelDto,
   InsertHotelResponse,
@@ -20,5 +21,10 @@ export class HotelsController {
   @MessagePattern(PayloadActions.TRIPS.HOTELS.CREATE)
   create(hotel: HotelDto): Promise<InsertHotelResponse> {
     return this.hotelsService.create(hotel);
+  }
+
+  @MessagePattern(PayloadActions.TRIPS.HOTELS.DELETE)
+  delete(@Payload('hotelId') id: number): Promise<DeleteTripAggregateResponse> {
+    return this.hotelsService.delete(id);
   }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import {
+  DeleteTripAggregateResponse,
   FindAllHotelsResponse,
   Hotel,
   HotelDto,
@@ -43,5 +44,9 @@ export class HotelsService {
       ok: true,
       value: Hotel.modelToDto(insertResult.value),
     };
+  }
+
+  async delete(id: number): Promise<DeleteTripAggregateResponse> {
+    return this.hotelsRepository.deleteById(id);
   }
 }
