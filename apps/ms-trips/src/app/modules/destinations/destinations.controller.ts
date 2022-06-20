@@ -8,6 +8,7 @@ import {
   FindDestination,
   InsertDestinationResponse,
   PayloadActions,
+  UpdateDestinationResponse,
 } from '@proyecto-integrado/shared';
 
 @Controller()
@@ -22,6 +23,11 @@ export class DestinationsController {
   @MessagePattern(PayloadActions.TRIPS.DESTINATIONS.CREATE)
   create(destination: DestinationDto): Promise<InsertDestinationResponse> {
     return this.destinationsService.create(destination);
+  }
+
+  @MessagePattern(PayloadActions.TRIPS.DESTINATIONS.UPDATE)
+  update(destination: DestinationDto): Promise<UpdateDestinationResponse> {
+    return this.destinationsService.update(destination);
   }
 
   @MessagePattern(PayloadActions.TRIPS.DESTINATIONS.FIND_BY_ID)

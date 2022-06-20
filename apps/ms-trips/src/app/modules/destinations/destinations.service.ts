@@ -6,6 +6,8 @@ import {
   InsertDestinationResponse,
   DestinationsRepository,
   FindDestination,
+  Hotel,
+  UpdateDestinationResponse,
 } from '@proyecto-integrado/shared';
 import { Payload } from '@nestjs/microservices';
 
@@ -59,5 +61,19 @@ export class DestinationsService {
 
   delete(destinationId: number) {
     return this.destinationsRepository.deleteDestinationById(destinationId);
+  }
+
+  async update(
+    destination: DestinationDto
+  ): Promise<UpdateDestinationResponse> {
+    const model = Destination.dtoToModel(destination);
+    const res = await this.destinationsRepository.updateDestination(model);
+    if (res.ok === false) {
+      return res;
+    }
+    return {
+      ok: true,
+      value: Destination.modelToDto(res.value),
+    };
   }
 }
