@@ -8,7 +8,7 @@ import {
   Trip,
   TripInput,
 } from '../domain/trips.interface';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { v4 as uuidV4 } from 'uuid';
 @Injectable({
   providedIn: 'root',
@@ -61,24 +61,44 @@ export class TripService {
     return this.http.post<Destination>(this.destinations_url, destination);
   }
 
-  deleteTransport(transportId: string): Observable<{ transportId: string }> {
-    return this.http.delete<{ transportId: string }>(
-      `${this.transports_url}/${transportId}`
-    );
+  deleteTransport(transportId: string): Observable<{ transportId: number }> {
+    return this.http
+      .delete<{ transportId: number }>(`${this.transports_url}/${transportId}`)
+      .pipe(
+        map((response) => {
+          return {
+            transportId: Number(response.transportId),
+          };
+        })
+      );
   }
 
-  deleteHotel(hotelId: string): Observable<{ hotelId: string }> {
-    return this.http.delete<{ hotelId: string }>(
-      `${this.hotels_url}/${hotelId}`
-    );
+  deleteHotel(hotelId: string): Observable<{ hotelId: number }> {
+    return this.http
+      .delete<{ hotelId: number }>(`${this.hotels_url}/${hotelId}`)
+      .pipe(
+        map((response) => {
+          return {
+            hotelId: Number(response.hotelId),
+          };
+        })
+      );
   }
 
   deleteDestination(
     destinationId: string
-  ): Observable<{ destinationId: string }> {
-    return this.http.delete<{ destinationId: string }>(
-      `${this.destinations_url}/${destinationId}`
-    );
+  ): Observable<{ destinationId: number }> {
+    return this.http
+      .delete<{ destinationId: number }>(
+        `${this.destinations_url}/${destinationId}`
+      )
+      .pipe(
+        map((response) => {
+          return {
+            destinationId: Number(response.destinationId),
+          };
+        })
+      );
   }
 
   updateTransport(transport: Transport): Observable<Transport> {
