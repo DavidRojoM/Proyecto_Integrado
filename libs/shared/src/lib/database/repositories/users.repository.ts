@@ -1,6 +1,8 @@
 import {
   BalanceEntity,
+  DeleteUserResponse,
   FindUser,
+  FindUsers,
   InsertUser,
   User,
   UserEntity,
@@ -9,6 +11,20 @@ import { EntityRepository, Repository } from 'typeorm';
 
 @EntityRepository(UserEntity)
 export class UsersRepository extends Repository<UserEntity> {
+  async findAllUsers(): Promise<FindUsers> {
+    const result = await this.createQueryBuilder('user')
+      .select()
+      .leftJoinAndSelect('user.userParties', 'userParties')
+      .leftJoinAndSelect('userParties.party', 'party')
+      .leftJoinAndSelect('user.messages', 'messages')
+      .getMany();
+
+    return {
+      ok: true,
+      value: result.map(User.entityToModel),
+    };
+  }
+
   async addOne(user: User): Promise<InsertUser> {
     const entity = User.modelToEntity(user);
     entity.balance = new BalanceEntity();
@@ -101,5 +117,30 @@ export class UsersRepository extends Repository<UserEntity> {
       .select()
       .where('username = :username OR email = :email', { username, email })
       .getOne();
+  }
+
+  async deleteUserById(id: string): Promise<DeleteUserResponse> {
+    try {
+      await this.createQueryBuilder()
+        .delete()
+        .from(UserEntity)
+        .where('id = :id', { id })
+        .execute();
+    } catch (e) {
+      return {
+        ok: false,
+        error: {
+          statusCode: e.errno,
+          statusText: e.sqlMessage,
+        },
+      };
+    }
+
+    return {
+      ok: true,
+      value: {
+        userId: id,
+      },
+    };
   }
 }
