@@ -5,6 +5,7 @@ import {
   InsertTransportResponse,
   PayloadActions,
   TransportDto,
+  UpdateTransportResponse,
 } from '@proyecto-integrado/shared';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
@@ -62,5 +63,21 @@ export class TransportsService {
     return {
       transportId: response.value.id,
     };
+  }
+
+  async updateTransport(transport: TransportDto): Promise<TransportDto> {
+    const response = await firstValueFrom(
+      this.tripsProxy.send<UpdateTransportResponse, TransportDto>(
+        PayloadActions.TRIPS.TRANSPORTS.UPDATE,
+        transport
+      )
+    );
+    if (response.ok === false) {
+      throw new BadRequestException({
+        statusText: response.error.statusText,
+        statusCode: response.error.statusCode,
+      });
+    }
+    return response.value;
   }
 }

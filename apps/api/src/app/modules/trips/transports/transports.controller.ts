@@ -28,11 +28,11 @@ export class TransportsController {
     return this.transportsService.createTransport(trip);
   }
 
-  // @Put()
-  // updateTransport(transport: TransportDto): Promise<TransportDto> {
-  //   //  TODO
-  // }
-  //
+  @Put()
+  updateTransport(@Body() transport: TransportDto): Promise<TransportDto> {
+    return this.transportsService.updateTransport(transport);
+  }
+
   @Delete(':id')
   deleteTransport(@Param('id') id: number): Promise<{ transportId: number }> {
     return this.transportsService.deleteTransport(id);
