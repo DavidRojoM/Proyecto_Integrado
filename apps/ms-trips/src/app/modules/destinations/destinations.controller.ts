@@ -2,6 +2,7 @@ import { Controller } from '@nestjs/common';
 import { DestinationsService } from './destinations.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import {
+  DeleteTripAggregateResponse,
   DestinationDto,
   FindAllDestinationsResponse,
   FindDestination,
@@ -26,5 +27,12 @@ export class DestinationsController {
   @MessagePattern(PayloadActions.TRIPS.DESTINATIONS.FIND_BY_ID)
   findById(@Payload('id') id: number): Promise<FindDestination> {
     return this.destinationsService.findById(id);
+  }
+
+  @MessagePattern(PayloadActions.TRIPS.DESTINATIONS.DELETE)
+  delete(
+    @Payload('destinationId') destinationId: number
+  ): Promise<DeleteTripAggregateResponse> {
+    return this.destinationsService.delete(destinationId);
   }
 }

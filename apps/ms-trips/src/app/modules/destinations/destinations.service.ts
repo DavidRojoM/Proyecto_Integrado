@@ -56,4 +56,8 @@ export class DestinationsService {
   async findById(id: number): Promise<FindDestination> {
     return this.destinationsRepository.findById(id);
   }
+
+  delete(destinationId: number) {
+    return this.destinationsRepository.deleteDestinationById(destinationId);
+  }
 }
