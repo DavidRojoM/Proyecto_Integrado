@@ -132,9 +132,6 @@ export class BackofficeEffects {
       ofType(BackOfficeActionTypes.DELETE_USER_REQUEST),
       switchMap(({ userId }) =>
         this.usersService.deleteUser(userId).pipe(
-          tap((p) => {
-            console.log('EEEEE', p);
-          }),
           map(({ userId }) => ({
             type: BackOfficeActionTypes.DELETE_USER_SUCCESS,
             userId,
@@ -339,19 +336,21 @@ export class BackofficeEffects {
   editTransportRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BackOfficeActionTypes.EDIT_TRANSPORT_REQUEST),
-      switchMap(({ transport }) =>
-        this.tripService.createTransport(transport).pipe(
-          map((transport) => ({
-            type: BackOfficeActionTypes.EDIT_TRANSPORT_SUCCESS,
-            transport,
-          })),
-          catchError((error) => {
-            return of({
-              type: BackOfficeActionTypes.EDIT_TRANSPORT_FAILURE,
-              error,
-            });
-          })
-        )
+      switchMap(({ transport }: any) =>
+        this.tripService
+          .updateTransport({ ...transport, price: Number(transport.price) })
+          .pipe(
+            map((transport) => ({
+              type: BackOfficeActionTypes.EDIT_TRANSPORT_SUCCESS,
+              transport,
+            })),
+            catchError((error) => {
+              return of({
+                type: BackOfficeActionTypes.EDIT_TRANSPORT_FAILURE,
+                error,
+              });
+            })
+          )
       )
     )
   );
@@ -444,19 +443,21 @@ export class BackofficeEffects {
   editHotelRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BackOfficeActionTypes.EDIT_HOTEL_REQUEST),
-      switchMap(({ hotel }) =>
-        this.tripService.createHotel(hotel).pipe(
-          map((hotel) => ({
-            type: BackOfficeActionTypes.EDIT_HOTEL_SUCCESS,
-            hotel,
-          })),
-          catchError((error) => {
-            return of({
-              type: BackOfficeActionTypes.EDIT_HOTEL_FAILURE,
-              error,
-            });
-          })
-        )
+      switchMap(({ hotel }: any) =>
+        this.tripService
+          .updateHotel({ ...hotel, nightPrice: Number(hotel.nightPrice) })
+          .pipe(
+            map((hotel) => ({
+              type: BackOfficeActionTypes.EDIT_HOTEL_SUCCESS,
+              hotel,
+            })),
+            catchError((error) => {
+              return of({
+                type: BackOfficeActionTypes.EDIT_HOTEL_FAILURE,
+                error,
+              });
+            })
+          )
       )
     )
   );
@@ -554,7 +555,7 @@ export class BackofficeEffects {
     this.actions$.pipe(
       ofType(BackOfficeActionTypes.EDIT_DESTINATION_REQUEST),
       switchMap(({ destination }) =>
-        this.tripService.createDestination(destination).pipe(
+        this.tripService.updateDestination(destination).pipe(
           map((destination) => ({
             type: BackOfficeActionTypes.EDIT_DESTINATION_SUCCESS,
             destination,
