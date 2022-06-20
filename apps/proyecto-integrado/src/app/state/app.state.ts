@@ -5,6 +5,7 @@ import { partiesReducer } from './reducers/parties/parties.reducer';
 import { messagesReducer } from './reducers/comms/messages.reducers';
 import { tripsReducer } from './reducers/trips/trips.reducers';
 import { wishlistsReducer } from './reducers/wishlists/wishlists.reducers';
+import { usersReducer } from './reducers/users/users.reducer';
 
 export const ROOT_REDUCERS: ActionReducerMap<AppState> = {
   auth: authReducers,
@@ -12,4 +13,5 @@ export const ROOT_REDUCERS: ActionReducerMap<AppState> = {
   messages: messagesReducer,
   trips: tripsReducer,
   wishlists: wishlistsReducer,
+  users: usersReducer,
 };
