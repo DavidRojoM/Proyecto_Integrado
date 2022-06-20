@@ -42,6 +42,20 @@ export class UsersService {
     };
   }
 
+  async updateOne(user: UserDto): Promise<AddUserResponse> {
+    const updateResult = await this.usersRepository.updateOne(
+      User.dtoToModel(user)
+    );
+    if (updateResult.ok === false) {
+      return updateResult;
+    }
+
+    return {
+      ...updateResult,
+      value: User.modelToDto(updateResult.value),
+    };
+  }
+
   async findOneByUsername(username: string): Promise<FindUserResponse> {
     const findResult = await this.usersRepository.findOneByUsername(username);
     if (findResult.ok === false) {

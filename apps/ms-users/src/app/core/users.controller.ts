@@ -28,6 +28,11 @@ export class UsersController {
     return this.usersService.addOne(user);
   }
 
+  @MessagePattern(PayloadActions.USERS.UPDATE)
+  updateOne(@Payload() user: UserDto): Promise<AddUserResponse> {
+    return this.usersService.updateOne(user);
+  }
+
   @MessagePattern(PayloadActions.USERS.DELETE)
   deleteOne(@Payload() { id }: UserDto): Promise<DeleteUserResponse> {
     return this.usersService.deleteOne(id);
