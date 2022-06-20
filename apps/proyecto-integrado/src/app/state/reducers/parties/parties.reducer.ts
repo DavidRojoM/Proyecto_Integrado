@@ -1,6 +1,7 @@
 import { PartiesState } from '../../interfaces/parties.state.interface';
 import { createReducer, on } from '@ngrx/store';
 import { PartiesActions } from '../../actions/parties/parties.actions';
+import { BackofficeActions } from '../../actions/backoffice/backoffice.actions';
 
 const initialState: PartiesState = {
   loading: false,
@@ -212,6 +213,56 @@ export const partiesReducer = createReducer(
     }),
   })),
   on(PartiesActions.confirmPartyFailure, (state, { error }: any) => ({
+    ...state,
+    loading: false,
+    error: error.error.statusText,
+  })),
+  on(BackofficeActions.addPartyRequest, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(BackofficeActions.addPartySuccess, (state, { party }) => ({
+    ...state,
+    loading: false,
+    parties: [
+      {
+        id: party.id,
+        users: [],
+        name: party.name,
+        status: 'PENDING',
+      },
+      ...state.parties,
+    ],
+  })),
+  on(BackofficeActions.addPartyFailure, (state, { error }: any) => ({
+    ...state,
+    loading: false,
+    error: error.error.statusText,
+  })),
+  on(BackofficeActions.deletePartyRequest, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(BackofficeActions.deletePartySuccess, (state, { partyId }) => ({
+    ...state,
+    loading: false,
+    parties: state.parties.filter((party) => party.id !== partyId),
+  })),
+  on(BackofficeActions.deletePartyFailure, (state, { error }: any) => ({
+    ...state,
+    loading: false,
+    error: error.error.statusText,
+  })),
+  on(BackofficeActions.editPartyRequest, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(BackofficeActions.editPartySuccess, (state, { party }) => ({
+    ...state,
+    loading: false,
+    parties: state.parties.map((p) => (p.id === party.id ? party : p)),
+  })),
+  on(BackofficeActions.editPartyFailure, (state, { error }: any) => ({
     ...state,
     loading: false,
     error: error.error.statusText,
