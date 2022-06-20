@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -51,7 +52,14 @@ export class UsersController {
   @UseInterceptors(AuthInterceptor)
   @Put()
   update(@Body() updatedUser: UserDto): Promise<Partial<UserDto>> {
+    //TODO
     return this.usersService.update(updatedUser);
+  }
+
+  @UseInterceptors(AuthInterceptor)
+  @Delete(':id')
+  delete(@Param('id') id: string): Promise<{ userId: string }> {
+    return this.usersService.delete(id);
   }
 
   @UseInterceptors(AuthInterceptor)
