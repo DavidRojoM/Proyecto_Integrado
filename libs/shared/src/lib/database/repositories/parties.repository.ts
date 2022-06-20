@@ -8,6 +8,7 @@ import {
   AddTripToParty,
   PartyStatusEnum,
   DeletePartyResponse,
+  UpdateParty,
 } from '@proyecto-integrado/shared';
 import { EntityRepository, Repository } from 'typeorm';
 
@@ -157,6 +158,26 @@ export class PartiesRepository extends Repository<PartyEntity> {
     return {
       ok: true,
       value: { partyId: id },
+    };
+  }
+
+  async updateParty(party: Party): Promise<UpdateParty> {
+    const entity = Party.modelToEntity(party);
+    let result;
+    try {
+      result = await this.save(entity);
+    } catch (e) {
+      return {
+        ok: false,
+        error: {
+          statusCode: e.errno,
+          statusText: e.sqlMessage,
+        },
+      };
+    }
+    return {
+      ok: true,
+      value: Party.entityToModel(result),
     };
   }
 }
