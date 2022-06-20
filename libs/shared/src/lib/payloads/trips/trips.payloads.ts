@@ -22,7 +22,7 @@ export type FindAllDestinationsResponse = Result<
   DestinationDto[],
   ErrorPayload
 >;
-
+export type DeleteTripAggregateResponse = Result<{ id: number }, ErrorPayload>;
 export type InsertTripResponse = Result<Trip, ErrorPayload>;
 export type FindTripResponse = Result<Trip, ErrorPayload>;
 export type InsertTransportResponse = Result<TransportDto, ErrorPayload>;
