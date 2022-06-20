@@ -1,5 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 import {
+  DeleteTripAggregateResponse,
   InsertTransport,
   Transport,
   TransportEntity,
@@ -43,5 +44,28 @@ export class TransportsRepository extends Repository<TransportEntity> {
       return null;
     }
     return Transport.entityToModel(result);
+  }
+
+  async deleteTransportById(id: number): Promise<DeleteTripAggregateResponse> {
+    try {
+      await this.createQueryBuilder()
+        .delete()
+        .where('id = :id', { id })
+        .execute();
+    } catch (e) {
+      return {
+        ok: false,
+        error: {
+          statusCode: e.errno,
+          statusText: e.sqlMessage,
+        },
+      };
+    }
+    return {
+      ok: true,
+      value: {
+        id: id,
+      },
+    };
   }
 }
