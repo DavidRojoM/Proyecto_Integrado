@@ -31,7 +31,7 @@ export class PartyDto {
     each: true,
   })
   @Type(() => TripDto)
-  messages: MessageDto[];
+  messages?: MessageDto[];
 
   @IsOptional()
   @IsArray()
@@ -39,7 +39,7 @@ export class PartyDto {
     each: true,
   })
   @Type(() => UserPartyDto)
-  users: UserDto[];
+  users?: UserDto[];
 
   @IsEnum(PartyStatusEnum)
   status: PartyStatusEnum;

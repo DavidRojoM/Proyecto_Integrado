@@ -15,9 +15,14 @@ export interface FindUserByIdPayload {
 }
 
 export type FindUserResponse = Result<UserDto, ErrorPayload>;
-export type FindUser = Result<User, ErrorPayload>;
+export type FindUsersResponse = Result<UserDto[], ErrorPayload>;
 
+export type FindUser = Result<User, ErrorPayload>;
+export type FindUsers = Result<User[], ErrorPayload>;
+
+export type DeleteUserResponse = Result<{ userId: string }, ErrorPayload>;
 export type AddUserResponse = Result<UserDto, ErrorPayload>;
+
 export type InsertUser = Result<User, ErrorPayload>;
 
 export type FindUserPartyByIdResponse = Result<UserPartyDto, ErrorPayload>;
