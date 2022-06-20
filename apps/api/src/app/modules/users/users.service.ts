@@ -1,14 +1,14 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import {
   AddUserResponse,
+  ChangeBalancesDto,
+  ChangeBalancesResponse,
+  DeleteUserResponse,
+  FindUsersResponse,
   ImageInput,
   ImageUploadResponse,
-  ChangeBalancesDto,
   PayloadActions,
   UserDto,
-  ChangeBalancesResponse,
-  FindUsersResponse,
-  DeleteUserResponse,
 } from '@proyecto-integrado/shared';
 import { firstValueFrom } from 'rxjs';
 import { ClientProxy } from '@nestjs/microservices';
@@ -60,10 +60,20 @@ export class UsersService {
     return userAdded;
   }
 
-  update(updatedUser: UserDto) {
-    return firstValueFrom(
-      this.usersProxy.send(PayloadActions.USERS.UPDATE, updatedUser)
-    );
+  async update(user: UserDto, image?: any): Promise<Partial<UserDto>> {
+    if (image) {
+      user.image = await this.uploadUserImage(
+        !image
+          ? undefined
+          : {
+              userId: user.id,
+              buffer: image?.buffer,
+              size: image?.size,
+              mimeType: image?.mimetype,
+            }
+      );
+    }
+    return await this.updateUser(user);
   }
 
   async delete(id: string) {
@@ -87,6 +97,25 @@ export class UsersService {
     const response = await firstValueFrom(
       this.usersProxy.send<AddUserResponse, UserDto>(
         PayloadActions.USERS.CREATE,
+        user
+      )
+    );
+
+    if (response.ok === false) {
+      //TODO: send image deletion event
+      throw new BadRequestException({
+        statusText: response.error.statusText,
+        statusCode: response.error.statusCode,
+      });
+    }
+
+    return response.value;
+  }
+
+  private async updateUser(user: UserDto) {
+    const response = await firstValueFrom(
+      this.usersProxy.send<AddUserResponse, UserDto>(
+        PayloadActions.USERS.UPDATE,
         user
       )
     );
