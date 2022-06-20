@@ -18,6 +18,7 @@ import {
   PartyDto,
   PayloadActions,
   RemoveUserPartyResponse,
+  UpdatePartyResponse,
   UserPartyStatus,
 } from '@proyecto-integrado/shared';
 
@@ -40,6 +41,11 @@ export class PartiesController {
   @MessagePattern(PayloadActions.PARTIES.CREATE)
   async create(@Payload() party: PartyDto): Promise<InsertPartyResponse> {
     return this.partiesService.create(party);
+  }
+
+  @MessagePattern(PayloadActions.PARTIES.UPDATE)
+  async update(@Payload() party: PartyDto): Promise<UpdatePartyResponse> {
+    return this.partiesService.update(party);
   }
 
   @MessagePattern(PayloadActions.PARTIES.DELETE)

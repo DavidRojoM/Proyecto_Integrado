@@ -27,6 +27,7 @@ import {
   UserParty,
   UserPartyStatus,
   DeletePartyResponse,
+  UpdatePartyResponse,
 } from '@proyecto-integrado/shared';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
@@ -233,6 +234,18 @@ export class PartiesService {
       config.partyId,
       findTripResult.value
     );
+  }
+
+  async update(party: PartyDto): Promise<UpdatePartyResponse> {
+    const model = Party.dtoToModel(party);
+    const response = await this.partiesRepository.updateParty(model);
+    if (response.ok === false) {
+      return response;
+    }
+    return {
+      ok: true,
+      value: Party.modelToDto(response.value),
+    };
   }
 
   async checkout(
