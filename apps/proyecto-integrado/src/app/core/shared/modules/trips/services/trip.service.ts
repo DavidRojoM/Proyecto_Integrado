@@ -48,4 +48,48 @@ export class TripService {
     };
     return this.http.post<Trip>(this.trips_url, tripInput);
   }
+
+  createTransport(transport: Transport): Observable<Transport> {
+    return this.http.post<Transport>(this.transports_url, transport);
+  }
+
+  createHotel(hotel: Hotel): Observable<Hotel> {
+    return this.http.post<Hotel>(this.hotels_url, hotel);
+  }
+
+  createDestination(destination: Destination): Observable<Destination> {
+    return this.http.post<Destination>(this.destinations_url, destination);
+  }
+
+  deleteTransport(transportId: string): Observable<{ transportId: string }> {
+    return this.http.delete<{ transportId: string }>(
+      `${this.transports_url}/${transportId}`
+    );
+  }
+
+  deleteHotel(hotelId: string): Observable<{ hotelId: string }> {
+    return this.http.delete<{ hotelId: string }>(
+      `${this.hotels_url}/${hotelId}`
+    );
+  }
+
+  deleteDestination(
+    destinationId: string
+  ): Observable<{ destinationId: string }> {
+    return this.http.delete<{ destinationId: string }>(
+      `${this.destinations_url}/${destinationId}`
+    );
+  }
+
+  updateTransport(transport: Transport): Observable<Transport> {
+    return this.http.put<Transport>(this.transports_url, transport);
+  }
+
+  updateHotel(hotel: Hotel): Observable<Hotel> {
+    return this.http.put<Hotel>(this.hotels_url, hotel);
+  }
+
+  updateDestination(destination: Destination): Observable<Destination> {
+    return this.http.put<Destination>(this.destinations_url, destination);
+  }
 }
