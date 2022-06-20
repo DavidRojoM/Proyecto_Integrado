@@ -3,9 +3,11 @@ import {
   AddUserResponse,
   ChangeBalancesDto,
   ChangeBalancesResponse,
+  DeleteUserResponse,
   FindUserByIdPayload,
   FindUserByUsernamePayload,
   FindUserResponse,
+  FindUsersResponse,
   PayloadActions,
   UserDto,
 } from '@proyecto-integrado/shared';
@@ -16,9 +18,19 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @MessagePattern(PayloadActions.USERS.FIND_ALL)
+  findAll(): Promise<FindUsersResponse> {
+    return this.usersService.findAll();
+  }
+
   @MessagePattern(PayloadActions.USERS.CREATE)
   addOne(@Payload() user: UserDto): Promise<AddUserResponse> {
     return this.usersService.addOne(user);
+  }
+
+  @MessagePattern(PayloadActions.USERS.DELETE)
+  deleteOne(@Payload() { id }: UserDto): Promise<DeleteUserResponse> {
+    return this.usersService.deleteOne(id);
   }
 
   @MessagePattern(PayloadActions.USERS.FIND_BY_ID)
