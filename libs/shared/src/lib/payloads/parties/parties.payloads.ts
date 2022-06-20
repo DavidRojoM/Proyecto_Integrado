@@ -14,7 +14,7 @@ export type FindAllPartiesResponse = Result<PartyDto[], ErrorPayload>;
 export type FindPartyResponse = Result<PartyDto, ErrorPayload>;
 export type InsertPartyResponse = Result<PartyDto, ErrorPayload>;
 export type UpdatePartyResponse = Result<PartyDto, ErrorPayload>;
-export type DeletePartyResponse = Result<PartyDto, ErrorPayload>;
+export type DeletePartyResponse = Result<{ partyId: string }, ErrorPayload>;
 export type JoinPartyResponse = Result<UserPartyDto, ErrorPayload>;
 export type AddTripToPartyResponse = Result<
   { partyId: string; trip: Trip },
