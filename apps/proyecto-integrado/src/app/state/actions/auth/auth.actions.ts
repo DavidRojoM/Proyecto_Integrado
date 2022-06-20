@@ -55,4 +55,17 @@ export const AuthActions = {
     AuthActionTypes.ADD_BALANCES_FAILURE,
     props<{ error: string }>()
   ),
+
+  updateUserRequest: createAction(
+    AuthActionTypes.UPDATE_USER_REQUEST,
+    props<{ user: User }>()
+  ),
+  updateUserSuccess: createAction(
+    AuthActionTypes.UPDATE_USER_SUCCESS,
+    props<{ user: User }>()
+  ),
+  updateUserFailure: createAction(
+    AuthActionTypes.UPDATE_USER_FAILURE,
+    props<{ error: any }>()
+  ),
 };

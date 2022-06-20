@@ -15,5 +15,9 @@ export enum AuthActionTypes {
   ADD_BALANCES_SUCCESS = '[Auth] Add Balances Success',
   ADD_BALANCES_FAILURE = '[Auth] Add Balances Failure',
 
+  UPDATE_USER_REQUEST = '[Auth] Update User Request',
+  UPDATE_USER_SUCCESS = '[Auth] Update User Success',
+  UPDATE_USER_FAILURE = '[Auth] Update User Failure',
+
   LOGOUT_REQUEST = '[Auth] Logout Request',
 }
